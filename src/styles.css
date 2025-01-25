@@ -1,1 +1,85 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-font-family: 'Roboto', serif;
+    --secondary-font-family: 'Roboto Slab', serif;
+    --third-font-family: 'Dm Sans', serif;
+    --global-color-0: #c6d8c0;
+    --global-green-color: #5c9735;
+    --global-color-2: #141a0f;
+    --global-color-3: #4d4f48;
+    --global-color-4: #f4f6f3;
+    --global-color-5: #ffffff;
+    --global-color-6: #768471;
+    --global-color-8: #f4f6f3;
+
+}
+
+
+
+body {
+    font-family: var(--primary-font-family);
+    height: 100% !important;
+    margin:0;
+}
+.containerflex {
+    flex: 1 !important;
+}
+
+app-customer-root {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
+
+.main-btn {
+    border-radius: 0%;
+    background-color:#ffffff;
+    color: #141a0f;
+    width: 100px;
+    border: none;
+
+}
+.main-btn:hover{
+    color: #ffffff;
+    background-color: #5c9735;
+}
+
+.navbar-transparent {
+    background-color: transparent !important;
+    position: absolute !important;
+    z-index: 10;
+  }
+  
+  .navbar-solid {
+    background-color: #f4f6f3 !important;
+    position: relative !important;
+    z-index: 10;
+  }
+
+  .text-white {
+    color: white !important; /* White text when navbar is transparent */
+  }
+  
+  .text-dark {
+    color: #4d4f48 !important; /* Dark text when navbar is solid */
+  }
+  
+  .text-white:hover {
+    color: var(--global-green-color) !important; /* Hover effect for white text */
+  }
+  
+  .text-dark:hover {
+    color: var(--global-green-color) !important; /* Hover effect for dark text */
+  }
+  .btn-white{
+    background-color: #c6d8c0;
+  }
+  .btn-dark{
+    color: #141a0f;
+  }
+
+
+
+  
+  

@@ -1,0 +1,59 @@
+.navbar {
+    background-color:#f4f6f3;
+    min-height: 100px;
+
+    width: 100%;
+
+}
+
+.navbar .navbar-brand{
+    color: white;
+    font-size: 30px;
+    font-weight: 400;
+    font-family: var( --secondary-font-family);
+}
+.navbar .navbar-nav .nav-link{
+    color: white;
+    top:0;
+}
+
+
+.navbar .navbar-nav .nav-link .active,
+.navbar .navbar-nav .nav-link:focus,
+.navbar .navbar-nav .nav-link:hover {
+    color: var(--global-green-color);
+}
+.navbar .icons {
+    display: flex;
+    flex-direction: row;
+    padding-left: 10px;
+    gap: 20px;
+    color: white;
+}
+.navbar .icons i{
+    padding-top: 10px;
+    color: white;
+
+}
+.navbar .icons span{
+    color: white;
+}
+
+.cart .cart-icon:hover,
+.cart .cart-icon:hover + .cart-count {
+  color: var(--global-green-color); /* Change to your desired hover color */
+}
+
+.navbar .navbar-toggler{
+    color: white;
+    font-size: 25px;
+    border-color: white;
+}
+.navbar .navbar-toggler:focus{
+    box-shadow: none;
+}
+
+.navbar .navbar-toggler[aria-expanded='true']{
+    box-shadow: 0 0 4px var(--global-green-color) !important;
+}
+

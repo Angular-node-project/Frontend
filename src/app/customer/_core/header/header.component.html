@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg" [ngClass]="{'navbar-transparent': isTransparent, 'navbar-solid': !isTransparent}">
+    <div class="container">
+      <a class="navbar-brand" href="#" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">Green Store</a>
+      <button class="navbar-toggler" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" type="button" (click)="isCollapsed = !isCollapsed"
+        aria-controls="main" [attr.aria-expanded]="!isCollapsed ? 'true' : 'false'" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div [ngClass]="{'collapse': isCollapsed, 'navbar-collapse': true}" id="main">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link p-3 p-lg-3 mx-2 active" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link p-2 p-lg-3 mx-2" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" href="#">plants</a>
+          </li>
+    
+          <li class="nav-item">
+            <a class="nav-link p-2 p-lg-3 mx-2" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" href="#">About</a>
+          </li>
+       
+          <li class="nav-item">
+            <a class="nav-link p-2 p-lg-3 mx-2" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" href="#">contact</a>
+          </li>
+        </ul>
+        <div class="icons d-none d-lg-flex">
+          <a href="#" class="cart position-relative text-decoration-none">
+            <i class="fa-solid fa-basket-shopping fa-1x" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"></i>
+            <span class="position-absolute top-0 start-100 cart-count" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" style="transform: translate(20%, -20%);" >3</span>
+          </a>
+       
+          <a href="#" class="user ms-3 text-decoration-none">
+              <i class="fa-solid fa-user fa-1x" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"></i>
+            </a>
+            <a class=" btn btn-primary  main-btn ms-3" [ngClass]="{'btn-dark': isTransparent, 'btn-white': !isTransparent}" > login</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  

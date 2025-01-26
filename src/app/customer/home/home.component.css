@@ -1,15 +1,13 @@
-
-
-
-.landing{
-    background-image:url("../_assets/hero-section-bg.jpg") ;
+.landing {
+    background-image: url("../_assets/hero-section-bg.jpg");
     background-size: cover;
-    background-repeat:no-repeat ;
+    background-repeat: no-repeat;
     background-position: center left;
     position: relative;
     min-height: calc(100vh - 50px);
 }
-.landing .overlay{
+
+.landing .overlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -18,38 +16,139 @@
     background-color: rgb(0 0 0/35%);
 }
 
-.landing .text{
+.landing .text {
     top: 60%;
-    transform: translate(0%,20%);
+    transform: translate(0%, 20%);
     padding: 100px;
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content:center;
+    justify-content: center;
 }
 
-.landing  h1{
+.landing h1 {
     font-family: var(--secondary-font-family);
     font-size: 60px;
-    font-weight:500;
+    font-weight: 500;
     line-height: 1.7;
     margin-bottom: 30px;
 }
-.landing h6{
+
+.landing h6 {
     font-family: var(--secondary-font-family);
     font-size: 30px;
     font-weight: 200;
     line-height: 2;
 }
-.landing .main-btn{
-   margin:auto;
+
+.landing .main-btn {
+    margin: auto;
     width: 20%;
 }
-@media(max-width: 768px){
-    .landing  h1{
+
+@media(max-width: 768px) {
+    .landing h1 {
         font-size: 24px;
-    } 
-    .landing .main-btn{
+    }
+
+    .landing .main-btn {
         width: 60%;
     }
+}
+
+.plant-card {
+    position: relative;
+    text-align: start;
+    padding: 20px;
+}
+
+.plant-card img {
+    width: 100%;
+    height: auto;
+}
+
+.plant-card h6 {
+    font-family: var(--secondary-font-family);
+    margin-top: 10px;
+    font-size: medium;
+    font-weight: 400;
+    color: #4d4f48;
+}
+
+.add-to-cart {
+    position: absolute;
+    top: 5%;
+    left: 80%;
+    background-color: rgb(219, 215, 215);
+    padding: 5px 10px;
+    border-radius: 50%;
+    display: none;
+}
+
+.add-to-fav {
+    position: absolute;
+    top: 11%;
+    left: 80%;
+    background-color: rgb(219, 215, 215);
+    padding: 5px 10px;
+    border-radius: 50%;
+    display: none;
+
+}
+
+.plant-card .category {
+    font-weight: 200;
+    color: #768471;
+
+}
+
+.plant-card .price {
+    font-weight: 500;
+    color: #4d4f48;
+}
+
+.shop-now {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.plant-card .add-to-cart i {
+    text-decoration: none;
+    color: #768471;
+    font-size: 17px;
+}
+.plant-card .add-to-fav i {
+    text-decoration: none;
+    color: #768471;
+    font-size: 17px;
+}
+.plant-card:hover .add-to-cart{
+    display: block;
+}
+.plant-card:hover .add-to-fav{
+    display: block;
+}
+.shop-btn{
+    border-radius: 0% ;
+    border:none;
+    width: 20%;
+    color: white;
+    background-color: var( --global-green-color);
+}
+.shop-btn:hover{
+    border: .5px solid  #4d4f48;
+    color: #4d4f48;
+    background-color:white;
+}
+.new-plants{
+    margin-top: 40px;
+}
+.new-plants h3{
+    font-family: var(--secondary-font-family);
+    font-weight: 400;
+}
+.story-img{
+    width:800px;
+    height:500px;
 }

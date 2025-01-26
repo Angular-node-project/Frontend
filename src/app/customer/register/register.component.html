@@ -1,0 +1,45 @@
+<div class="register-container">
+    <h1>Create an Account</h1>
+    <p>Fill in the details below to register:</p>
+    <form>
+      <!-- Name -->
+      <input type="text" placeholder="Enter your name" required />
+  
+      <!-- Email -->
+      <input type="email" placeholder="Enter your email" required />
+  
+      <!-- Address -->
+      <input type="text" placeholder="Enter your address" />
+  
+      <!-- Phone Number -->
+      <input type="tel" placeholder="Enter your phone number" />
+  
+      <!-- Gender -->
+      <div class="form-group gender-section">
+        <label for="gender" class="section-title">Gender</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="gender" value="male" />
+            <span class="custom-radio">Male</span>
+          </label>
+          <label>
+            <input type="radio" name="gender" value="female" />
+            <span class="custom-radio">Female</span>
+          </label>
+        </div>
+      </div>
+      
+      <!-- Status -->
+      <select>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+  
+      <!-- Submit Button -->
+      <button type="submit">Register</button>
+    </form>
+    <div class="footer">
+      Already have an account? <a [routerLink]="['/login']">Log In</a>
+    </div>
+  </div>
+  

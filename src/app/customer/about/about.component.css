@@ -1,0 +1,142 @@
+body {
+    font-family: 'Georgia', serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+    flex-direction: column;
+}
+
+.about-container {
+    text-align: left;
+    max-width: 700px;
+    padding: 20px;
+    margin-left: 200px;
+}
+
+.about-title {
+    font-size: 3rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0 0 10px 0;
+    position: relative;
+    text-align: left;
+    margin-left: -300px; /* Adjust this value to move the title more to the left */
+}
+
+.about-title::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #6c9c6a;
+}
+
+.about-heading {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #333333;
+    margin-top: 50px;
+}
+
+.about-text {
+    font-size: 1rem;
+    color: #555555;
+    line-height: 1.6;
+    margin-top: 10px;
+    margin-right: 20px; /* Adjust this value to move the text more to the right */
+}
+
+.video-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.video-container video {
+    max-width: 100%;
+    width: 1000px;
+    height: auto;
+    border-radius: 10px;
+}
+.our-story {
+    font-family: 'Georgia', serif;
+    color: #333;
+    margin: 60px auto;
+    max-width: 800px;
+  }
+  
+  .our-story .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    color: #444;
+    text-transform: uppercase;
+  }
+  
+  .our-story .paragraph {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .quote-section {
+    margin-top: 40px;
+    padding: 20px 30px;
+    background-color: #f8f8f8;
+    border-left: 5px solid #a3c3a3;
+    position: relative;
+    font-family: 'Georgia', serif;
+  }
+  
+  .quote-symbol {
+    font-size: 50px;
+    font-weight: bold;
+    color: #a3c3a3;
+    position: absolute;
+    top: -10px;
+    left: 15px;
+  }
+  
+  .quote-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #333;
+    margin-left: 50px;
+  }
+  
+  .author {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .author-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .author-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .author-name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .author-role {
+    font-size: 0.9rem;
+    color: #777;
+  }
+

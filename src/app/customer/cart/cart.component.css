@@ -1,5 +1,15 @@
+
+.outer-div {
+  background-color: #f5f6f3;
+  padding: 5%;
+  /* padding-bottom: 10%;
+  padding-left:5%;
+  padding-right:5% ; */
+  border-radius: 8px;
+}
+
 .cart-wrapper {
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   min-height: 100vh;
   padding: 40px 0;
 }

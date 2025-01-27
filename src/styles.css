@@ -52,31 +52,49 @@ app-customer-root {
   }
   
   .navbar-solid {
-    background-color: #f4f6f3 !important;
+    background-color: #fff !important;
     position: relative !important;
     z-index: 10;
   }
 
   .text-white {
-    color: white !important; /* White text when navbar is transparent */
+    color: white !important; 
   }
   
   .text-dark {
-    color: #4d4f48 !important; /* Dark text when navbar is solid */
+    color: #4d4f48 !important; 
   }
   
   .text-white:hover {
-    color: var(--global-green-color) !important; /* Hover effect for white text */
+    color: var(--global-green-color) !important; 
   }
   
   .text-dark:hover {
-    color: var(--global-green-color) !important; /* Hover effect for dark text */
+    color: var(--global-green-color) !important;
   }
   .btn-white{
     background-color: #c6d8c0;
   }
   .btn-dark{
     color: #141a0f;
+  }
+
+
+  app-customer-all-products{
+    background-color:#EEEE !important;
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
+  app-customer-product-details{
+    background-color:#EEEE !important;
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
   }
 
 

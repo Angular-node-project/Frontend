@@ -10,6 +10,7 @@ import { RegisterComponent } from './customer/register/register.component';
 import { AboutComponent } from './customer/about/about.component';
 import { ContactUsComponent } from './customer/contact-us/contact-us.component';
 import { CartComponent } from './customer/cart/cart.component';
+import { ProductDetailsComponent as CustomerProductDetails } from './customer/product-details/product-details.component';
 
 export const routes: Routes = [
 
@@ -18,6 +19,7 @@ export const routes: Routes = [
     ]},
     {path:'',component:CustomerComponent,children:[
         {path:"",component:CustomerHome},
+        {path:"productdetails",component:CustomerProductDetails},
         {path:"home",component:CustomerHome},
         {path:"products",component:CustomerProducts},
         {path:"profile",component:customerProfile},

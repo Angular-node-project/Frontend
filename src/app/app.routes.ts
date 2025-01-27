@@ -18,6 +18,7 @@ export const routes: Routes = [
     ]},
     {path:'',component:CustomerComponent,children:[
         {path:"",component:CustomerHome},
+        {path:"home",component:CustomerHome},
         {path:"products",component:CustomerProducts},
         {path:"profile",component:customerProfile},
         {path:"login",component:LoginComponent},

@@ -78,6 +78,9 @@ app-customer-root {
   .btn-dark{
     color: #141a0f;
   }
+  .active{
+    color: var(--global-green-color) !important;
+  }
 
 
   app-customer-all-products{

@@ -1,6 +1,6 @@
 <div class="plant-card">
     <a href="birdnest-japanese-details.html">
-        <img src="customer/imgs/plants-ecommerce-product-featured-img-8-600x900.jpg" alt="Birdnest Japanese">
+        <img src="{{product.pics[0]}}" alt="Birdnest Japanese">
     </a>
     <a class="add-to-cart" href="#">
         <i class="fa-solid fa-basket-shopping fa-1x"></i>
@@ -8,6 +8,6 @@
     <a class="add-to-fav" href="#">
         <i class="fa-solid fa-heart fa-1x"></i>
     </a>
-    <h6 class="pt-3">Birdnest Japanese</h6>
-    <p> <span class="category"> 6666</span><br> <span class="price"> $44</span> </p>
+    <h6 class="pt-3">{{product.name}}</h6>
+    <p> <span class="category"> {{product.category_id}}</span><br> <span class="price"> $ {{product.price}}</span> </p>
 </div>

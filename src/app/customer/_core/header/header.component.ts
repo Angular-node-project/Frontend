@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-customer-header',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink,RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       console.log(event.urlAfterRedirects);
-      if (event.urlAfterRedirects == '/home') {
+      if (event.urlAfterRedirects == '/home'||event.urlAfterRedirects == '/') {
         this.isTransparent = true;
         console.log("hhh");
       } else {
@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
     });
     console.log(this.isTransparent)
     // Check if the page is directly accessed
-    if (this.router.url === '/home') {
+    if (this.router.url === '/home'|| this.router.url === '/') {
       this.isTransparent = true;
       console.log("Directly on home page, navbar is transparent");
     } else {

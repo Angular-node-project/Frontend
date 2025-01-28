@@ -22,7 +22,8 @@ footer ul {
     list-style: none;
     display: flex;
     flex-direction: row;
-    gap: 100px;
+    gap: 30px;
+  
  
     
 }

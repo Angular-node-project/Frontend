@@ -27,6 +27,7 @@ export const routes: Routes = [
         {path:"",component:CustomerHome},
         {path:"productdetails/:id",component:CustomerProductDetails},
         {path:"home",component:CustomerHome},
+        {path:"products",redirectTo:"products/1",pathMatch:'full'},
         {path:"products/:page",component:CustomerProducts},
         {path:"profile",component:customerProfile},
         {path:"login",component:LoginComponent},

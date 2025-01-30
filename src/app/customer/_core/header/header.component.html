@@ -11,10 +11,10 @@
             <a class="nav-link p-3 p-lg-3 mx-2" [routerLink]="['/home']"   [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" aria-current="page" routerLinkActive="active">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link p-2 p-lg-3 mx-2"[routerLink]="['/products',1]"  [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"  routerLinkActive="active" >Products</a>
+            <a class="nav-link p-2 p-lg-3 mx-2"[routerLink]="['/products']" [routerLinkActiveOptions]="{exact:false}"  [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"  routerLinkActive="active" >Products</a>
           </li>
     
-          <li class="nav-item">
+          <li class="nav-item"> 
             <a class="nav-link p-2 p-lg-3 mx-2" [routerLink]="['/about']" routerLinkActive="router-link-active"  [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" >About</a>
           </li>
        

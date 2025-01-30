@@ -12,19 +12,15 @@
                 <div class="row">
                     <div class="col-md-6 mb-5">
                         <div class="product-gallery">
-                            <img [src]="selectedImage.src"
-                                [alt]="selectedImage.alt" class="img-fluid main-gallery-image">
+                            <img [src]="selectedImage.src" [alt]="selectedImage.alt"
+                                class="img-fluid main-gallery-image">
                             <div class="thumbnail-container">
-                                <img *ngFor="let image of images"
-                                    [src]="image.src"
-                                    [alt]="image.alt"
-                                    class="thumbnail"
-                                    [class.active]="image.active"
-                                    (click)="selectImage(image)">
+                                <img *ngFor="let image of images" [src]="image.src" [alt]="image.alt" class="thumbnail"
+                                    [class.active]="image.active" (click)="selectImage(image)">
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-5 mb-5">
                         <h1 class="product-title">{{selectedProduct.name}}</h1>
                         <div class="price-section mb-4">
@@ -33,41 +29,90 @@
                         </div>
                         <p class="description mb-4">
                             {{selectedProduct.description}}
-                         </p>
+                        </p>
                         <div class="d-flex gap-3 mb-4">
                             <input type="number" class="form-control quantity-input" value="1" min="1">
                             <button class="btn btn-add-to-cart">Add to Cart</button>
                         </div>
                         <div class="divider"></div>
                         <div class="categories-section mt-4">
-                            <p class="categories-text mb-2">Categories: <span *ngFor="let category of selectedProduct.categories">{{category.name}}</span> </p>
-                          
+                            <p class="categories-text mb-2">Categories: <span
+                                    *ngFor="let category of selectedProduct.categories let first = first"> {{first ? '' : ', '}}{{category.name}} </span> </p>
+
                         </div>
                     </div>
 
                     <div class="col-12">
                         <ul class="nav nav-tabs product-tabs mb-4">
                             <li class="nav-item">
-                                <a class="nav-link" [class.active]="activeTab === 'description'" 
-                                   (click)="setActiveTab('description')">Description</a>
+                                <a class="nav-link" [class.active]="activeTab === 'description'"
+                                    (click)="setActiveTab('description')">Description</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" [class.active]="activeTab === 'reviews'"
-                                   (click)="setActiveTab('reviews')">Reviews (0)</a>
+                                    (click)="setActiveTab('reviews')">Reviews (0)</a>
                             </li>
                         </ul>
-                
+
                         <div class="tab-content">
-                            <div class="tab-pane" [class.show]="activeTab === 'description'" [class.active]="activeTab === 'description'">
+                            <div class="tab-pane" [class.show]="activeTab === 'description'"
+                                [class.active]="activeTab === 'description'">
                                 <h2 class="description-title">Product Details</h2>
                                 <h3 class="description-subtitle">Care Instructions & Benefits</h3>
                                 <p class="description-text">
-                                    The Ficus Decora Cabernet is known for its stunning burgundy-colored leaves and air-purifying properties. This plant thrives in bright, indirect light and requires moderate watering. Perfect for both beginners and experienced plant parents.
+                                    The Ficus Decora Cabernet is known for its stunning burgundy-colored leaves and
+                                    air-purifying properties. This plant thrives in bright, indirect light and requires
+                                    moderate watering. Perfect for both beginners and experienced plant parents.
                                 </p>
                             </div>
-                            <div class="tab-pane" [class.show]="activeTab === 'reviews'" [class.active]="activeTab === 'reviews'">
-                                <p>There are no reviews yet.</p>
+                            <div class="tab-pane p-1" [class.show]="activeTab === 'reviews'"
+                                [class.active]="activeTab === 'reviews'">
+                                <div class="card p-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-4">Add review to help us improve</h5>
+                                        <div class="mb-3">
+                                            <label class="form-label"> Your Rating : </label>
+                                            <div class="star-rating">
+                                                <i *ngFor="let star of [1,2,3,4,5]"
+                                                    [class]="star <= rating ? 'fas fa-star' : 'far fa-star'"
+                                                    (click)="setRating(star)" (mouseenter)="hoverRating = star"
+                                                    (mouseleave)="hoverRating = rating"></i>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label"> Your Review </label>
+                                            <textarea class="form-control" rows="4"
+                                                placeholder="share your thoughts about this product ..."></textarea>
+                                        </div>
+                                        <button class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="reviews-list mt-4">
+                                    <h5 class="mb-3">Customer Reviews</h5>
+                                    @if(selectedProduct.reviews.length > 0){
+                                    <div class="reviews-container" style="max-height: 400px; overflow-y: auto;">
+                                        <div class="review-item card mb-3"
+                                            *ngFor="let review of selectedProduct.reviews">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <h6 class="mb-0">{{review.customer.name}}</h6>
+                                                    <div class="star-rating">
+                                                        <i *ngFor="let star of [1,2,3,4,5]"
+                                                            [class]="star <= review.rate ? 'fas fa-star' : 'far fa-star'"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="review-date text-muted small">{{review.created_at | date}}</p>
+                                                <p class="review-text mb-0">{{review.comment}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }@else {
+                                    <p class="text-muted">No reviews yet.</p>
+
+                                    }
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

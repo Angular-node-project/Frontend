@@ -2,6 +2,13 @@
     <div class="content">
         <div class="products-page">
             <div class="page-content">
+                <div class="breadcrumb d-flex align-items-center gap-2 py-3">
+                    <a [routerLink]="['/home']" class="breadcrumb-link">Home</a>
+                    <span class="separator">/</span>
+                    <a routerLink="/products" class="breadcrumb-link">Products</a>
+                    <span class="separator">/</span>
+                    <span class="breadcrumb-current">Product Details</span>
+                </div>
                 <div class="row">
                     <div class="col-md-6 mb-5">
                         <div class="product-gallery">

@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-md-6 mb-5">
                         <div class="product-gallery">
-                            <img [src]="selectedImage"
-                                [alt]="images[0].alt" class="img-fluid main-gallery-image">
+                            <img [src]="selectedImage.src"
+                                [alt]="selectedImage.alt" class="img-fluid main-gallery-image">
                             <div class="thumbnail-container">
                                 <img *ngFor="let image of images"
                                     [src]="image.src"
@@ -19,21 +19,21 @@
                     </div>
                     
                     <div class="col-md-5 mb-5">
-                        <h1 class="product-title">Ficus Decora Cabernet</h1>
+                        <h1 class="product-title">{{selectedProduct.name}}</h1>
                         <div class="price-section mb-4">
-                            <span class="price">$49.99</span>
+                            <span class="price">${{selectedProduct.price}}</span>
                             <span class="shipping">+ Free Shipping</span>
                         </div>
                         <p class="description mb-4">
-                            Beautiful indoor plant perfect for adding a touch of nature to your living space. Easy to maintain and air-purifying.
-                        </p>
+                            {{selectedProduct.description}}
+                         </p>
                         <div class="d-flex gap-3 mb-4">
                             <input type="number" class="form-control quantity-input" value="1" min="1">
                             <button class="btn btn-add-to-cart">Add to Cart</button>
                         </div>
                         <div class="divider"></div>
                         <div class="categories-section mt-4">
-                            <p class="categories-text mb-2">Categories: <span>Indoor Plants</span>, <span>Air Purifying</span>, <span>Easy Care</span></p>
+                            <p class="categories-text mb-2">Categories: <span *ngFor="let category of selectedProduct.categories">{{category.name}}</span> </p>
                           
                         </div>
                     </div>

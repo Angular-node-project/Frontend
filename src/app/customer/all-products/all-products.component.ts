@@ -7,15 +7,17 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/_models/category';
+import { LoaderComponent as CustomerLoaderComponent } from '../_core/loader/loader.component';
 
 @Component({
   selector: 'app-customer-all-products',
-  imports: [ProductItemComponent, CommonModule, RouterLink],
+  imports: [ProductItemComponent, CommonModule, RouterLink, CustomerLoaderComponent],
   templateUrl: './all-products.component.html',
   styleUrl: './all-products.component.css'
 })
 export class AllProductsComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductService, private route: ActivatedRoute, private viewPortScroller: ViewportScroller) { }
+  isLoading: boolean = true;
   products: Product[] = [];
   categories: Category[] = [];
   selectedCategory: string = '';
@@ -33,18 +35,27 @@ export class AllProductsComponent implements OnInit, OnDestroy {
       this.currentPage = +params.get('page')!;
       console.log(this.currentPage);
       this.loadProducts(this.currentPage);
-      this.loadCategories();  
+      this.loadCategories();
     });
   }
 
   loadProducts(page: number): void {
 
-    this.productService.getActiveProducts(page,this.selectedSort,this.selectedCategory).subscribe(response => {
-      this.products = response.data.products;
-      this.totalPages = response.data.totalPages;
-      this.totalResults = response.data.totalProductsCount;
-      this.generatePageNumbers();
-      this.scrollToTop()
+    this.productService.getActiveProducts(page, this.selectedSort, this.selectedCategory).subscribe({
+      next: (response) => {
+        this.products = response.data.products;
+        this.totalPages = response.data.totalPages;
+        this.totalResults = response.data.totalProductsCount;
+        this.generatePageNumbers();
+        this.scrollToTop();
+        this.isLoading=false;
+      },
+      error: () => {
+        this.isLoading = true;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
   loadCategories(): void {

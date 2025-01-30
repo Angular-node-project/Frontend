@@ -1,5 +1,5 @@
 import { Component,Input } from '@angular/core';
-import { Product } from '../_models/product';
+import { Product } from '../../_models/product';
 import {Router, RouterLink} from '@angular/router';
 
 @Component({

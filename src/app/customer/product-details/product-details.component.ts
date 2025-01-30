@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../_services/product.service';
-import { Product } from '../_models/product';
-import { ActivatedRoute } from '@angular/router';
-import { Response } from '../_models/response';
+import { Product } from '../../_models/product';
+import { ActivatedRoute ,RouterLink } from '@angular/router';
+import { Response } from '../../_models/response';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-customer-product-details',
-  imports: [CommonModule],
+  imports: [CommonModule ,RouterLink],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })

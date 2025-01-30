@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductItemComponent } from "../product-item/product-item.component";
 import { ProductService } from '../_services/product.service';
 import { Product } from '../_models/product';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-customer-all-products',
@@ -12,7 +13,7 @@ import { ViewportScroller } from '@angular/common';
   templateUrl: './all-products.component.html',
   styleUrl: './all-products.component.css'
 })
-export class AllProductsComponent implements OnInit {
+export class AllProductsComponent implements OnInit ,OnDestroy {
   constructor(private productService: ProductService, private route: ActivatedRoute ,private viewPortScroller:ViewportScroller) { }
   products: Product[] = [];
   currentPage = 1;
@@ -20,10 +21,11 @@ export class AllProductsComponent implements OnInit {
   pageNumbers: number[] = [];
   totalResults:number=0;
   pageSize:number=6;
+  sub!:Subscription
 
   ngOnInit(): void {
 
-    this.route.paramMap.subscribe(params => {
+   this.sub=this.route.paramMap.subscribe(params => {
       this.currentPage = +params.get('page')!;
       console.log(this.currentPage);
       this.loadProducts(this.currentPage);
@@ -55,6 +57,12 @@ export class AllProductsComponent implements OnInit {
   }
   scrollToTop():void{
    this.viewPortScroller.scrollToPosition([0,0])
+  }
+
+  ngOnDestroy(): void {
+    if(this.sub){
+      this.sub.unsubscribe();
+    }
   }
 
 }

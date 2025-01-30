@@ -1,5 +1,5 @@
 <div class="plant-card">
-    <a href="birdnest-japanese-details.html">
+    <a [routerLink]="['/productdetails',product.product_id]">
         <img src="{{product.pics[0]}}" alt="Birdnest Japanese">
     </a>
     <a class="add-to-cart" href="#">
@@ -9,5 +9,5 @@
         <i class="fa-solid fa-heart fa-1x"></i>
     </a>
     <h6 class="pt-3">{{product.name}}</h6>
-    <p> <span class="category"> {{product.category_id}}</span><br> <span class="price"> $ {{product.price}}</span> </p>
+    <p> <span class="category"> {{product.categories[0].name}}</span><br> <span class="price"> $ {{product.price}}</span> </p>
 </div>

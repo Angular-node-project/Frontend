@@ -11,6 +11,9 @@ import { AboutComponent } from './customer/about/about.component';
 import { ContactUsComponent } from './customer/contact-us/contact-us.component';
 import { CartComponent } from './customer/cart/cart.component';
 import { ProductDetailsComponent as CustomerProductDetails } from './customer/product-details/product-details.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { ProductsComponent } from './admin/products/products.component';
+import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
 
@@ -28,5 +31,10 @@ export const routes: Routes = [
         {path:"about",component:AboutComponent},
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
-    ]}
+    ]},
+    {path:'admin',component:AdminComponent,children:[
+        {path:"dashboard",component:DashboardComponent},
+        {path:"products",component:ProductsComponent},
+    ]
+    }
 ];

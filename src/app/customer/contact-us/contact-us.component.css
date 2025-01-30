@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    font-family: 'Georgia', serif;
+    font-family: var(--secondary-font-family);
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;

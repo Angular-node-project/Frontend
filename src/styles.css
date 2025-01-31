@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 :root {
     --primary-font-family: 'Roboto', serif;
     --secondary-font-family: 'Unna', serif;
@@ -55,6 +56,12 @@ app-customer-root {
     z-index: 10;
   }
 
+  .navbar-border-none{
+    border: none;
+  }
+  .navbar-border{
+    border-bottom: 1px solid #e0e0e0;
+  }
   .text-white {
     color: white !important; 
   }
@@ -97,8 +104,13 @@ app-customer-root {
     padding: 0;
     margin: 0;
   }
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
 
-
+ 
 
 
 

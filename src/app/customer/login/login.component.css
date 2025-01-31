@@ -47,10 +47,14 @@ body {
     cursor: pointer;
   }
   
-  .login-container button:hover {
-    background-color: #45a049;
-  }
+    .login-container button:hover {
+      background-color: #45a049;
+    }
   
+  .login-container button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+  }
   .login-container .secondary-btn {
     width: 100%;
     padding: 10px;
@@ -87,3 +91,4 @@ body {
     text-decoration: underline;
   }
   
+ 

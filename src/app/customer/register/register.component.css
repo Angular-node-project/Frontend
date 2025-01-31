@@ -30,6 +30,7 @@ body {
   .register-container input[type="text"],
   .register-container input[type="email"],
   .register-container input[type="tel"],
+  .register-container input[type="password"],
   .register-container select {
     width: 100%;
     padding: 10px;
@@ -110,6 +111,10 @@ body {
     background-color: #45a049;
   }
   
+  .register-container button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+  }
   .register-container a {
     color: #4CAF50;
     text-decoration: none;
@@ -124,4 +129,6 @@ body {
     text-align: center;
     color: #666;
   }
+  
+  
   

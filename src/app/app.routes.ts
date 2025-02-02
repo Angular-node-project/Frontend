@@ -11,6 +11,7 @@ import { AboutComponent } from './customer/about/about.component';
 import { ContactUsComponent } from './customer/contact-us/contact-us.component';
 import { CartComponent } from './customer/cart/cart.component';
 import { ProductDetailsComponent as CustomerProductDetails } from './customer/product-details/product-details.component';
+import { CheckoutComponent } from './customer/checkout/checkout.component';
 
 export const routes: Routes = [
 
@@ -28,5 +29,6 @@ export const routes: Routes = [
         {path:"about",component:AboutComponent},
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
+        {path:"checkout",component:CheckoutComponent},
     ]}
 ];

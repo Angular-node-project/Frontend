@@ -1,0 +1,30 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 270px; /* Match your sidebar width */
+  background-color: #f4f9f4;
+}
+
+.content {
+  padding: 20px;
+  flex: 1;
+  font-family: 'Poppins', sans-serif;
+  color: #2d4739;
+}
+
+/* Make sidebar fixed */
+app-side-bar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 270px;
+  z-index: 1100; /* Higher than header */
+}
+  

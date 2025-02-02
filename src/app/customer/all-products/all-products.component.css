@@ -142,6 +142,9 @@
 }
 
 .page-item a{
-  
     color: #4d4f48;
 }
+.pagination .page-item.active-page-link .page-link {
+    color: white;
+    background-color: #768471;
+  }

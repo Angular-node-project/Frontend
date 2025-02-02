@@ -4,29 +4,27 @@
             <div class="page-content">
                 <nav aria-label="breadcrumb" class="products-nav">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
+                        <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Products</li>
                     </ol>
                 </nav>
                 <div class="row actions">
-                    <div class="col-lg-6 col-sm-12 text-lg-start pages-num">Showing 10–18 of 25 results</div>
+                    <div class="col-lg-6 col-sm-12 text-lg-start pages-num">Showing
+                        {{getStartIndex()}}-{{getEndIndex()}} of {{totalResults}} results</div>
                     <div class="col-lg-6 col-sm-12 filters">
                         <div class="row d-flex justify-content-between">
                             <select class="form-select form-select-sm text-lg-center" style=" width: 60%;"
-                                aria-label=".form-select-sm example">
-                                <option selected>Default Sorting</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                aria-label=".form-select-sm example" (change)="onSortChange($event)">
+                                <option selected [value]="''">Default Sorting</option>
+                                <option value="asc">price: low to high</option>
+                                <option value="desc">price: high to low</option>
                             </select>
 
                             <select class="form-select form-select-sm text-lg-center" style=" width: 40%;"
-                                aria-label=".form-select-sm example">
-                                <option selected>Category</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                aria-label=".form-select-sm example" (change)="onCategoryChange($event)">
+                                <option selected [value]="''">Category</option>
+                                <option [value]="category.category_id" *ngFor="let category of categories">
+                                    {{category.name}}</option>
                             </select>
 
                         </div>
@@ -35,32 +33,37 @@
                 </div>
 
                 <div class="products-items">
+                    <app-customer-loader *ngIf="isLoading"></app-customer-loader>
+                       
                     <div class="row">
-                        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-                        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-                        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-                    </div>
+                        <app-customer-product-item *ngFor="let product of products" [product]="product"
+                            class="col-lg-4"></app-customer-product-item>
 
-                    <div class="row">
-                        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-                        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-                        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
                     </div>
-                   
                 </div>
 
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
+                        <!-- Previous Button -->
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
+                            <a class="page-link" [routerLink]="['/products',currentPage-1]"
+                                [attr.aria-label]="'Previous'" [class.disabled]="currentPage === 1">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                        <!-- Page Numbers -->
+                        <li *ngFor="let page of pageNumbers" class="page-item"
+                            [ngClass]="{'active-page-link': currentPage === page}">
+                            <a class="page-link" [routerLink]="['/products',page]">
+                                {{ page }}
+                            </a>
+                        </li>
+
+                        <!-- Next Button -->
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                            <a class="page-link" [routerLink]="['/products',currentPage+1]" [attr.aria-label]="'Next'"
+                                [class.disabled]="currentPage === totalPages">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

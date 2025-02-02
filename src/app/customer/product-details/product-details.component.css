@@ -246,3 +246,167 @@ body {
 .nav-link {
     cursor: pointer;
 }
+
+.breadcrumb {
+    margin-bottom: 2rem;
+    padding: 0.5rem 0;
+}
+
+.breadcrumb-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.breadcrumb-link:hover {
+    color: #5B8C45;
+}
+
+.breadcrumb-link:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: #5B8C45;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.breadcrumb-link:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.separator {
+    color: #999;
+    font-size: 0.9rem;
+    margin: 0 8px;
+}
+
+.breadcrumb-current {
+    color: #5B8C45;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.star-rating {
+    font-size: 24px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.star-rating i {
+    margin-right: 5px;
+    color: #d3d3d3;
+    transition: color 0.2s ease;
+}
+
+.star-rating i.fa-star {
+    color:#999;
+}
+
+
+.star-rating:hover i.fa-star {
+    color: #ffdb4d;
+}
+
+.star-rating i:hover ~ i.fa-star {
+    color: #d3d3d3;
+}
+
+.star-rating i:hover,
+.star-rating i:hover ~ i {
+    color: #ffdb4d !important;
+}
+
+.card{
+    border-radius: 0;
+}
+.card h5{
+    font-family: var(--secondary-font-family);
+    font-weight: 400;
+    font-size:2rem;
+}
+
+.card-title {
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.form-label {
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+textarea.form-control {
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+    border-radius: 0;
+}
+
+textarea.form-control:focus {
+    border-color: #5B8C45;
+    box-shadow: 0 0 0 0.2rem rgba(91, 140, 69, 0.25);
+    
+}
+
+
+.btn-primary {
+    background-color: #5B8C45;
+    border-color: #5B8C45;
+    padding: 0.8rem 2rem;
+    transition: all 0.3s ease;
+    border-radius: 0;
+}
+
+.btn-primary:hover {
+    background-color: #4a7238;
+    border-color: #4a7238;
+}
+
+.btn-primary:disabled {
+    background-color: #88ac77;
+    border-color: #88ac77;
+}
+
+.reviews-list {
+    background-color: #fff;
+    border-radius: 0.25rem;
+    padding: 1rem;
+}
+.reviews-list h5{
+    font-family: var(--secondary-font-family);
+    font-weight: 400;
+    font-size:2rem;
+} 
+
+.reviews-container {
+    border: 1px solid #e9ecef;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+}
+
+.review-item {
+    transition: all 0.3s ease;
+}
+
+.review-item:hover {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.review-date {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.review-text {
+    line-height: 1.5;
+}

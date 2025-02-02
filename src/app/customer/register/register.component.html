@@ -1,45 +1,70 @@
 <div class="register-container">
-    <h1>Create an Account</h1>
-    <p>Fill in the details below to register:</p>
-    <form>
-      <!-- Name -->
-      <input type="text" placeholder="Enter your name" required />
-  
-      <!-- Email -->
-      <input type="email" placeholder="Enter your email" required />
-  
-      <!-- Address -->
-      <input type="text" placeholder="Enter your address" />
-  
-      <!-- Phone Number -->
-      <input type="tel" placeholder="Enter your phone number" />
-  
-      <!-- Gender -->
-      <div class="form-group gender-section">
-        <label for="gender" class="section-title">Gender</label>
-        <div class="radio-group">
-          <label>
-            <input type="radio" name="gender" value="male" />
-            <span class="custom-radio">Male</span>
-          </label>
-          <label>
-            <input type="radio" name="gender" value="female" />
-            <span class="custom-radio">Female</span>
-          </label>
-        </div>
+  <h1>Create an Account</h1>
+  <p>Fill in the details below to register:</p>
+  <form [formGroup]="form" method="post">
+    <!-- Name -->
+    <div>
+      <input type="text" placeholder="Enter your name" formControlName="name" />
+      <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="error-message">
+        <div *ngIf="form.get('name')?.errors?.['required']">Name is required</div>
       </div>
-      
-      <!-- Status -->
-      <select>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-      </select>
-  
-      <!-- Submit Button -->
-      <button type="submit">Register</button>
-    </form>
-    <div class="footer">
-      Already have an account? <a [routerLink]="['/login']">Log In</a>
     </div>
+
+    <!-- Email -->
+    <div>
+      <input type="email" placeholder="Enter your email" formControlName="email" />
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="error-message">
+        <div *ngIf="form.get('email')?.errors?.['required']">Email is required</div>
+        <div *ngIf="form.get('email')?.errors?.['email']">Please enter a valid email</div>
+      </div>
+    </div>
+    <div>
+      <input type="password" placeholder="Enter your password" formControlName="password" />
+      <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="error-message">
+        <div *ngIf="form.get('password')?.errors?.['required']">Password is required</div>
+        <div *ngIf="form.get('password')?.errors?.['minlength']">Password must be at least 6 characters</div>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div>
+      <input type="text" formControlName="address" placeholder="Enter your address" />
+    </div>
+
+    <!-- Phone Number -->
+    <div>
+      <input type="tel" formControlName="phone_number" placeholder="Enter your phone number" />
+    </div>
+
+    <!-- Gender -->
+    <div class="form-group gender-section">
+      <label for="gender" class="section-title">Gender</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="gender" value="male" formControlName="gender" />
+          <span class="custom-radio">Male</span>
+        </label>
+        <label>
+          <input type="radio" name="gender" value="female" formControlName="gender" />
+          <span class="custom-radio">Female</span>
+        </label>
+      </div>
+      <div *ngIf="form.get('gender')?.touched && form.get('gender')?.invalid" class="error-message">
+        <div *ngIf="form.get('gender')?.errors?.['required']">Please select a gender</div>
+      </div>
+    </div>
+
+
+    <!-- Submit Button -->
+    <button 
+      type="submit" 
+      (click)="register()" 
+      [disabled]="!form.valid"
+      [ngClass]="{'button-disabled': !form.valid, 'button-enabled': form.valid}">
+      Register
+    </button>
+  </form>
+  <div class="footer">
+    Already have an account? <a [routerLink]="['/login']">Log In</a>
   </div>
-  
+</div>

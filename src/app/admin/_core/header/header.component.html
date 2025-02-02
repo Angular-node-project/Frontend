@@ -5,27 +5,27 @@
     </div>
     <div class="header-right">
       <div class="dropdown">
-        <button class="notification-btn dropdown-toggle" 
-                type="button" 
-                id="notificationDropdown" 
-                data-bs-toggle="dropdown" 
-                aria-expanded="false">
+        <button class="notification-btn dropdown-toggle" type="button" id="notificationDropdown"
+          data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fas fa-bell"></i>
           <span class="notification-badge" *ngIf="getUnreadCount() > 0">{{getUnreadCount()}}</span>
         </button>
         <ul class="dropdown-menu notification-menu" aria-labelledby="notificationDropdown">
-          <li><h6 class="dropdown-header">Notifications</h6></li>
+          <li>
+            <h6 class="dropdown-header">Notifications</h6>
+          </li>
           <li *ngFor="let notification of notifications">
-            <a class="dropdown-item notification-item" 
-               [class.unread]="!notification.isRead"
-               (click)="markAsRead(notification)">
+            <a class="dropdown-item notification-item" [class.unread]="!notification.isRead"
+              (click)="markAsRead(notification)">
               <div class="notification-content">
                 <p class="notification-message">{{notification.message}}</p>
                 <small class="notification-time">{{notification.time}}</small>
               </div>
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li><a class="dropdown-item text-center" href="#">View all notifications</a></li>
         </ul>
       </div>
@@ -41,13 +41,17 @@
           </div>
         </div>
         <ul class="dropdown-menu profile-menu">
-          <li><h6 class="dropdown-header">My Account</h6></li>
+          <li>
+            <h6 class="dropdown-header">My Account</h6>
+          </li>
           <li>
             <a class="dropdown-item" routerLink="/admin/profile">
               <i class="fas fa-user me-2"></i>Profile
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li>
             <a class="dropdown-item text-danger" href="#">
               <i class="fas fa-sign-out-alt me-2"></i>Logout

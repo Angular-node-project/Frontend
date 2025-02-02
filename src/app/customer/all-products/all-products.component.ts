@@ -51,6 +51,7 @@ export class AllProductsComponent implements OnInit, OnDestroy {
         this.isLoading=false;
       },
       error: () => {
+        console.log('Error loading products');
         this.isLoading = true;
       },
       complete: () => {

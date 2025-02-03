@@ -11,32 +11,26 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Product ID</th>
-        <th>Category</th>
         <th>Name</th>
-        <th>Description</th>
         <th>Quantity</th>
         <th>Price</th>
-        <th>Seller ID</th>
+        <th>Seller Name</th>
         <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let product of products; let i = index">
-        <td>{{ product.id }}</td>
-        <td>{{ product.category }}</td>
         <td>{{ product.name }}</td>
-        <td>{{ product.description }}</td>
-        <td>{{ product.quantity }}</td>
+        <td>{{ product.qty }}</td>
         <td>{{ product.price }}</td>
-        <td>{{ product.sellerId }}</td>
+        <td>{{ product.seller_id }}</td>
         <td>{{ product.status }}</td>
         <td>
           <button class="btn btn-success btn-sm" (click)="onUpdate(product)">
             <i class="fa-solid fa-edit"></i> Update
           </button>
-          <button class="btn delete-btn btn-danger btn-sm" (click)="onDelete(product.id)">
+          <button class="btn delete-btn btn-danger btn-sm" (click)="onDelete(+product.product_id)">
             <i class="fa-solid fa-trash"></i> Delete
           </button>
           <div class="dropdown d-inline">

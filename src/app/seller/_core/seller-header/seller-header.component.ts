@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-seller-header',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './seller-header.component.html',

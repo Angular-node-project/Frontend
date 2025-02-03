@@ -1,10 +1,10 @@
-<div class="admin-layout" [class.sidebar-open]="isSidebarOpen">
-    <app-seller (linkClick)="onSidebarLinkClick()"></app-seller>
+<div class="seller-layout" [class.sidebar-open]="isSidebarOpen">
+    <app-seller-side-bar (linkClick)="onSidebarLinkClick()"></app-seller-side-bar>
     <div class="main-content">
-      <app-header 
+      <app-seller-header
         [isSidebarOpen]="isSidebarOpen"
         (toggleSidebarEvent)="toggleSidebar()">
-      </app-header>
+      </app-seller-header>
       <div class="content">
         <router-outlet></router-outlet>
       </div>

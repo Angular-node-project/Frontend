@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Input } from '@angular/core';
 import { AddUpdateComponent } from "./add-update/add-update.component";
+import { SidebarService } from '../services/sidebar.service';
 
 declare const bootstrap: any;
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, AddUpdateComponent],
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  imports: [AddUpdateComponent,CommonModule]
 })
 export class ProductsComponent implements OnInit {
   @ViewChild(AddUpdateComponent) addUpdateComponent!: AddUpdateComponent;
@@ -16,14 +17,20 @@ export class ProductsComponent implements OnInit {
   selectedProduct: any = null;
   isEditMode: boolean = false;
   productToDelete: number | null = null;
+  currentPage = 1;
+  totalPages = 5; // Update this based on your actual data
+  @Input() isSidebarOpen = false;
 
-  constructor() {
+  constructor(private sidebarService: SidebarService) {
     this.products = [
-      { id: 1, name: 'Test Product', category: 'Test', description: 'Test Description', quantity: 10, price: 100, sellerId: '1', status: 'Active' }
+      { id: 1, name: 'Test Product', category: 'Test', description: 'Test Description ', quantity: 10, price: 100, sellerId: '1', status: 'Active' }
     ];
   }
 
   ngOnInit() {
+    this.sidebarService.sidebarState$.subscribe(
+      state => this.isSidebarOpen = state
+    );
     // Initialize Bootstrap dropdowns
     import('bootstrap').then(bootstrap => {
       const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
@@ -120,5 +127,15 @@ export class ProductsComponent implements OnInit {
     this.products[i].status = newStatus;
     console.log('Status updated to:', newStatus);
   }
-  
+
+  getPages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      // Add your logic to fetch data for the new page
+    }
+  }
 }

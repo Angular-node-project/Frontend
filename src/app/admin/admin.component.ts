@@ -17,5 +17,15 @@ import { SideBarComponent } from './side-bar/side-bar.component';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
+  isSidebarOpen = false;
 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  onSidebarLinkClick() {
+    if (window.innerWidth <= 768) {
+      this.isSidebarOpen = false;
+    }
+  }
 }

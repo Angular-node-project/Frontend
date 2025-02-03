@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 
@@ -11,6 +11,9 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  @Output() toggleSidebarEvent = new EventEmitter<void>();
+  @Input() isSidebarOpen = false;
+
   email: string = 'admin@gmail.com';
   role: string = 'Admin';
   notifications = [
@@ -47,5 +50,9 @@ export class HeaderComponent implements OnInit {
 
   getUnreadCount() {
     return this.notifications.filter(n => !n.isRead).length;
+  }
+
+  toggleSidebar() {
+    this.toggleSidebarEvent.emit();
   }
 }

@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EditProfileModalComponent } from './edit-profile-modal.component';
+import { FormsModule } from '@angular/forms';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, EditProfileModalComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-  isEditModalOpen = false;
   adminProfile = {
     name: 'John Doe',
     email: 'admin@gmail.com',
@@ -20,30 +20,22 @@ export class ProfileComponent {
     status: 'Active',
   };
 
+  editedProfile: any = {};
+  modal: any;
+
   openEditModal() {
-    this.isEditModalOpen = true;
+    this.editedProfile = { ...this.adminProfile };
+    const modalEl = document.getElementById('editProfileModal');
+    if (modalEl) {
+      this.modal = new bootstrap.Modal(modalEl);
+      this.modal.show();
+    }
   }
 
-  closeEditModal() {
-    this.isEditModalOpen = false;
-  }
-
-  updateProfile(updatedData: any) {
-    // Create a copy of the profile to update
-    const updatedProfile = { ...this.adminProfile };
-    
-    // Update only editable fields
-    updatedProfile.name = updatedData.name;
-    updatedProfile.email = updatedData.email;
-    updatedProfile.phone = updatedData.phone;
-    
-    // Update the profile
-    this.adminProfile = updatedProfile;
-    
-    // Close modal
-    this.closeEditModal();
-    
-    // Here you would typically make an API call to update the backend
-    console.log('Profile updated:', this.adminProfile);
+  onSubmit() {
+    this.adminProfile = { ...this.adminProfile, ...this.editedProfile };
+    if (this.modal) {
+      this.modal.hide();
+    }
   }
 }

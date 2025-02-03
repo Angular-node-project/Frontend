@@ -90,12 +90,12 @@
 
 .search-box input:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #198754;
   background: white;
 }
 
 .search-box input:hover {
-  border-color: #4CAF50;
+  border-color: #198754;
 }
 
 @media (max-width: 768px) {
@@ -181,9 +181,9 @@
 }
 
 .page-item.active .page-link {
-  background: #4CAF50;
+  background: #198754;
   color: white;
-  border-color: #4CAF50;
+  border-color: #198754;
 }
 
 .page-item.disabled .page-link {

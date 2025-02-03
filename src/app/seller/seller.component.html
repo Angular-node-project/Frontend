@@ -1,3 +1,12 @@
-
-<h1>dfdgd</h1>
-<router-outlet></router-outlet>
+<div class="admin-layout" [class.sidebar-open]="isSidebarOpen">
+    <app-seller (linkClick)="onSidebarLinkClick()"></app-seller>
+    <div class="main-content">
+      <app-header 
+        [isSidebarOpen]="isSidebarOpen"
+        (toggleSidebarEvent)="toggleSidebar()">
+      </app-header>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>

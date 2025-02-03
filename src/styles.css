@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; 
 :root {
     --primary-font-family: 'Roboto', serif;
     --secondary-font-family: 'Unna', serif;
@@ -110,7 +110,18 @@ app-customer-root {
     margin-top: 5px;
   }
 
- 
+  @media (max-width: 768px) {
+    body.sidebar-open::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1050;
+    }
+  }
 
 
 

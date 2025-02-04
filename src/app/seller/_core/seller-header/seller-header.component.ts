@@ -4,18 +4,18 @@ import { RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-seller-header',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  templateUrl: './seller-header.component.html',
+  styleUrls: ['./seller-header.component.css']
 })
 export class HeaderComponent implements OnInit {
   @Output() toggleSidebarEvent = new EventEmitter<void>();
   @Input() isSidebarOpen = false;
 
-  email: string = 'admin@gmail.com';
-  role: string = 'Admin';
+  email: string = 'seller@gmail.com';
+  role: string = 'seller';
   notifications = [
     {
       id: 1,

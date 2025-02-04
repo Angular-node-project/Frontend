@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { SellerComponent } from './seller/seller.component';
-import { ProfileComponent as sellerProfile } from './seller/profile/profile.component';
 import { ProfileComponent as customerProfile }  from './customer/profile/profile.component';
 import { CustomerComponent } from './customer/customer.component';
 import { HomeComponent as CustomerHome } from './customer/home/home.component';
@@ -18,12 +17,28 @@ import { AdminComponent } from './admin/admin.component';
 import { ProfileComponent } from './admin/profile/profile.component';
 import { AdminLoginComponent } from './admin/login/login.component';
 import { adminAuthGuard } from './admin/guards/admin-auth.guard';
+import { SellerLoginComponent } from './seller/seller-login/seller-login.component';
+import { SellerDashboardComponent } from './seller/seller-dashboard/seller-dashboard.component';
+import { SellerProductsComponent } from './seller/seller-products/seller-products.component';
+import { SellerProfileComponent } from './seller/seller-profile/seller-profile.component';
+
 
 export const routes: Routes = [
 
-    {path:'seller',component:SellerComponent, children:[
-        {path:"profile",component:sellerProfile}
-    ]},
+    {path: 'seller',children: [
+        { path: 'login', component: SellerLoginComponent},
+        {path: '',redirectTo: 'login',pathMatch: 'full'},
+        {path: '',component: SellerComponent
+          //  canActivate: [adminAuthGuard]
+            ,children: [
+                { path: 'dashboard', component:SellerDashboardComponent },
+                { path: 'products', component: SellerProductsComponent },
+                { path: 'profile', component: SellerProfileComponent }
+            ]
+        }
+    ]
+
+},
     {path:'',component:CustomerComponent,children:[
         {path:"",component:CustomerHome},
         {path:"productdetails/:id",component:CustomerProductDetails},

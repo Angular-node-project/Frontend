@@ -4,27 +4,27 @@ import { FormsModule } from '@angular/forms';
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  selector: 'app-seller-profile',
+  imports: [CommonModule,FormsModule],
+  templateUrl: './seller-profile.component.html',
+  styleUrl: './seller-profile.component.css'
 })
-export class ProfileComponent {
-  adminProfile = {
+export class SellerProfileComponent {
+  sellerProfile = {
     name: 'John Doe',
-    email: 'admin@gmail.com',
+    email: 'seller@gmail.com',
     phone: '+1 234 567 890',
-    role: 'Administrator',
+    role: 'Seller',
     joinDate: 'January 15, 2024',
     status: 'Active',
+
   };
 
   editedProfile: any = {};
   modal: any;
 
   openEditModal() {
-    this.editedProfile = { ...this.adminProfile };
+    this.editedProfile = { ...this.sellerProfile };
     const modalEl = document.getElementById('editProfileModal');
     if (modalEl) {
       this.modal = new bootstrap.Modal(modalEl);
@@ -32,10 +32,12 @@ export class ProfileComponent {
     }
   }
 
+
   onSubmit() {
-    this.adminProfile = { ...this.adminProfile, ...this.editedProfile };
+    this.sellerProfile = { ...this.sellerProfile, ...this.editedProfile };
     if (this.modal) {
       this.modal.hide();
     }
   }
+
 }

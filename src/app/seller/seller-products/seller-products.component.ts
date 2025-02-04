@@ -1,41 +1,54 @@
+import { Component, ViewChild, OnInit, Input, viewChild } from '@angular/core';
+import { SellerAddUpdateComponent } from './seller-add-update/seller-add-update.component';
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, OnInit, Input } from '@angular/core';
-import { AddUpdateComponent } from "./add-update/add-update.component";
-import { SideBarComponent } from '../side-bar/side-bar.component';
+import { SellerSideBarComponent } from '../seller-side-bar/seller-side-bar.component';
+
+
+
+
 
 export declare const bootstrap: any;
 
+
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
-  imports: [AddUpdateComponent, CommonModule]
+  selector: 'app-seller-products',
+  imports: [SellerAddUpdateComponent,CommonModule],
+  templateUrl: './seller-products.component.html',
+  styleUrl: './seller-products.component.css'
 })
-export class ProductsComponent implements OnInit {
-  @ViewChild(AddUpdateComponent) addUpdateComponent!: AddUpdateComponent;
-  @ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
+export class SellerProductsComponent implements OnInit {
+    @ViewChild(SellerAddUpdateComponent) addUpdateComponent!: SellerAddUpdateComponent;
+    @ViewChild(SellerSideBarComponent) sellerSidebarComponent!:SellerSideBarComponent
   products: any[] = [];
   selectedProduct: any = null;
   isEditMode: boolean = false;
   productToDelete: number | null = null;
   currentPage = 1;
   totalPages = 5; // Update this based on your actual data
+
+
+
   @Input() isSidebarOpen = false;
 
-  constructor() {
+    constructor() {
     this.products = [
       { id: 1, name: 'Test Product', category: 'Test', description: 'Test Description ', quantity: 10, price: 100, sellerId: '1', status: 'Active' }
     ];
   }
 
+
   ngOnInit() {
-    if (this.sidebarComponent) {
-      this.sidebarComponent.sidebarState$.subscribe(
+    if (this.sellerSidebarComponent) {
+      this.sellerSidebarComponent.sellerSidebarState$.subscribe(
         state => this.isSidebarOpen = state
       );
     }
+
     // Initialize Bootstrap dropdowns
     import('bootstrap').then(bootstrap => {
+
+
+
       const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
       dropdownElementList.forEach(dropdownToggle => {
         new bootstrap.Dropdown(dropdownToggle);

@@ -22,12 +22,13 @@ export class ProductItemComponent {
     let qty=1
     this.cartSer.addProductToCart({productId,customer_id,qty}).subscribe({
       next(e){
-        if(e.data){
+        console.log(e.data)
+        if(e.data.success){
+          console.log(e.data)
           toast.success("Product Added To Cart")
         }else{
-          toast.error("Something Went wrong")
+          toast.error("e.data.ErrorMsg")
         }
-        console.log(e.data)
        }
     })
   }

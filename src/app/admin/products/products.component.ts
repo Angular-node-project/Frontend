@@ -2,6 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild, OnInit, Input } from '@angular/core';
 import { AddUpdateComponent } from "./add-update/add-update.component";
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { ProductService } from '../_services/products.services';
+import { Product } from 'src/app/_models/product';
+import { Category } from 'src/app/_models/category';
+import { Subscription } from 'rxjs';
 
 export declare const bootstrap: any;
 
@@ -14,15 +18,23 @@ export declare const bootstrap: any;
 export class ProductsComponent implements OnInit {
   @ViewChild(AddUpdateComponent) addUpdateComponent!: AddUpdateComponent;
   @ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
-  products: any[] = [];
   selectedProduct: any = null;
   isEditMode: boolean = false;
   productToDelete: number | null = null;
-  currentPage = 1;
-  totalPages = 5; // Update this based on your actual data
-  @Input() isSidebarOpen = false;
+  isLoading: boolean = true;
+    products: Product[] = [];
+    categories: Category[] = [];
+    selectedCategory: string = '';
+    selectedSort: string = '';
+    currentPage = 1;
+    totalPages !: number;
+    pageNumbers: number[] = [];
+    totalResults: number = 0;
+    pageSize: number = 6;
+    sub!: Subscription;
+    status:string=''
 
-  constructor() {
+  constructor(private productservice:ProductService) {
     this.products = [
       { id: 1, name: 'Test Product', category: 'Test', description: 'Test Description ', quantity: 10, price: 100, sellerId: '1', status: 'Active' }
     ];
@@ -42,9 +54,37 @@ export class ProductsComponent implements OnInit {
       });
     });
   }
+  loadProducts(page: number): void {
+    this.productservice.getAllProducts(page,this.selectedSort, this.selectedCategory,this.status).subscribe({
+      next: (response) => {
+        this.products = response.data.products;
+        this.totalPages = response.data.totalPages;
+        this.totalResults = response.data.totalProductsCount;
+        this.generatePageNumbers();
+
+        this.isLoading=false;
+      },
+      error: () => {
+        console.log('Error loading products');
+        this.isLoading = true;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+ 
+  generatePageNumbers(): void {
+    this.pageNumbers = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      this.pageNumbers.push(i);
+    }
+  }
+ 
+  
 
   addNewProduct() {
-    this.isEditMode = false;
+   this.isEditMode = false;
     this.selectedProduct = {};
     // Show the modal
     const modalElement = document.getElementById('productModal');
@@ -71,10 +111,8 @@ export class ProductsComponent implements OnInit {
 
   onSaveProduct(product: any) {
     if (this.isEditMode) {
-      const index = this.products.findIndex(p => p.id === product.id);
-      if (index !== -1) {
-        this.products[index] = { ...product, status: this.products[index].status };
-      }
+     
+      
     } else {
       const newProduct = {
         ...product,
@@ -114,7 +152,7 @@ export class ProductsComponent implements OnInit {
 
   confirmDelete() {
     if (this.productToDelete) {
-      this.products = this.products.filter(product => product.id !== this.productToDelete);
+    
       const modalElement = document.getElementById('deleteModal');
       if (modalElement) {
         const modal = bootstrap.Modal.getInstance(modalElement);
@@ -127,7 +165,7 @@ export class ProductsComponent implements OnInit {
   }
 
   changeStatus(i: number, newStatus: string): void {
-    this.products[i].status = newStatus;
+   
     console.log('Status updated to:', newStatus);
   }
 

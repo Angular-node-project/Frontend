@@ -15,7 +15,7 @@
 }
 
 .product-card {
-  background: white;
+  background: #f5f6f3;
   border-radius: 12px;
   transition: transform 0.2s;
 }
@@ -39,21 +39,25 @@
 }
 
 .summary-card {
-  background: white;
+  background: #f5f6f3;
   border-radius: 12px;
   position: sticky;
   top: 20px;
 }
 
 .checkout-btn {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  border: none;
+  background: #c6d8c0;
   transition: transform 0.2s;
+  border: none;
+  color: black;
+  border-radius: 0;
 }
 
 .checkout-btn:hover {
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  background:#5C9735;
+  color: black;
+  border-radius: 0;
 }
 
 .remove-btn {

@@ -31,8 +31,8 @@
                             {{selectedProduct.description}}
                         </p>
                         <div class="d-flex gap-3 mb-4">
-                            <input type="number" class="form-control quantity-input" value="1" min="1">
-                            <button class="btn btn-add-to-cart">Add to Cart</button>
+                            <input #in1 (blur)="resetQty(initialQty)" [(ngModel)]="initialQty" type="number" class="form-control quantity-input"  min="1">
+                            <button (click)="addProductToCart(selectedProduct.product_id,in1.value)" class="btn btn-add-to-cart">Add to Cart</button>
                         </div>
                         <div class="divider"></div>
                         <div class="categories-section mt-4">

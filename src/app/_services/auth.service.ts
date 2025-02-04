@@ -25,6 +25,14 @@ export class AuthService {
         return decodedToken.name || null;
     }
 
+    getLoggedInId(user_type:'customer'|'seller'|'admin'):string{
+      if(this.getToken(user_type)===''){
+          return '';
+      }
+      var decodedToken=jwtDecode<any>(this.getToken(user_type));
+      return decodedToken.id || null;
+  }
+
     saveToken(token: string):void {
         var userType=this.getUserType(token)  ;
         const storageKey = this.getStorageKeyByUserType(userType);
@@ -60,5 +68,7 @@ export class AuthService {
                 throw new Error('Invalid user type');
         }
     }
+
+
 
 }

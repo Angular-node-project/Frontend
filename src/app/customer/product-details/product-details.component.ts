@@ -5,10 +5,14 @@ import { Product } from '../../_models/product';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Response } from '../../_models/response';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { CartService } from '../_services/cart.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-customer-product-details',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink,FormsModule],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css',
   host: {
@@ -16,7 +20,7 @@ import { Subscription } from 'rxjs';
   }
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
-  constructor(private productService: ProductService, private route: ActivatedRoute) {
+  constructor(private productService: ProductService, private route: ActivatedRoute,private cartSer:CartService,public toastr: ToastrService) {
     // Add Font Awesome CSS
     const link = document.createElement('link');
     link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
@@ -32,6 +36,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   rating: number = 0;
   hoverRating: number = 0;
   review: string = '';
+  initialQty="1";
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(param => {
@@ -72,4 +77,35 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.sub.unsubscribe()
     }
   }
+
+  addProductToCart(productId:string,qty:string){
+      let Qty=+qty;
+      let toast=this.toastr
+      let customer_id=1;
+      if(Qty<=0){
+        console.log("Quantity must be Positive number bigger than 0")
+      }else{
+        this.cartSer.addProductToCart({productId,customer_id,qty}).subscribe({
+          next(e){
+            if(e.data.success){
+              toast.success("Product Added To Cart")
+            }else{
+              toast.error("Something Went wrong")
+            }
+            console.log(e.data)
+           }
+        })
+      }
+      console.log(productId)
+      console.log(Qty)
+  }
+
+  //* To reset Quantity Input if one insert value below or equal to 0
+  resetQty(inQty:string){
+    if(+inQty<=0)
+      this.initialQty="1"
+  }
+
+
+
 }

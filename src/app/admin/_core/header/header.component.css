@@ -243,3 +243,24 @@
   width: 20px;
   text-align: center;
 }
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #2d4739;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+}

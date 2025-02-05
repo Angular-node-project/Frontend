@@ -74,15 +74,15 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
- 
+
   generatePageNumbers(): void {
     this.pageNumbers = [];
     for (let i = 1; i <= this.totalPages; i++) {
       this.pageNumbers.push(i);
     }
   }
- 
-  
+
+
 
   addNewProduct() {
    this.isEditMode = false;
@@ -112,8 +112,8 @@ export class ProductsComponent implements OnInit {
 
   onSaveProduct(product: any) {
     if (this.isEditMode) {
-     
-      
+
+
     } else {
       const newProduct = {
         ...product,
@@ -153,7 +153,7 @@ export class ProductsComponent implements OnInit {
 
   confirmDelete() {
     if (this.productToDelete) {
-    
+
       const modalElement = document.getElementById('deleteModal');
       if (modalElement) {
         const modal = bootstrap.Modal.getInstance(modalElement);
@@ -166,7 +166,7 @@ export class ProductsComponent implements OnInit {
   }
 
   changeStatus(i: number, newStatus: string): void {
-   
+
     console.log('Status updated to:', newStatus);
   }
 

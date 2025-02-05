@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; 
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
 :root {
     --primary-font-family: 'Roboto', serif;
     --secondary-font-family: 'Unna', serif;
@@ -49,7 +50,7 @@ app-customer-root {
     position: absolute !important;
     z-index: 10;
   }
-  
+
   .navbar-solid {
     background-color: #fff !important;
     position: relative !important;
@@ -63,17 +64,17 @@ app-customer-root {
     border-bottom: 1px solid #e0e0e0;
   }
   .text-white {
-    color: white !important; 
+    color: white !important;
   }
-  
+
   .text-dark {
-    color: #4d4f48 !important; 
+    color: #4d4f48 !important;
   }
-  
+
   .text-white:hover {
-    color: var(--global-green-color) !important; 
+    color: var(--global-green-color) !important;
   }
-  
+
   .text-dark:hover {
     color: var(--global-green-color) !important;
   }
@@ -126,5 +127,4 @@ app-customer-root {
 
 
 
-  
-  
+

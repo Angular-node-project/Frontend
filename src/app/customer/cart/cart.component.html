@@ -38,7 +38,7 @@
                   <span class="fw-bold">${{item.price| number:'1.2-2'}}</span>
                 </div>
                 <div class="col-md-1">
-                  <i class="bi bi-trash remove-btn"></i>
+                  <i class="bi bi-trash fs-4 remove-btn"></i>
                 </div>
               </div>
             </div>
@@ -72,12 +72,14 @@
               </div>
             </div> -->
 
-            <a class="btn btn-danger checkout-btn w-100 mb-3" routerLink="/checkout">
+            <a class="btn btn-danger checkout-btn w-100 mb-3" routerLink="/checkout"
+            [attr.disabled]="data?.product?.length === 0"
+            >
               Proceed to Checkout
             </a>
 
             <div class="d-flex justify-content-center gap-2">
-              <i class="bi bi-shield-check text-success"></i>
+              <i  class="bi bi-shield-check text-success"></i>
               <small class="text-muted">Secure checkout</small>
             </div>
           </div>

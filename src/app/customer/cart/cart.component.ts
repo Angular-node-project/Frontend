@@ -125,5 +125,7 @@ export class CartComponent implements OnInit {
     })
   }
 
+  removeFromCart(){}
+
 
 }

@@ -23,16 +23,19 @@
 
                     <div class="col-md-5 mb-5">
                         <h1 class="product-title">{{selectedProduct.name}}</h1>
-                        <div class="price-section mb-4">
+                        <div class="price-section mb-1">
                             <span class="price">${{selectedProduct.price}}</span>
                             <span class="shipping">+ Free Shipping</span>
                         </div>
+                        @if(selectedProduct.qty<1){
+                            <p class="text-danger">out of stock</p>
+                        }
                         <p class="description mb-4">
                             {{selectedProduct.description}}
                         </p>
                         <div class="d-flex gap-3 mb-4">
-                            <input #in1 (blur)="resetQty(initialQty)" [(ngModel)]="initialQty" type="number" class="form-control quantity-input"  min="1">
-                            <button (click)="addProductToCart(selectedProduct.product_id,in1.value)" class="btn btn-add-to-cart">Add to Cart</button>
+                            <input #in1 [disabled]="selectedProduct.qty<1" (blur)="resetQty(initialQty)" [(ngModel)]="initialQty" type="number" class="form-control quantity-input"  min="1">
+                            <button [disabled]="selectedProduct.qty<1" (click)="addProductToCart(selectedProduct.product_id,in1.value)" class="btn btn-add-to-cart">Add to Cart</button>
                         </div>
                         <div class="divider"></div>
                         <div class="categories-section mt-4">

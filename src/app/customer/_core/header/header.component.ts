@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { AuthCustomerService } from '../../_services/authCustomer.service';
 import { CartService } from '../../_services/cart.service';
 import { FormsModule } from '@angular/forms';
+import { GeneralService } from '../../_services/general.service';
 
 @Component({
   selector: 'app-customer-header',
-  imports: [CommonModule, RouterLink, RouterLinkActive,FormsModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -17,20 +18,24 @@ export class HeaderComponent implements OnInit {
   isTransparent: boolean = true;
   isLoggedIn: boolean = false;
   loggedInName: string = '';
-  constructor(private router: Router, private authCustomerService: AuthCustomerService,private cartSer:CartService) { }
+  numOfProducts = 0;
+  cartSub: Subscription | null = null;
+  constructor(private router: Router, private authCustomerService: AuthCustomerService,private cartService:CartService, private generalService: GeneralService) { }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authCustomerService.isLoggedIn();
-    this.loggedInName = this.authCustomerService.getLoggedInName();
+    this.cartService.updateCartRegisterdCustomerProductNum();
+    this.loadInfo();
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.isLoggedIn = this.authCustomerService.isLoggedIn();
-      this.loggedInName = this.authCustomerService.getLoggedInName();
+      this.cartService.updateCartRegisterdCustomerProductNum();
+      this.loadInfo();
+
+
       console.log(event.urlAfterRedirects);
       if (event.urlAfterRedirects == '/home' || event.urlAfterRedirects == '/') {
         this.isTransparent = true;
-        console.log("hhh");
       } else {
         this.isTransparent = false;
       }
@@ -45,14 +50,13 @@ export class HeaderComponent implements OnInit {
       console.log("Directly on another page, navbar is solid");
     }
 
-
-    this.cartSer.getCart().subscribe(e=>{
-      this.numOfProducts=e.product.length 
+  }
+  loadInfo(): void {
+    this.isLoggedIn = this.authCustomerService.isLoggedIn();
+    this.loggedInName = this.authCustomerService.getLoggedInName();
+    this.generalService.cartProductNumRegisterd(e => {
+      this.numOfProducts = e;
     })
 
-
   }
-  numOfProducts=0;
-
-
 }

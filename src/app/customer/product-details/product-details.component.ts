@@ -8,11 +8,12 @@ import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../_services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthCustomerService } from '../_services/authCustomer.service';
 
 
 @Component({
   selector: 'app-customer-product-details',
-  imports: [CommonModule, RouterLink,FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css',
   host: {
@@ -20,7 +21,7 @@ import { ToastrService } from 'ngx-toastr';
   }
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
-  constructor(private productService: ProductService, private route: ActivatedRoute,private cartSer:CartService,public toastr: ToastrService) {
+  constructor(private productService: ProductService, private authCustomerService: AuthCustomerService, private route: ActivatedRoute, private cartSer: CartService, public toastr: ToastrService) {
     // Add Font Awesome CSS
     const link = document.createElement('link');
     link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
@@ -36,7 +37,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   rating: number = 0;
   hoverRating: number = 0;
   review: string = '';
-  initialQty="1";
+  initialQty = "1";
+  productMaxQty:number=0;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(param => {
@@ -55,6 +57,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           alt: `Product Image ${index + 1}`,
           active: index === 0
         }))
+        this.productMaxQty=response.data.qty;
+
       }
       this.selectedImage = this.images[0];
     })
@@ -78,32 +82,45 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  addProductToCart(productId:string,qty:string){
-      let Qty=+qty;
-      let toast=this.toastr
-      let customer_id=1;
-      if(Qty<=0){
-        console.log("Quantity must be Positive number bigger than 0")
-      }else{
-        this.cartSer.addProductToCart({productId,customer_id,qty}).subscribe({
-          next(e){
-            if(e.data.success){
-              console.log(e.data)
-              toast.success("Product Added To Cart")
-            }else{
-              toast.error(e.data.ErrorMsg)
-              // toast.error("Error")
+  addProductToCart(productId: string, qty: string) {
+    let Qty = +qty;
+    let toast = this.toastr
+    let customer_id = 1;
+    if (Qty <= 0) {
+      this.toastr.error("qty must be more than 1");
+    }else if(Qty>this.productMaxQty){
+      this.toastr.error("the qty added must be less than max product qty");
+    } 
+    else {
+      if (this.authCustomerService.isLoggedIn()) {
+        this.cartSer.addProductToCart({ productId, customer_id, qty }).subscribe({
+          next: (e) => {
+            if (e.data.success) {
+              console.log(e.data);
+              toast.success("Product Added To Cart");
+              this.cartSer.updateCartRegisterdCustomerProductNum();
+            } else {
+              toast.error(e.data.ErrorMsg);
             }
-           }
+          }
         })
+      } else {
+        if(Qty> this.productMaxQty){
+          this.toastr.error("the qty added must be less than max product qty");
+        }else{
+
+          this.cartSer.updateProductToCartGuest({productId,qty:Qty},'more');
+          this.toastr.success("qty addedd successfully")
+        }
       }
-    
+    }
+
   }
 
   //* To reset Quantity Input if one insert value below or equal to 0
-  resetQty(inQty:string){
-    if(+inQty<=0)
-      this.initialQty="1"
+  resetQty(inQty: string) {
+    if (+inQty <= 0)
+      this.initialQty = "1"
   }
 
 

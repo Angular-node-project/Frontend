@@ -26,4 +26,5 @@ export class ProductService {
     var result= this.http.get<Response<Category[]>>(`${this.baseUrl}/categories`);
     return result;
    }
+   
 }

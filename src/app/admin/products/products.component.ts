@@ -32,11 +32,12 @@ export class ProductsComponent implements OnInit {
     totalResults: number = 0;
     pageSize: number = 6;
     sub!: Subscription;
-    status:string=''
+    status:string='';
+    isSidebarOpen=false;
 
   constructor(private productservice:ProductService) {
     this.products = [
-      { id: 1, name: 'Test Product', category: 'Test', description: 'Test Description ', quantity: 10, price: 100, sellerId: '1', status: 'Active' }
+//{ product_id: '1', name: 'Test Product',categories: 'Test', description: 'Test Description ', quantity: 10, price: 100, sellerId: '1', status:'active' }
     ];
   }
 

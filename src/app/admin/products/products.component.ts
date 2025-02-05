@@ -33,11 +33,12 @@ export class ProductsComponent implements OnInit {
     pageSize: number = 6;
     sub!: Subscription;
     status:string=''
+    isSidebarOpen=true
 
   constructor(private productservice:ProductService) {
-    this.products = [
-      { id: 1, name: 'Test Product', category: 'Test', description: 'Test Description ', quantity: 10, price: 100, sellerId: '1', status: 'Active' }
-    ];
+    // this.products = [
+    //   { id: 1, name: 'Test Product', category: 'Test', description: 'Test Description ', quantity: 10, price: 100, sellerId: '1', status: 'active' }
+    // ];
   }
 
   ngOnInit() {
@@ -73,15 +74,15 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
- 
+
   generatePageNumbers(): void {
     this.pageNumbers = [];
     for (let i = 1; i <= this.totalPages; i++) {
       this.pageNumbers.push(i);
     }
   }
- 
-  
+
+
 
   addNewProduct() {
    this.isEditMode = false;
@@ -111,8 +112,8 @@ export class ProductsComponent implements OnInit {
 
   onSaveProduct(product: any) {
     if (this.isEditMode) {
-     
-      
+
+
     } else {
       const newProduct = {
         ...product,
@@ -152,7 +153,7 @@ export class ProductsComponent implements OnInit {
 
   confirmDelete() {
     if (this.productToDelete) {
-    
+
       const modalElement = document.getElementById('deleteModal');
       if (modalElement) {
         const modal = bootstrap.Modal.getInstance(modalElement);
@@ -165,7 +166,7 @@ export class ProductsComponent implements OnInit {
   }
 
   changeStatus(i: number, newStatus: string): void {
-   
+
     console.log('Status updated to:', newStatus);
   }
 

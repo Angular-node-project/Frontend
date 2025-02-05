@@ -19,7 +19,6 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class CartComponent implements OnInit {
 
   data:Cart|null=null
-  test:any
   newQty:number=0;
 
 
@@ -37,9 +36,7 @@ export class CartComponent implements OnInit {
     })
     console.log(this.auth.getLoggedInId("customer"))
   }
-  get(){
-    console.log(this.data)
-  }
+
 
   IncreaseDecrease(data:CartProduct,num:number){
     this.newQty=(data.qty)+num
@@ -90,6 +87,8 @@ export class CartComponent implements OnInit {
 
     })
   }
+
+  removeFromCart(){}
 
 
 }

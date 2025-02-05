@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthCustomerService } from '../../_services/authCustomer.service';
+import { CartService } from '../../_services/cart.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-customer-header',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive,FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -15,7 +17,7 @@ export class HeaderComponent implements OnInit {
   isTransparent: boolean = true;
   isLoggedIn: boolean = false;
   loggedInName: string = '';
-  constructor(private router: Router, private authCustomerService: AuthCustomerService) { }
+  constructor(private router: Router, private authCustomerService: AuthCustomerService,private cartSer:CartService) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.authCustomerService.isLoggedIn();
@@ -43,5 +45,14 @@ export class HeaderComponent implements OnInit {
       console.log("Directly on another page, navbar is solid");
     }
 
+
+    this.cartSer.getCart().subscribe(e=>{
+      this.numOfProducts=e.product.length 
+    })
+
+
   }
+  numOfProducts=0;
+
+
 }

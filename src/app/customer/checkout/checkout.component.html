@@ -1,1 +1,110 @@
-<p>checkout works!</p>
+<div class="outer-div">
+  <div class="cart-wrapper">
+    <div class="container">
+      <div class="row g-4">
+        <!-- * Cart Items Section -->
+        <div class="col-lg-8 col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">Billing details</h4>
+            <span class="text-muted">0 items</span>
+          </div>
+
+          <div class="d-flex flex-column gap-3 summary-card p-2">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+            </div>
+          <div class="row">
+            <div class="col-12 mb-4">
+                <div class="form-floating">
+                    <input required type="text" class="form-control" id="Address" #address  placeholder="Address">
+                    <label for="Address">Address</label>
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <div class="form-floating">
+                  <select id="in-City" required class="form-control" #city>
+                    <option value="">Select City</option>
+                    <option value="cairo">Cairo</option>
+                    <option value="alexandria">Alexandria</option>
+                    <option value="giza">Giza</option>
+                    <option value="qalyubia">Qalyubia</option>
+                    <option value="port_said">Port Said</option>
+                    <option value="suez">Suez</option>
+                    <option value="sharqia">Sharqia</option>
+                    <option value="dakahlia">Dakahlia</option>
+                    <option value="aswan">Aswan</option>
+                    <option value="asiyut">Asyut</option>
+                    <option value="beheira">Beheira</option>
+                    <option value="beni_suef">Beni Suef</option>
+                    <option value="fayoum">Fayoum</option>
+                    <option value="gharbia">Gharbia</option>
+                    <option value="ismailia">Ismailia</option>
+                    <option value="kafr_el_sheikh">Kafr El Sheikh</option>
+                    <option value="matruh">Matruh</option>
+                    <option value="minya">Minya</option>
+                    <option value="monufia">Monufia</option>
+                    <option value="new_valley">New Valley</option>
+                    <option value="north_sinai">North Sinai</option>
+                    <option value="qena">Qena</option>
+                    <option value="red_sea">Red Sea</option>
+                    <option value="sohag">Sohag</option>
+                    <option value="south_sinai">South Sinai</option>
+                    <option value="damietta">Damietta</option>
+                    <option value="luxor">Luxor</option>
+                 </select>
+                    <!-- <label for="Governorate">Governorate</label> -->
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <div class="form-floating">
+                    <input required type="text" class="form-control" id="ZipCode"  placeholder="ZipCode" #zipCode>
+                    <label for="ZipCode">ZipCode</label>
+                </div>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="form-floating">
+                    <input required type="text" class="form-control" id="Phone Number"  placeholder="Phone Number" #phoneNumber>
+                    <label for="Phone Number">Phone Number</label>
+                </div>
+            </div>
+          </div>
+
+        </div>
+
+        </div>
+
+        <!-- * Summary Section -->
+        <div class="col-lg-4">
+          <div class="summary-card p-4 shadow-sm">
+            <h5 class="mb-4">Order Summary</h5>
+            @for (item of data?.product; track item.product_id) {
+              <div class="d-flex justify-content-between mb-3">
+                <span class="text-muted">{{item.name}} x {{item.qty}} </span>
+                <span>${{(item.price*item.qty).toFixed(2)}}</span>
+              </div>
+            }
+
+
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">Total</span>
+              <span>${{(data?.Total)?.toFixed(2)}}</span>
+            </div>
+
+            <hr>
+
+
+            <a (click)="addOrder(address.value,zipCode.value,phoneNumber.value,city.value)" class="btn btn-danger checkout-btn w-100 mb-3" routerLink="/checkout">
+              Place Order
+            </a>
+
+            <div class="d-flex justify-content-center gap-2">
+              <i class="bi bi-shield-check text-success"></i>
+              <small class="text-muted">Secure checkout</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -88,16 +88,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         this.cartSer.addProductToCart({productId,customer_id,qty}).subscribe({
           next(e){
             if(e.data.success){
+              console.log(e.data)
               toast.success("Product Added To Cart")
             }else{
-              toast.error("Something Went wrong")
+              toast.error(e.data.ErrorMsg)
+              // toast.error("Error")
             }
-            console.log(e.data)
            }
         })
       }
-      console.log(productId)
-      console.log(Qty)
+    
   }
 
   //* To reset Quantity Input if one insert value below or equal to 0

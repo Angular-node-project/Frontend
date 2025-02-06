@@ -21,6 +21,7 @@ import { SellerLoginComponent } from './seller/seller-login/seller-login.compone
 import { SellerDashboardComponent } from './seller/seller-dashboard/seller-dashboard.component';
 import { SellerProductsComponent } from './seller/seller-products/seller-products.component';
 import { SellerProfileComponent } from './seller/seller-profile/seller-profile.component';
+import { ClerkComponent } from './admin/clerk/clerk.component';
 
 
 export const routes: Routes = [
@@ -61,7 +62,8 @@ export const routes: Routes = [
                 ,children: [
                     { path: 'dashboard', component: DashboardComponent },
                     { path: 'products', component: ProductsComponent },
-                    { path: 'profile', component: ProfileComponent }
+                    { path: 'profile', component: ProfileComponent },
+                    { path: 'clerk', component: ClerkComponent }
                 ]
             }
         ]

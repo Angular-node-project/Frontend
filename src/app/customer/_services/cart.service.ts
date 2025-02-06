@@ -87,9 +87,9 @@ export class CartService {
     this.updateCartRegisterdCustomerProductNum()
   }
 
- 
+
   getCartGuest():Observable<any[]>{
-   
+
     const cart=localStorage.getItem('cart');
     if(!cart){
       return new Observable((observer)=>observer.next([]))
@@ -99,13 +99,18 @@ export class CartService {
     return forkJoin(getProductDetailsRequests).pipe(
       map((products:any[])=>{
         return allCartProducts.map((cartProduct, index) => {
-          return { 
-            ...cartProduct, 
-            productDetails: products[index].data 
+          return {
+            ...cartProduct,
+            productDetails: products[index].data
           };
         });
       })
     )
+  }
+
+  deleteProductFromCart(data:any){
+    return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, cart: Cart } }>
+    (`${this.baseUrl}/Del`,data);
   }
 
 }

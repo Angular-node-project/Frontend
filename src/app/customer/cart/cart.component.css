@@ -53,7 +53,7 @@
   border-radius: 12px;
   position: sticky;
   top: 20px;
-  border-radius: 0%;
+  border-radius:0%;
 }
 
 .checkout-btn {

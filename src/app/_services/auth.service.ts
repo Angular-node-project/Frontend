@@ -62,7 +62,6 @@ export class AuthService {
 
     isLoggedIn(user_type: 'customer' | 'seller' | 'admin'): boolean {
         const token = this.getToken(user_type);
-        console.log("fd");
         return token !== '';
     }
     logout(user_type: 'customer' | 'seller' | 'admin'): void {

@@ -23,6 +23,7 @@ export class CartService {
   private baseUrl = `${environment.apiUrl}/api/customer/cart`;
   private productNumSubject = new BehaviorSubject<number>(0);
   productNum$ = this.productNumSubject.asObservable();
+
   constructor(public http: HttpClient,private productService:ProductService,private authCustomerService:AuthCustomerService) { }
 
   // Example service method
@@ -31,6 +32,7 @@ export class CartService {
       .pipe(
         map(response => {
           const cartData = response.data.cart || Cart;
+          console.log(cartData);
           return new Cart(
             cartData._id,
             cartData.cart_id,
@@ -86,6 +88,16 @@ export class CartService {
     localStorage.setItem('cart', JSON.stringify(allCartProducts));
     this.updateCartRegisterdCustomerProductNum()
   }
+  removeProductFromCartGuest(product_id:string){
+    var cart = localStorage.getItem('cart');
+    let allCartProducts: cartguestproduct[] = cart ? JSON.parse(cart) : [];
+    const existingProduct = allCartProducts.find(item => item.productId ===product_id);
+    if(existingProduct){
+      allCartProducts=allCartProducts.filter(p=>p.productId!=product_id);
+      localStorage.setItem('cart', JSON.stringify(allCartProducts));
+    }
+
+  }
 
 
   getCartGuest():Observable<any[]>{
@@ -111,6 +123,10 @@ export class CartService {
   deleteProductFromCart(data:any){
     return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, cart: Cart } }>
     (`${this.baseUrl}/delete`,data);
+  }
+  addListProductCartGuest(cartProduct:CartProduct[]):Observable<Response<Cart>>{
+    var res= this.http.post<Response<Cart>>(`${this.baseUrl}`,cartProduct);
+    return res;
   }
 
 }

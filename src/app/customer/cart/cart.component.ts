@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { Cart } from 'src/app/_models/cart';
 import { CartService } from '../_services/cart.service';
@@ -8,15 +8,15 @@ import { Product } from 'src/app/_models/product';
 import { CartProduct } from 'src/app/_models/cart-product';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AuthCustomerService } from '../_services/authCustomer.service';
-import { DecimalPipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { DecimalPipe,CommonModule } from '@angular/common';
 
 
 
 
 @Component({
   selector: 'app-cart',
-  imports: [RouterOutlet, RouterLink,DecimalPipe],
+  imports: [RouterOutlet, DecimalPipe,CommonModule, RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
@@ -31,11 +31,13 @@ in(){
 
 }
 
-  constructor(public cartSer: CartService, private authCustomerService: AuthCustomerService,public toastr: ToastrService) { }
+  constructor(public cartSer: CartService ,private toastr:ToastrService, private authCustomerService: AuthCustomerService,private route:Router ) { }
 
   ngOnInit(): void {
     if (this.authCustomerService.isLoggedIn()) {
+      console.log("666");
       this.cartSer.getCart().subscribe(e => {
+        console.log(e);
         this.data = e
         this.data.Total = 0
         e.product.forEach(p => {
@@ -48,30 +50,29 @@ in(){
       this.cartSer.getCartGuest().subscribe(guestCart => {
         if (guestCart.length > 0) {
           this.data = new Cart('', '', [], '', new Date(), new Date(), 0);
-          console.log(guestCart);
           guestCart.forEach(item => {
-            this.data!.product.push({
-              product_id: item.productId,
-              seller_id: item.productDetails.seller_id,
-              name: item.productDetails.name,
-              qty: item.qty,
-              price: item.productDetails.price,
-              _id: item.productDetails._id,
-              pic_path: item.productDetails.pics
-            });
+            const updatedQty = item.productDetails.qty > item.qty ? item.qty : item.productDetails.qty;
+            if (updatedQty > 0) {
+              this.data!.product.push({
+                product_id: item.productId,
+                seller_id: item.productDetails.seller_id,
+                name: item.productDetails.name,
+                qty: updatedQty,
+                price: item.productDetails.price,
+                _id: item.productDetails._id,
+                pic_path: item.productDetails.pics
+              });
 
-            this.productMaxQty[item.productId] = item.productDetails.qty;
-            this.data!.Total += (+item.productDetails.price) * (+item.qty);
+              this.productMaxQty[item.productId] = item.productDetails.qty;
+              this.data!.Total += (+item.productDetails.price) * (+updatedQty);
+            }
           });
-          console.log(this.data);
         }
       })
     }
 
   }
-  get() {
-    console.log(this.data)
-  }
+
   IncreaseDecrease(data: CartProduct, num: number, inputElement: HTMLInputElement) {
     this.newQty = (data.qty) + num
     let CustomerId = "1";
@@ -139,7 +140,27 @@ in(){
     })
   }
 
-  removeFromCart(){}
+  removeFromCart(product_id: string) {
+
+    if (this.authCustomerService.isLoggedIn()) {
+
+
+    } else {
+      this.cartSer.removeProductFromCartGuest(product_id);
+      if (this.data) {
+        this.data.product = this.data?.product.filter(p => p.product_id != product_id);
+      }
+    }
+  }
+
+  porceedToCheckout(){
+    if(!this.authCustomerService.isLoggedIn()){
+      let cartGuest=this.data?.product;
+     // console.log(cartGuest);
+      localStorage.setItem('cart',JSON.stringify(cartGuest));
+    } 
+    this.route.navigate(['checkout']);
+  }
 
   removeProductFromCart(productID:string,price:number,qty:number){
     let CustomerId = "1";

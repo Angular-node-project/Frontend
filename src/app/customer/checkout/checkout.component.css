@@ -43,6 +43,7 @@
   border-radius: 12px;
   position: sticky;
   top: 20px;
+  border-radius: 0%;
 }
 
 .checkout-btn {
@@ -94,3 +95,9 @@
   padding: 4px 8px;
   border-radius: 6px;
 }
+input:focus, select:focus {
+  border: 2px solid #5C9735 !important; 
+  box-shadow: 0 0 5px rgba(145, 231, 120, 0.5) !important;
+  outline: none !important;
+}
+

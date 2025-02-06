@@ -22,6 +22,7 @@ import { SellerDashboardComponent } from './seller/seller-dashboard/seller-dashb
 import { SellerProductsComponent } from './seller/seller-products/seller-products.component';
 import { SellerProfileComponent } from './seller/seller-profile/seller-profile.component';
 import { ClerkComponent } from './admin/clerk/clerk.component';
+import { authCustomerGuard } from './customer/authCustomer.guard';
 
 
 export const routes: Routes = [
@@ -52,7 +53,7 @@ export const routes: Routes = [
         {path:"about",component:AboutComponent},
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
-        {path:"checkout",component:CheckoutComponent},
+        {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]},
     ]},
     {path: 'admin',children: [
             { path: 'login', component: AdminLoginComponent },

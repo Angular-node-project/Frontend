@@ -8,6 +8,7 @@ import { Product } from 'src/app/_models/product';
 import { CartProduct } from 'src/app/_models/cart-product';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AuthCustomerService } from '../_services/authCustomer.service';
+import { ToastrService } from 'ngx-toastr';
 import { DecimalPipe,CommonModule } from '@angular/common';
 
 
@@ -26,9 +27,11 @@ export class CartComponent implements OnInit {
   newQty: number = 0;
   productMaxQty: { [productId: string]: number } = {};
 
+in(){
 
+}
 
-  constructor(public cartSer: CartService, private authCustomerService: AuthCustomerService,private route:Router ) { }
+  constructor(public cartSer: CartService ,private toastr:ToastrService, private authCustomerService: AuthCustomerService,private route:Router ) { }
 
   ngOnInit(): void {
     if (this.authCustomerService.isLoggedIn()) {
@@ -79,17 +82,24 @@ export class CartComponent implements OnInit {
 
     if (this.authCustomerService.isLoggedIn()) {
       this.cartSer.UpdateQty({ CustomerId, ProductId, NewQuantity }).subscribe({
-        next(e) {
+        next:(e)=> {
           if (e.data.success) {
-            data.qty = e.data.newQty
+            data.qty = e.data.newQty;
+            if(num==-1)
+              this.data!.Total-=data.price
+            else
+            this.data!.Total+=data.price
+
           } else {
             data.qty = data.qty
+            this.toastr.error(e.data.ErrorMsg)
           }
           console.log(e.data)
         }
 
       })
-    } else {
+    }
+    else {
       if (NewQuantity < 1) {
         NewQuantity = 1;
       } else if (NewQuantity > this.productMaxQty[ProductId]) {
@@ -104,6 +114,9 @@ export class CartComponent implements OnInit {
         }, 0) ?? 0;
       }
     }
+
+
+
   }
   UpdateQty(data: CartProduct, num: number) {
     this.newQty = num
@@ -149,5 +162,18 @@ export class CartComponent implements OnInit {
     this.route.navigate(['checkout']);
   }
 
-
+  removeProductFromCart(productID:string,price:number,qty:number){
+    let CustomerId = "1";
+    this.cartSer.deleteProductFromCart({productID,CustomerId}).subscribe({
+      next:(e)=>{
+        if(e.data.success){
+          this.data!.product=this.data!.product.filter(p=>p.product_id!=productID)
+          this.data!.Total-=(price*qty)
+          this.toastr.success("Product Deleted")
+        }else{
+          this.toastr.error(e.data.ErrorMsg)
+        }
+      }
+    })
+  }
 }

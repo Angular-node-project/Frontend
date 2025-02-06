@@ -110,7 +110,7 @@ export class CartService {
 
   deleteProductFromCart(data:any){
     return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, cart: Cart } }>
-    (`${this.baseUrl}/Del`,data);
+    (`${this.baseUrl}/delete`,data);
   }
 
 }

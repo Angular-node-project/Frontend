@@ -53,12 +53,5 @@ export class CheckoutComponent {
         },
       });
     }
-    // console.log(address);
-    // console.log(zipcode);
-    // console.log(phone_number);
-    // console.log(governorate);
-    // console.log(cart);
-
-
   }
 }

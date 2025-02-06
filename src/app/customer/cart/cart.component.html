@@ -9,7 +9,9 @@
             <!-- <span class="text-muted">{{data?.product?.length||0}} items</span> -->
           </div>
 
-
+          <div *ngIf="!data?.product?.length" class="alert alert-warning text-center">
+            Your cart is empty. <a routerLink="/products" class="text-danger fw-bold">Continue Shopping</a>
+          </div>
           <!-- Product Cards -->
           <div class="product-items">
             <!-- Product 1 -->
@@ -23,8 +25,12 @@
                   <img src=" " alt="No img " class="product-image">
                   }
                 </div>
+                
                 <div class="col-md-4">
                   <h6 class="mb-1">{{item.name}}</h6>
+                  @if(item.qty<=0){
+                    <span class="text-danger"> out of stock</span>
+                  }
                 </div>
                 <div class="col-md-3">
                   <div class="d-flex align-items-center gap-2">
@@ -38,7 +44,7 @@
                   <span class="fw-bold">${{item.price| number:'1.2-2'}}</span>
                 </div>
                 <div class="col-md-1">
-                  <i class="bi bi-trash fs-4 remove-btn"></i>
+                  <i class="bi bi-trash fs-4 remove-btn" (click)="removeFromCart(item.product_id);"></i>
                 </div>
               </div>
             </div>
@@ -72,7 +78,7 @@
               </div>
             </div> -->
 
-            <a class="btn btn-danger checkout-btn w-100 mb-3" routerLink="/checkout"
+            <a class="btn btn-danger checkout-btn w-100 mb-3" (click)="porceedToCheckout();"
             [attr.disabled]="data?.product?.length === 0"
             >
               Proceed to Checkout

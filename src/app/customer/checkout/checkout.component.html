@@ -6,22 +6,21 @@
         <div class="col-lg-8 col-12">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="mb-0">Billing details</h4>
-            <span class="text-muted">0 items</span>
           </div>
 
           <div class="d-flex flex-column gap-3 summary-card p-2">
             <div class="d-flex justify-content-between align-items-center mb-4">
             </div>
-          <div class="row">
-            <div class="col-12 mb-4">
+            <div class="row mx-2">
+              <div class="col-12 mb-4">
                 <div class="form-floating">
-                    <input required type="text" class="form-control" id="Address" #address  placeholder="Address">
-                    <label for="Address">Address</label>
+                  <input required type="text" class="form-control" id="Address" #address placeholder="Address">
+                  <label for="Address">Address</label>
                 </div>
-            </div>
-            <div class="col-6 mb-4">
+              </div>
+              <div class="col-6 mb-4">
                 <div class="form-floating">
-                  <select id="in-City" required class="form-control" #city>
+                  <select id="in-City" required class="form-select" #city>
                     <option value="">Select City</option>
                     <option value="cairo">Cairo</option>
                     <option value="alexandria">Alexandria</option>
@@ -50,37 +49,38 @@
                     <option value="south_sinai">South Sinai</option>
                     <option value="damietta">Damietta</option>
                     <option value="luxor">Luxor</option>
-                 </select>
-                    <!-- <label for="Governorate">Governorate</label> -->
+                  </select>
+                  <!-- <label for="Governorate">Governorate</label> -->
                 </div>
-            </div>
-            <div class="col-6 mb-4">
+              </div>
+              <div class="col-6 mb-4">
                 <div class="form-floating">
-                    <input required type="text" class="form-control" id="ZipCode"  placeholder="ZipCode" #zipCode>
-                    <label for="ZipCode">ZipCode</label>
+                  <input required type="text" class="form-control" id="ZipCode" placeholder="ZipCode" #zipCode>
+                  <label for="ZipCode">ZipCode</label>
                 </div>
-            </div>
-            <div class="col-12 mb-4">
+              </div>
+              <div class="col-12 mb-4">
                 <div class="form-floating">
-                    <input required type="text" class="form-control" id="Phone Number"  placeholder="Phone Number" #phoneNumber>
-                    <label for="Phone Number">Phone Number</label>
+                  <input required type="text" class="form-control" id="Phone Number" placeholder="Phone Number"
+                    #phoneNumber>
+                  <label for="Phone Number">Phone Number</label>
                 </div>
+              </div>
             </div>
-          </div>
 
-        </div>
+          </div>
 
         </div>
 
         <!-- * Summary Section -->
         <div class="col-lg-4">
-          <div class="summary-card p-4 shadow-sm">
+          <div class="summary-card mt-5  p-3 shadow-sm">
             <h5 class="mb-4">Order Summary</h5>
             @for (item of data?.product; track item.product_id) {
-              <div class="d-flex justify-content-between mb-3">
-                <span class="text-muted">{{item.name}} x {{item.qty}} </span>
-                <span>${{(item.price*item.qty).toFixed(2)}}</span>
-              </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">{{item.name}} x {{item.qty}} </span>
+              <span>${{(item.price*item.qty).toFixed(2)}}</span>
+            </div>
             }
 
 
@@ -92,7 +92,8 @@
             <hr>
 
 
-            <a (click)="addOrder(address.value,zipCode.value,phoneNumber.value,city.value)" class="btn btn-danger checkout-btn w-100 mb-3" routerLink="/checkout">
+            <a (click)="addOrder(address.value,zipCode.value,phoneNumber.value,city.value)"
+              class="btn btn-danger checkout-btn w-100 mb-3" routerLink="/checkout">
               Place Order
             </a>
 
@@ -107,4 +108,3 @@
     </div>
   </div>
 </div>
-

@@ -35,7 +35,6 @@ in(){
 
   ngOnInit(): void {
     if (this.authCustomerService.isLoggedIn()) {
-      console.log("666");
       this.cartSer.getCart().subscribe(e => {
         console.log(e);
         this.data = e
@@ -140,17 +139,31 @@ in(){
     })
   }
 
-  removeFromCart(product_id: string) {
+  removeFromCart(product_id: string,price:number,qty:number) {
 
     if (this.authCustomerService.isLoggedIn()) {
-
+      let CustomerId = "1";
+      this.cartSer.deleteProductFromCart({productID:product_id,CustomerId}).subscribe({
+        next:(e)=>{
+          if(e.data.success){
+            this.data!.product=this.data!.product.filter(p=>p.product_id!=product_id)
+            this.data!.Total-=(price*qty)
+            this.toastr.success("Product Deleted")  
+          }else{
+            this.toastr.error(e.data.ErrorMsg)
+          }
+        }
+      })
 
     } else {
       this.cartSer.removeProductFromCartGuest(product_id);
       if (this.data) {
         this.data.product = this.data?.product.filter(p => p.product_id != product_id);
+        this.data!.Total-=(price*qty)
+        console.log(this.data.Total);
       }
     }
+    this.cartSer.updateCartRegisterdCustomerProductNum()
   }
 
   porceedToCheckout(){
@@ -162,18 +175,6 @@ in(){
     this.route.navigate(['checkout']);
   }
 
-  removeProductFromCart(productID:string,price:number,qty:number){
-    let CustomerId = "1";
-    this.cartSer.deleteProductFromCart({productID,CustomerId}).subscribe({
-      next:(e)=>{
-        if(e.data.success){
-          this.data!.product=this.data!.product.filter(p=>p.product_id!=productID)
-          this.data!.Total-=(price*qty)
-          this.toastr.success("Product Deleted")
-        }else{
-          this.toastr.error(e.data.ErrorMsg)
-        }
-      }
-    })
-  }
+ 
+  
 }

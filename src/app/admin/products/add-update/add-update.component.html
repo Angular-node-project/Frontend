@@ -1,92 +1,118 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="mb-3">
-    <label for="productName" class="form-label">Product Name</label>
-    <input type="text" id="productName" class="form-control" formControlName="name" />
-    <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
-      Name must contain only letters and be at least 6 characters long.
-    </div>
-  </div>
- 
-  <!-- Categories -->
-  <div class="mb-3">
-    <label for="productCategories" class="form-label">Categories</label>
-    <ng-select 
-    [items]="categories"
-    bindLabel="name"
-    [formControlName]="'categories'"
-    [multiple]="true"
-    name="categories"
-    [closeOnSelect]="false"
-    [addTag]="true"
-    required>
-    <ng-template ng-option-tmp let-category="item">
-      <div class="d-flex align-items-center">
-        <input type="checkbox" 
-               [checked]="isSelected(category)" 
-               (change)="toggleSelect(category)" 
-               class="me-2" />
-        {{ category.name }}
+
+  <div class="row">
+    <div class="col-md-12 mb-2">
+      <label for="productName" class="form-label">Product Name</label>
+      <input type="text" id="productName" class="form-control rounded-0" formControlName="name" />
+      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+        Name must contain only letters and be at least 6 characters long.
       </div>
-    </ng-template>
-  </ng-select>
-  </div>
+    </div>
 
-  <!-- Description -->
-  <div class="mb-3">
-    <label for="productDescription" class="form-label">Description</label>
-    <textarea id="productDescription" class="form-control" formControlName="description"></textarea>
-  </div>
-
-  <!-- Quantity -->
-  <div class="mb-3">
-    <label for="productQuantity" class="form-label">Quantity</label>
-    <input type="number" id="productQuantity" class="form-control" formControlName="qty" />
-    <div *ngIf="form.get('qty')?.invalid && form.get('qty')?.touched" class="text-danger">
-      Quantity must be a positive integer.
+    <div class="col-md-12 mb-2">
+      <label for="productCategories" class="form-label">Categories</label>
+      <ng-select [items]="categories" bindLabel="name" [formControlName]="'categories'" [multiple]="true"
+        name="categories" [closeOnSelect]="false" [addTag]="true" required>
+        <ng-template ng-option-tmp let-category="item">
+          <div class="d-flex align-items-center rounded-0">
+            <input type="checkbox" [checked]="isSelected(category)" (change)="toggleSelect(category)" class="me-2" />
+            {{ category.name }}
+          </div>
+        </ng-template>
+      </ng-select>
     </div>
   </div>
 
-  <!-- Price -->
-  <div class="mb-3">
-    <label for="productPrice" class="form-label">Price</label>
-    <input type="number" id="productPrice" class="form-control" formControlName="price" />
-    <div *ngIf="form.get('price')?.invalid && form.get('price')?.touched" class="text-danger">
-      Price must be a positive number.
+  <div class="row">
+    <div class="col-md-6 mt-2">
+      <label for="productPrice" class="form-label">Price</label>
+      <input type="number" id="productPrice" class="form-control rounded-0" formControlName="price" />
+      <div *ngIf="form.get('price')?.invalid && form.get('price')?.touched" class="text-danger">
+        Price must be a positive number.
+      </div>
+
+    </div>
+    <div class="col-md-6 mt-2">
+      <label for="productQuantity" class="form-label">Quantity</label>
+      <input type="number" id="productQuantity" class="form-control rounded-0" formControlName="qty" />
+      <div *ngIf="form.get('qty')?.invalid && form.get('qty')?.touched" class="text-danger">
+        Quantity must be a positive integer.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 mt-2">
+      <label for="productSellerId" class="form-label">Seller</label>
+      <select id="productSellerId" class="form-select rounded-0" formControlName="seller_id">
+        <option *ngFor="let seller of sellers" [value]="seller.seller_id">{{ seller.name }}</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 mt-2">
+      <label for="productDescription" class="form-label">Description</label>
+      <textarea id="productDescription" class="form-control rounded-0" formControlName="description"></textarea>
+      <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
+       please Enter description
+      </div>
     </div>
   </div>
 
-  <!-- Seller -->
-  <div class="mb-3">
-    <label for="productSellerId" class="form-label">Seller</label>
-    <select id="productSellerId" class="form-control" formControlName="seller_id">
-      <option *ngFor="let seller of sellers" [value]="seller.seller_id">{{ seller.name }}</option>
-    </select>
+  <div class="row">
+    <div class="col-md-6 mt-3">
+      <button type="button" class="btn btn-primary rounded-0" (click)="fileInput.click()">add image +</button>
+      <input #fileInput type="file" class="d-none" (change)="onFileChange($event)" accept="image/*">
+    </div>
+
+    <div class="col-12 mt-3">
+      <div class="d-flex flex-wrap gap-2">
+        <div *ngFor="let image of imagePreviews; let i = index" class="position-relative img-container">
+          <img [src]="image" class="img-thumbnail">
+          <button type="button" class="btn btn-danger btn-sm delete-btn" (click)="removeImage(i)">
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+
+
+
+
   <!-- File Inputs for Images -->
-  <div class="mb-3">
+  <!-- <div class="mb-3">
     <label for="in-img1" class="form-label">Image 1</label>
     <input type="file" id="in-img1" class="form-control" (change)="onFileChange($event, 1)" accept="image/*">
 
 
   </div>
-  
+
   <div class="mb-3">
     <label for="in-img2" class="form-label">Image 2</label>
     <input type="file" id="in-img2" class="form-control" (change)="onFileChange($event, 2)" accept="image/*">
-  </div>
-  
-
+  </div> -->
   <!-- Image Previews -->
-  <div class="mb-3">
-    <img *ngIf="imagePreview1" [src]="imagePreview1" alt="Image 1 Preview" class="img-thumbnail" width="100" height="100">
-    <img *ngIf="imagePreview2" [src]="imagePreview2" alt="Image 2 Preview" class="img-thumbnail" width="100" height="100">
-  </div>
-  
-  <pre>{{ form.value | json }}</pre>
-  <pre>{{ form.valid }}</pre>
-  
+  <!-- <div class="mb-3">
+    <img *ngIf="imagePreview1" [src]="imagePreview1" alt="Image 1 Preview" class="img-thumbnail" width="100"
+      height="100">
+    <img *ngIf="imagePreview2" [src]="imagePreview2" alt="Image 2 Preview" class="img-thumbnail" width="100"
+      height="100">
+  </div> -->
+
+  <!-- <pre>{{ form.value | json }}</pre>
+  <pre>{{ form.valid }}</pre> -->
+
   <!-- Submit Button -->
-  <button type="submit" class="btn btn-success" [disabled]="form.invalid">
-    {{ isEditMode ? 'Update' : 'Save' }}
-  </button>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <button type="submit" class="btn btn-success rounded-0" [disabled]="form.invalid">
+        {{ isEditMode ? 'Update' : 'Save' }}
+      </button>
+    </div>
+
+  </div>
 </form>

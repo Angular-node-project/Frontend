@@ -6,8 +6,9 @@ import { ProductService } from '../_services/products.services';
 import { Product } from 'src/app/_models/product';
 import { Category } from 'src/app/_models/category';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 export declare const bootstrap: any;
 
@@ -15,7 +16,7 @@ export declare const bootstrap: any;
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
-  imports: [AddUpdateComponent, CommonModule,FormsModule]
+  imports: [AddUpdateComponent, CommonModule, FormsModule, RouterLink]
 })
 export class ProductsComponent implements OnInit {
   @ViewChild(AddUpdateComponent) addUpdateComponent!: AddUpdateComponent;
@@ -24,22 +25,27 @@ export class ProductsComponent implements OnInit {
   isEditMode: boolean = false;
   productToDelete: string | null = null;
   isLoading: boolean = true;
-    products: Product[] = [];
-    selectedCategory: string = '';
-    selectedSort: string = '';
-    currentPage = 1;
-    totalPages !: number;
-    pageNumbers: number[] = [];
-    totalResults: number = 0;
-    pageSize: number = 6;
-    sub!: Subscription;
-    status:string=''
-    search:string=''
-    @Input() isSidebarOpen = false;
-  constructor(private productservice:ProductService,private route: ActivatedRoute, private viewPortScroller: ViewportScroller) {
+  products: Product[] = [];
+  selectedCategory: string = '';
+  selectedSort: string = '';
+  currentPage = 1;
+  totalPages !: number;
+  pageNumbers: number[] = [];
+  totalResults: number = 0;
+  pageSize: number = 6;
+  sub!: Subscription;
+  status: string = ''
+  search: string = ''
+  @Input() isSidebarOpen = false;
+  constructor(
+    private productservice: ProductService
+    , private route: ActivatedRoute
+    , private viewPortScroller: ViewportScroller
+    , private toastr: ToastrService
+  ) {
 
   }
-  
+
 
   ngOnInit() {
     this.sub = this.route.paramMap.subscribe(params => {
@@ -60,7 +66,7 @@ export class ProductsComponent implements OnInit {
       });
     });
     this.selectedProduct = this.selectedProduct || { name: '', categories: '', description: '', qty: 0, price: 0, seller: { name: '' } };
-  
+
   }
 
   loadProducts(page: number): void {
@@ -69,7 +75,6 @@ export class ProductsComponent implements OnInit {
         this.products = response.data.products;
         this.totalPages = response.data.totalPages;
         this.totalResults = response.data.totalProductsCount;
-        this.generatePageNumbers();
         this.scrollToTop();
         this.isLoading = false;
       },
@@ -82,33 +87,28 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
-  
- 
+
+
   changeStatus(i: string, newStatus: string): void {
-    
+
     this.productservice.changeStatus(i, newStatus).subscribe({
       next: (response) => {
         this.loadProducts(this.currentPage);
         console.log('Status updated to:', newStatus);
-        
+        this.toastr.success("status changed successfully");
+
       },
       error: (err) => {
         console.error('Error updating status:', err);
+        this.toastr.error("something went wrong");
       }
     });
-  
-}
 
-changePage(page: number) {
-  if (page >= 1 && page <= this.totalPages) {
-    this.currentPage = page;
-    this.loadProducts(this.currentPage)
   }
-}
 
   changeSearch(name: string): void {
-    this.search=name;
-    this.currentPage = 1; 
+    this.search = name;
+    this.currentPage = 1;
     this.loadProducts(this.currentPage)
   }
 
@@ -123,7 +123,7 @@ changePage(page: number) {
 
   confirmDelete() {
     if (this.productToDelete) {
-      this.changeStatus(this.productToDelete,'inactive');
+      this.changeStatus(this.productToDelete, 'inactive');
       const modalElement = document.getElementById('deleteModal');
       if (modalElement) {
         const modal = bootstrap.Modal.getInstance(modalElement);
@@ -135,19 +135,10 @@ changePage(page: number) {
     }
   }
 
- 
-    
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
-  generatePageNumbers(): void {
-    this.pageNumbers = [];
-    for (let i = 1; i <= this.totalPages; i++) {
-      this.pageNumbers.push(i);
-    }
-  }
- 
-  
+
 
   ngAfterViewInit() {
     if (this.sidebarComponent) {
@@ -156,7 +147,7 @@ changePage(page: number) {
       );
     }
   }
-  
+
 
   addNewProduct() {
     this.isEditMode = false;
@@ -174,7 +165,7 @@ changePage(page: number) {
       modal.show();
     }
   }
-  
+
   onSaveProduct(product: any) {
     const modalElement = document.getElementById('productModal');
     if (modalElement) {
@@ -183,11 +174,11 @@ changePage(page: number) {
         modal.hide();
       }
     }
-   this.loadProducts(this.currentPage);
+    this.loadProducts(this.currentPage);
   }
-  
+
   onUpdate(product: any) {
-    this.selectedProduct = {...product}; 
+    this.selectedProduct = { ...product };
     this.isEditMode = true;
     const modalElement = document.getElementById('productModal');
     if (modalElement) {
@@ -195,7 +186,7 @@ changePage(page: number) {
       modal.show();
     }
   }
-  
+
   resetForm() {
     this.selectedProduct = {};
     this.isEditMode = false;
@@ -205,5 +196,5 @@ changePage(page: number) {
   scrollToTop(): void {
     this.viewPortScroller.scrollToPosition([0, 0])
   }
- 
+
 }

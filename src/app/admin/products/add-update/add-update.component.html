@@ -1,29 +1,75 @@
-<!--
 <form (ngSubmit)="onSubmit()">
+  <!-- Product Name Input -->
   <div class="mb-3">
     <label for="productName" class="form-label">Product Name</label>
-    <input type="text" id="productName" class="form-control" [(ngModel)]="product.name" name="name" required />
+    <input type="text" id="productName" class="form-control" [(ngModel)]="selectedProduct.name" name="name" required />
   </div>
+
+  <!-- Categories Input -->
   <div class="mb-3">
-    <label for="productCategory" class="form-label">Category</label>
-    <input type="text" id="productCategory" class="form-control" [(ngModel)]="product.category" name="category" required />
+    <label for="productCategories" class="form-label">Categories</label>
+    <ng-select 
+      [items]="categories" 
+      bindLabel="name" 
+      [(ngModel)]="selectedProduct.categories" 
+      [multiple]="true" 
+      name="categories"
+      [closeOnSelect]="false" 
+      [addTag]="true" 
+      required>
+      <ng-template ng-option-tmp let-category="item">
+        <div class="d-flex align-items-center">
+          <input type="checkbox" [checked]="isSelected(category)" (change)="toggleSelect(category)" class="me-2" />
+          {{ category.name }}
+        </div>
+      </ng-template>
+    </ng-select>
   </div>
+
+  <!-- Description Input -->
   <div class="mb-3">
     <label for="productDescription" class="form-label">Description</label>
-    <textarea id="productDescription" class="form-control" [(ngModel)]="product.description" name="description" required></textarea>
+    <textarea id="productDescription" class="form-control" [(ngModel)]="selectedProduct.description" name="description" required></textarea>
   </div>
+
+  <!-- Quantity Input -->
   <div class="mb-3">
     <label for="productQuantity" class="form-label">Quantity</label>
-    <input type="number" id="productQuantity" class="form-control" [(ngModel)]="product.quantity" name="quantity" required />
+    <input type="number" id="productQuantity" class="form-control" [(ngModel)]="selectedProduct.qty" name="quantity" required />
   </div>
+
+  <!-- Price Input -->
   <div class="mb-3">
     <label for="productPrice" class="form-label">Price</label>
-    <input type="number" id="productPrice" class="form-control" [(ngModel)]="product.price" name="price" required />
+    <input type="number" id="productPrice" class="form-control" [(ngModel)]="selectedProduct.price" name="price" required />
   </div>
+
+  <!-- Seller Input -->
   <div class="mb-3">
-    <label for="productSellerId" class="form-label">Seller ID</label>
-    <input type="text" id="productSellerId" class="form-control" [(ngModel)]="product.sellerId" name="sellerId" required />
+    <label for="productSellerId" class="form-label">Seller Name</label>
+    <select id="productSellerId" class="form-control" [(ngModel)]="selectedProduct.seller_id" name="sellerId" required>
+      <option *ngFor="let seller of sellers" [value]="seller.seller_id">{{ seller.name }}</option>
+    </select>
   </div>
+
+  <!-- File Inputs for Images -->
+  <div class="mb-3">
+    <label for="in-img1" class="form-label">Image 1</label>
+    <input type="file" id="in-img1" class="form-control" (change)="onFileChange($event)" accept="image/*" multiple>
+  </div>
+  
+  <div class="mb-3">
+    <label for="in-img2" class="form-label">Image 2</label>
+    <input type="file" id="in-img2" class="form-control" (change)="onFileChange($event)" accept="image/*" multiple>
+  </div>
+  
+
+  <!-- Image Previews -->
+  <div class="mb-3">
+    <img *ngIf="imagePreview1" [src]="imagePreview1" alt="Image 1 Preview" class="img-thumbnail" width="150">
+    <img *ngIf="imagePreview2" [src]="imagePreview2" alt="Image 2 Preview" class="img-thumbnail" width="150">
+  </div>
+
+  <!-- Submit Button -->
   <button type="submit" class="btn btn-success">{{ isEditMode ? 'Update' : 'Save' }}</button>
 </form>
--->

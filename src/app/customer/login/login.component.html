@@ -16,7 +16,7 @@
           <div *ngIf="form.get('password')?.errors?.['minlength']">Password must be at least 6 characters</div>
         </div>
       </div>
-      <a href="#" style="float: right; margin-bottom: 10px;">Forgot Password?</a>
+      <!-- <a href="#" style="float: right; margin-bottom: 10px;">Forgot Password?</a> -->
 
       <button type="submit" (click)="login()" [disabled]="!form.valid">Log In</button>
     </form>

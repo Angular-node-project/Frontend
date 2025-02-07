@@ -2,12 +2,18 @@
     <a [routerLink]="['/productdetails',product.product_id]">
         <img src="{{product.pics[0]}}" alt="Birdnest Japanese">
     </a>
-    <a class="add-to-cart" (click)="addProductToCart(product.product_id)" >
+    <a class="add-to-cart" (click)="addProductToCart(product.product_id)">
         <i class="fa-solid fa-basket-shopping fa-1x"></i>
     </a>
-    <a class="add-to-fav" href="#">
+    <!-- <a class="add-to-fav" href="#">
         <i class="fa-solid fa-heart fa-1x"></i>
-    </a>
+    </a> -->
     <h6 class="pt-3">{{product.name}}</h6>
-    <p> <span class="category"> {{product.categories[0].name}}</span><br> <span class="price"> $ {{product.price}}</span> </p>
+    <p>
+        @if(product.qty<1){ <span class="text-danger">out of stock</span>
+            }@else{
+            <span class="category"> {{product.categories[0].name}}</span><br>
+            <span class="price"> $ {{product.price}}</span>
+            }
+    </p>
 </div>

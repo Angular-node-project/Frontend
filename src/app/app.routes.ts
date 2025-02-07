@@ -60,10 +60,9 @@ export const routes: Routes = [
             { path: 'login', component: AdminLoginComponent },
             {path: '',redirectTo: 'login',pathMatch: 'full'},
             {path: '',component: AdminComponent
-              //  canActivate: [adminAuthGuard]
                 ,children: [
                     { path: 'dashboard', component: DashboardComponent },
-                    { path: 'products', redirectTo: '/products/1', pathMatch: 'full' },
+                    {path:'products',redirectTo:"products/1",pathMatch:'full'},
                     { path: 'products/:page', component: ProductsComponent },
                     { path: 'profile', component: ProfileComponent },
                     { path: 'clerk', component: ClerkComponent },

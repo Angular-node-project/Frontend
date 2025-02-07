@@ -5,7 +5,8 @@
        (click)="onLinkClick()">
        <i class="fa-solid fa-chart-line"></i> Dashboard
     </a>
-    <a routerLink="/admin/products/1"
+    <a routerLink="/admin/products"
+      [routerLinkActiveOptions]="{exact:false}"
        routerLinkActive="active"
        (click)="onLinkClick()">
        <i class="fa-solid fa-box"></i> Products

@@ -22,7 +22,7 @@
     text-decoration: none;
     padding: 12px 20px;
     margin: 5px 0;
-    border-radius: 8px;
+    border-radius: 0px;
     transition: 0.3s;
     width: 100%;
     font-size: 16px;
@@ -32,6 +32,7 @@
   .sidebar a i {
     margin-right: 12px;
     font-size: 18px;
+
   }
   
   .sidebar a:hover,

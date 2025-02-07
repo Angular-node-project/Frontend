@@ -23,6 +23,7 @@ import { SellerProductsComponent } from './seller/seller-products/seller-product
 import { SellerProfileComponent } from './seller/seller-profile/seller-profile.component';
 import { ClerkComponent } from './admin/clerk/clerk.component';
 import { authCustomerGuard } from './customer/authCustomer.guard';
+import { SellersComponent } from './admin/sellers/sellers.component';
 
 
 export const routes: Routes = [
@@ -64,7 +65,9 @@ export const routes: Routes = [
                     {path:'products',redirectTo:"products/1",pathMatch:'full'},
                     { path: 'products/:page', component: ProductsComponent },
                     { path: 'profile', component: ProfileComponent },
-                    { path: 'clerk', component: ClerkComponent }
+                    { path: 'clerk', component: ClerkComponent },
+                    { path: 'seller', redirectTo: '/seller/1', pathMatch: 'full' },
+                    { path: 'seller/:page', component: SellersComponent }
                 ]
             }
         ]

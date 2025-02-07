@@ -17,5 +17,14 @@ export class SellerService {
     var result = this.http.get<any>(`${this.baseUrl}/${status}`);
     return result;
   }
+  getAllsellers(page: number,sort:string,status:string,search:String): Observable<Response<any>> {
+    var result = this.http.get<any>(`${this.baseUrl}?page=${page}&sort=${sort}&status=${status}&search=${search}`);
+    return result;
+  }
+  Changestatus(id:string,status:string):Observable<Response<any>>
+  {
+    var result = this.http.patch<any>(`${this.baseUrl}/changeStatus/${id}/${status}`,{});
+    return result;
+  }
 
 }

@@ -6,6 +6,7 @@ import { Response } from '../../_models/response';
 import { Product } from '../../_models/product';
 import { Category } from 'src/app/_models/category';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,5 +27,11 @@ export class ProductService {
     var result= this.http.get<Response<Category[]>>(`${this.baseUrl}/categories`);
     return result;
    }
+   addReview(review:any,productId:string):Observable<Response<Product>>{
+    var result= this.http.post<Response<Product>>(`${this.baseUrl}/addReview/${productId}`,review);
+    return result;
+
+   }
+
    
 }

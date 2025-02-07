@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { ProductService } from '../_services/product.service';
 import { Product } from '../../_models/product';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { CartService } from '../_services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthCustomerService } from '../_services/authCustomer.service';
+
 
 
 @Component({
@@ -21,12 +22,18 @@ import { AuthCustomerService } from '../_services/authCustomer.service';
   }
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
-  constructor(private productService: ProductService, private authCustomerService: AuthCustomerService, private route: ActivatedRoute, private cartSer: CartService, public toastr: ToastrService) {
+  constructor(private productService: ProductService
+    , private authCustomerService: AuthCustomerService
+    , private route: ActivatedRoute
+    , private cartSer: CartService
+    , public toastr: ToastrService
+    , private viewPortScroller: ViewportScroller
+  ) {
     // Add Font Awesome CSS
-    const link = document.createElement('link');
-    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
+    // const link = document.createElement('link');
+    // link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+    // link.rel = 'stylesheet';
+    // document.head.appendChild(link);
   }
 
   selectedProduct!: Product;
@@ -38,7 +45,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   hoverRating: number = 0;
   review: string = '';
   initialQty = "1";
-  productMaxQty:number=0;
+  productMaxQty: number = 0;
+  @ViewChild('comment') commentTextarea!: ElementRef;
+  comment: string = "";
+
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(param => {
@@ -47,9 +57,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         this.getProductDetails(id);
       }
     })
+ 
+
   }
   getProductDetails(id: string) {
     this.sub = this.productService.getProductDetails(id).subscribe(response => {
+      console.log(response)
       this.selectedProduct = response.data;
       if (response.data.pics && response.data.pics.length > 0) {
         this.images = response.data.pics.map((pic, index) => ({
@@ -57,11 +70,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           alt: `Product Image ${index + 1}`,
           active: index === 0
         }))
-        this.productMaxQty=response.data.qty;
+        this.productMaxQty = response.data.qty;
 
       }
       this.selectedImage = this.images[0];
     })
+
   }
 
   selectImage(image: any) {
@@ -88,9 +102,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     let customer_id = 1;
     if (Qty <= 0) {
       this.toastr.error("qty must be more than 1");
-    }else if(Qty>this.productMaxQty){
+    } else if (Qty > this.productMaxQty) {
       this.toastr.error("the qty added must be less than max product qty");
-    } 
+    }
     else {
       if (this.authCustomerService.isLoggedIn()) {
         this.cartSer.addProductToCart({ productId, customer_id, qty }).subscribe({
@@ -105,11 +119,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           }
         })
       } else {
-        if(Qty> this.productMaxQty){
+        if (Qty > this.productMaxQty) {
           this.toastr.error("the qty added must be less than max product qty");
-        }else{
+        } else {
 
-          this.cartSer.updateProductToCartGuest({productId,qty:Qty},'more');
+          this.cartSer.updateProductToCartGuest({ productId, qty: Qty }, 'more');
           this.toastr.success("qty addedd successfully")
         }
       }
@@ -123,6 +137,61 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.initialQty = "1"
   }
 
+  addReview() {
+    var review = {
+      rate: this.rating,
+      comment: this.commentTextarea.nativeElement.value
+    }
+    if (this.rating < 1) {
+      this.toastr.error("please provide atleast rate before add review");
+    } else {
 
+      this.productService.addReview(review, this.selectedProduct.product_id).subscribe({
+        next: (res) => {
+          this.scrollToTop();
+          if (res.data) {
+            this.resetForm();
+            this.toastr.success("review added successfully");
+            this.selectedProduct.reviews.push(
+              {customer:{customer_id:"",name:this.authCustomerService.getLoggedInName()},
+               rate:this.rating,
+               comment:this.commentTextarea.nativeElement.value,
+               created_at:new Date
+            }
+            )
+          } else {
+            this.resetForm();
+            this.toastr.error("you already have added commint on this product");
+          }
+        }, error: (error) => {
+          this.scrollToTop();
+          this.resetForm();
+          this.toastr.error(error.error.message);
+        }
+      })
+    }
 
+  }
+
+  isLoggedIn() {
+    return this.authCustomerService.isLoggedIn();
+  }
+  canAddReview() {
+    return this.selectedProduct.doesCustomerOrderThisProduct;
+  }
+
+  scrollToTop(): void {
+    this.viewPortScroller.scrollToPosition([0, 0])
+  }
+
+  resetForm() {
+    setTimeout(() => {
+      this.rating = 0;
+      this.hoverRating = 0;
+      this.comment = "";
+      if (this.commentTextarea) {
+        this.commentTextarea.nativeElement.value = "";
+      }
+    },0);
+  }
 }

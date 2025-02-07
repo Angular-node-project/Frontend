@@ -48,6 +48,7 @@ export class LoginComponent {
             this.toastr.error("no products to order");
           }
         }else{
+          localStorage.removeItem('cart');
           this.router.navigate(['/']);
         }
       },

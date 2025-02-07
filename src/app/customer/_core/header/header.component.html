@@ -21,13 +21,13 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link p-2 p-lg-3 mx-2" [routerLink]="['/about']" routerLinkActive="router-link-active"
+          <a class="nav-link p-2 p-lg-3 mx-2" [routerLink]="['/about']" routerLinkActive="active"
             [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">About</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link p-2 p-lg-3 mx-2" [routerLink]="['/contact-us']" routerLinkActive="router-link-active"
-            [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">contact</a>
+          <a class="nav-link p-2 p-lg-3 mx-2" [routerLink]="['/contact-us']" routerLinkActive="active"
+            [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">Contact</a>
         </li>
       </ul>
       <div class="icons d-none d-lg-flex">
@@ -40,15 +40,15 @@
         </a>
 
 
-        <a href="#" class="cart position-relative text-decoration-none">
+        <!-- <a href="#" class="cart position-relative text-decoration-none">
           <i class="fa-solid fa-heart fa-1x" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"></i>
           <span class="position-absolute top-0 start-100 cart-count"
             [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"
             style="transform: translate(20%, -20%);">3</span>
-        </a>
+        </a> -->
         @if(isLoggedIn){
         <a href="#" class="user ms-3 text-decoration-none">
-          <i class="fa-solid fa-user fa-1x" style="font-size: medium" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"> {{loggedInName}}</i>
+          <i class="fa-solid fa-user fa-1x" style="font-size: medium" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"> <span class="header-name mx-1" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">{{loggedInName}}</span></i>
         </a>
         }
         @if(!isLoggedIn){

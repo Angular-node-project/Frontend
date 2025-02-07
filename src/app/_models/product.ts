@@ -9,6 +9,7 @@ export class Product {
       public seller_id: string,
       public status: "active" | "inactive" | "pending" | "outStock",
       public pics: string[] = [],
-      public reviews: { customer: {customer_id: string,name:string}, rate: number; comment?: string ,created_at:Date}[] = []
+      public reviews: { customer: {customer_id: string,name:string}, rate: number; comment?: string ,created_at:Date}[] = [],
+      public doesCustomerOrderThisProduct:boolean
     ) {}
   }

@@ -231,6 +231,7 @@ body {
     font-weight: 600;
     color: #333;
     margin-bottom: 1rem;
+    font-family: var(--secondary-font-family);
 }
 
 .description-subtitle {
@@ -396,6 +397,7 @@ textarea.form-control:focus {
 
 .review-item {
     transition: all 0.3s ease;
+    border:2px solid #d3d3d3;
 }
 
 .review-item:hover {

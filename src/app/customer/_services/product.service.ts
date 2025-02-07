@@ -23,7 +23,7 @@ export class ProductService {
     var result=this.http.get<Response<Product>>(`${this.baseUrl}/${id}`);
     return result;
   }
-   getActiveCategories():Observable<Response<any>>{
+   getActiveCategories():Observable<Response<Category[]>>{
     var result= this.http.get<Response<Category[]>>(`${this.baseUrl}/categories`);
     return result;
    }

@@ -82,7 +82,7 @@ export class AddUpdateComponent implements OnInit ,OnChanges{
         price: product.price || '',
         qty: product.qty || '',
         status: product.status || 'active',
-        seller_id: product.seller_id || '',
+        seller_id: product.seller.seller_id || '',
         categories: this.selectedCategories,
       });
     }
@@ -92,15 +92,15 @@ export class AddUpdateComponent implements OnInit ,OnChanges{
   isSelected(item: any): boolean {
     return this.selectedProduct.categories?.some((category: any) => category.category_id === item.category_id);
   }
-  toggleSelect(item: any): void {
-    if (this.isSelected(item)) {
-      this.selectedCategories = this.selectedCategories.filter(category => category.category_id !== item.category_id);
-    } else {
-      this.selectedCategories.push({ category_id: item.category_id, name: item.name });
-    }
-    this.form.controls['categories'].setValue([...this.selectedCategories]);
+ toggleSelect(item: any): void {
+  if (this.isSelected(item)) {
+    this.selectedCategories = this.selectedCategories.filter(category => category.category_id !== item.category_id);
+  } else {
+    this.selectedCategories.push({ category_id: item.category_id, name: item.name });
   }
-  
+  this.form.controls['categories'].setValue([...this.selectedCategories]);
+}
+
   
   
   

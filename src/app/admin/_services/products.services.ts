@@ -31,10 +31,10 @@ export class ProductService {
 
   
 
-  addProduct(productData: any): Observable<Response<any>> {
+  addProduct(productData: Product): Observable<Response<any>> {
     return this.http.post<any>(`${this.baseUrl}`, productData);
   }
- UpdateProduct(productData: any,productId:string): Observable<Response<any>> {
+ UpdateProduct(productData: Product,productId:string): Observable<Response<any>> {
     return this.http.patch<any>(`${this.baseUrl}/${productId}`, productData);
   }
 

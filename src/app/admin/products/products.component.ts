@@ -187,8 +187,8 @@ changePage(page: number) {
   }
   
   onUpdate(product: any) {
+    this.selectedProduct = {...product}; 
     this.isEditMode = true;
-    this.selectedProduct = { ...product };
     const modalElement = document.getElementById('productModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);

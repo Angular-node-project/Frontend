@@ -11,16 +11,21 @@
           <div class="d-flex flex-column gap-3 summary-card p-2">
             <div class="d-flex justify-content-between align-items-center mb-4">
             </div>
+            <form [formGroup]="form" method="post">
+
             <div class="row mx-2">
               <div class="col-12 mb-4">
                 <div class="form-floating">
-                  <input required type="text" class="form-control" id="Address" #address placeholder="Address">
+                  <input required type="text" class="form-control" id="Address" #address placeholder="Address" formControlName="Address">
                   <label for="Address">Address</label>
+                  <div *ngIf="form.get('Address')?.touched && form.get('Address')?.invalid" class="error-message">
+                    <div *ngIf="form.get('Address')?.errors?.['required']">Address is required</div>
+                  </div>
                 </div>
               </div>
               <div class="col-6 mb-4">
                 <div class="form-floating">
-                  <select id="in-City" required class="form-select" #city>
+                  <select id="in-City" required class="form-select" #city  formControlName="city">
                     <option value="">Select City</option>
                     <option value="cairo">Cairo</option>
                     <option value="alexandria">Alexandria</option>
@@ -50,23 +55,46 @@
                     <option value="damietta">Damietta</option>
                     <option value="luxor">Luxor</option>
                   </select>
+                  <div *ngIf="form.get('city')?.touched && form.get('city')?.invalid" class="error-message">
+                    <div *ngIf="form.get('city')?.errors?.['required']">city is required</div>
+                  </div>
+
                   <!-- <label for="Governorate">Governorate</label> -->
                 </div>
               </div>
               <div class="col-6 mb-4">
                 <div class="form-floating">
-                  <input required type="text" class="form-control" id="ZipCode" placeholder="ZipCode" #zipCode>
+                  <input required type="text" class="form-control" id="ZipCode" placeholder="ZipCode" #zipCode  formControlName="zipCode">
                   <label for="ZipCode">ZipCode</label>
+                </div>
+                <div *ngIf="form.get('zipCode')?.touched && form.get('zipCode')?.invalid" class="error-message">
+                  <div *ngIf="form.get('zipCode')?.errors?.['required']">zipCode is required</div>
+                  <div *ngIf="form.get('zipCode')?.errors?.['minlength']">zipCode min length is 5</div>
                 </div>
               </div>
               <div class="col-12 mb-4">
                 <div class="form-floating">
                   <input required type="text" class="form-control" id="Phone Number" placeholder="Phone Number"
-                    #phoneNumber>
+                    #phoneNumber formControlName="phone_number">
                   <label for="Phone Number">Phone Number</label>
+                  <div *ngIf="form.get('phone_number')?.touched && form.get('phone_number')?.invalid" class="error-message">
+                    <div *ngIf="form.get('phone_number')?.errors?.['required']">phone_number is required</div>
+                    <div *ngIf="form.get('phone_number')?.errors?.['pattern']">Phone Number Must Dtart with (010/011/012/015) followed by 8 digits</div>
+                  </div>
                 </div>
               </div>
+
+              <div class="col-12 mb-4">
+                <div class="form-floating ">
+                  <textarea #addinfo name="" id=""  rows="4" class="col-12 form-control"  placeholder="Additional Details"></textarea>
+                  <label for="Additional Details">Additional Details</label>
+                </div>
+              </div>
+
+
             </div>
+
+            </form>
 
           </div>
 
@@ -92,7 +120,7 @@
             <hr>
 
 
-            <a (click)="addOrder(address.value,zipCode.value,phoneNumber.value,city.value)"
+            <a (click)="addOrder(address.value,zipCode.value,phoneNumber.value,city.value,addinfo.value)"
               class="btn btn-danger checkout-btn w-100 mb-3" routerLink="/checkout">
               Place Order
             </a>

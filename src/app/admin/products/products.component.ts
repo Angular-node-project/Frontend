@@ -1,11 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, ViewChild, OnInit, Input } from '@angular/core';
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { Component, ViewChild, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AddUpdateComponent } from "./add-update/add-update.component";
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { ProductService } from '../_services/products.services';
 import { Product } from 'src/app/_models/product';
 import { Category } from 'src/app/_models/category';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 export declare const bootstrap: any;
 
@@ -13,17 +15,16 @@ export declare const bootstrap: any;
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
-  imports: [AddUpdateComponent, CommonModule]
+  imports: [AddUpdateComponent, CommonModule,FormsModule]
 })
 export class ProductsComponent implements OnInit {
   @ViewChild(AddUpdateComponent) addUpdateComponent!: AddUpdateComponent;
   @ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
   selectedProduct: any = null;
   isEditMode: boolean = false;
-  productToDelete: number | null = null;
+  productToDelete: string | null = null;
   isLoading: boolean = true;
     products: Product[] = [];
-    categories: Category[] = [];
     selectedCategory: string = '';
     selectedSort: string = '';
     currentPage = 1;
@@ -32,16 +33,20 @@ export class ProductsComponent implements OnInit {
     totalResults: number = 0;
     pageSize: number = 6;
     sub!: Subscription;
-    status:string='';
-    isSidebarOpen=false;
+    status:string=''
+    search:string=''
+    @Input() isSidebarOpen = false;
+  constructor(private productservice:ProductService,private route: ActivatedRoute, private viewPortScroller: ViewportScroller) {
 
-  constructor(private productservice:ProductService) {
-    this.products = [
-//{ product_id: '1', name: 'Test Product',categories: 'Test', description: 'Test Description ', quantity: 10, price: 100, sellerId: '1', status:'active' }
-    ];
   }
+  
 
   ngOnInit() {
+    this.sub = this.route.paramMap.subscribe(params => {
+      this.currentPage = +params.get('page')!;
+      console.log(this.currentPage);
+      this.loadProducts(this.currentPage);
+    });
     if (this.sidebarComponent) {
       this.sidebarComponent.sidebarState$.subscribe(
         state => this.isSidebarOpen = state
@@ -54,16 +59,19 @@ export class ProductsComponent implements OnInit {
         new bootstrap.Dropdown(dropdownToggle);
       });
     });
+    this.selectedProduct = this.selectedProduct || { name: '', categories: '', description: '', qty: 0, price: 0, seller: { name: '' } };
+  
   }
+
   loadProducts(page: number): void {
-    this.productservice.getAllProducts(page,this.selectedSort, this.selectedCategory,this.status).subscribe({
+    this.productservice.getAllProducts(page, this.selectedSort, this.selectedCategory, this.status, this.search).subscribe({
       next: (response) => {
         this.products = response.data.products;
         this.totalPages = response.data.totalPages;
         this.totalResults = response.data.totalProductsCount;
         this.generatePageNumbers();
-
-        this.isLoading=false;
+        this.scrollToTop();
+        this.isLoading = false;
       },
       error: () => {
         console.log('Error loading products');
@@ -74,75 +82,37 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
-
-  generatePageNumbers(): void {
-    this.pageNumbers = [];
-    for (let i = 1; i <= this.totalPages; i++) {
-      this.pageNumbers.push(i);
-    }
-  }
-
-
-
-  addNewProduct() {
-   this.isEditMode = false;
-    this.selectedProduct = {};
-    // Show the modal
-    const modalElement = document.getElementById('productModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  ngAfterViewInit() {
-    console.log('AddUpdateComponent:', this.addUpdateComponent);
-  }
-
-  onUpdate(product: any) {
-    this.isEditMode = true;
-    this.selectedProduct = { ...product };
-    // Show the modal
-    const modalElement = document.getElementById('productModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
-  onSaveProduct(product: any) {
-    if (this.isEditMode) {
-
-
-    } else {
-      const newProduct = {
-        ...product,
-        id: this.products.length + 1,
-        status: 'Active'
-      };
-      this.products.push(newProduct);
-    }
-
-    // Close modal first
-    const modalElement = document.getElementById('productModal');
-    if (modalElement) {
-      const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
+  
+ 
+  changeStatus(i: string, newStatus: string): void {
+    
+    this.productservice.changeStatus(i, newStatus).subscribe({
+      next: (response) => {
+        this.loadProducts(this.currentPage);
+        console.log('Status updated to:', newStatus);
+        
+      },
+      error: (err) => {
+        console.error('Error updating status:', err);
       }
-    }
+    });
+  
+}
 
-    // Then reset the form
-    this.selectedProduct = {};
-    this.isEditMode = false;
+changePage(page: number) {
+  if (page >= 1 && page <= this.totalPages) {
+    this.currentPage = page;
+    this.loadProducts(this.currentPage)
+  }
+}
+
+  changeSearch(name: string): void {
+    this.search=name;
+    this.currentPage = 1; 
+    this.loadProducts(this.currentPage)
   }
 
-  resetForm() {
-    this.selectedProduct = {};
-    this.isEditMode = false;
-  }
-
-  onDelete(productId: number) {
+  onDelete(productId: string) {
     this.productToDelete = productId;
     const modalElement = document.getElementById('deleteModal');
     if (modalElement) {
@@ -153,7 +123,7 @@ export class ProductsComponent implements OnInit {
 
   confirmDelete() {
     if (this.productToDelete) {
-
+      this.changeStatus(this.productToDelete,'inactive');
       const modalElement = document.getElementById('deleteModal');
       if (modalElement) {
         const modal = bootstrap.Modal.getInstance(modalElement);
@@ -165,19 +135,75 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  changeStatus(i: number, newStatus: string): void {
-
-    console.log('Status updated to:', newStatus);
-  }
-
+ 
+    
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
-
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      // Add your logic to fetch data for the new page
+  generatePageNumbers(): void {
+    this.pageNumbers = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      this.pageNumbers.push(i);
     }
   }
+ 
+  
+
+  ngAfterViewInit() {
+    if (this.sidebarComponent) {
+      this.sidebarComponent.sidebarState$.subscribe(
+        state => this.isSidebarOpen = state
+      );
+    }
+  }
+  
+
+  addNewProduct() {
+    this.isEditMode = false;
+    this.selectedProduct = {
+      name: '',
+      categories: [],
+      description: '',
+      qty: 0,
+      price: 0,
+      seller_id: ''
+    };
+    const modalElement = document.getElementById('productModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  
+  onSaveProduct(product: any) {
+    const modalElement = document.getElementById('productModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
+   this.loadProducts(this.currentPage);
+  }
+  
+  onUpdate(product: any) {
+    this.selectedProduct = {...product}; 
+    this.isEditMode = true;
+    const modalElement = document.getElementById('productModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  
+  resetForm() {
+    this.selectedProduct = {};
+    this.isEditMode = false;
+  }
+
+
+  scrollToTop(): void {
+    this.viewPortScroller.scrollToPosition([0, 0])
+  }
+ 
 }

@@ -27,22 +27,25 @@
                             <span class="price">${{selectedProduct.price}}</span>
                             <span class="shipping">+ Free Shipping</span>
                         </div>
-                        @if(selectedProduct.qty<1){
-                            <p class="text-danger">out of stock</p>
-                        }
-                        <p class="description mb-4">
-                            {{selectedProduct.description}}
-                        </p>
-                        <div class="d-flex gap-3 mb-4">
-                            <input #in1 [disabled]="selectedProduct.qty<1" (blur)="resetQty(initialQty)" [(ngModel)]="initialQty" type="number" class="form-control quantity-input"  min="1">
-                            <button [disabled]="selectedProduct.qty<1" (click)="addProductToCart(selectedProduct.product_id,in1.value)" class="btn btn-add-to-cart">Add to Cart</button>
-                        </div>
-                        <div class="divider"></div>
-                        <div class="categories-section mt-4">
-                            <p class="categories-text mb-2">Categories: <span
-                                    *ngFor="let category of selectedProduct.categories let first = first"> {{first ? '' : ', '}}{{category.name}} </span> </p>
+                        @if(selectedProduct.qty<1){ <p class="text-danger">out of stock</p>
+                            }
+                            <p class="description mb-4">
+                                {{selectedProduct.description}}
+                            </p>
+                            <div class="d-flex gap-3 mb-4">
+                                <input #in1 [disabled]="selectedProduct.qty<1" (blur)="resetQty(initialQty)"
+                                    [(ngModel)]="initialQty" type="number" class="form-control quantity-input" min="1">
+                                <button [disabled]="selectedProduct.qty<1"
+                                    (click)="addProductToCart(selectedProduct.product_id,in1.value)"
+                                    class="btn btn-add-to-cart">Add to Cart</button>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="categories-section mt-4">
+                                <p class="categories-text mb-2">Categories: <span
+                                        *ngFor="let category of selectedProduct.categories let first = first"> {{first ?
+                                        '' : ', '}}{{category.name}} </span> </p>
 
-                        </div>
+                            </div>
                     </div>
 
                     <div class="col-12">
@@ -53,7 +56,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" [class.active]="activeTab === 'reviews'"
-                                    (click)="setActiveTab('reviews')">Reviews (0)</a>
+                                    (click)="setActiveTab('reviews')">Reviews ({{selectedProduct.reviews.length}})</a>
                             </li>
                         </ul>
 
@@ -71,6 +74,8 @@
                             <div class="tab-pane p-1" [class.show]="activeTab === 'reviews'"
                                 [class.active]="activeTab === 'reviews'">
                                 <div class="card p-4">
+                                    @if(isLoggedIn()){
+                                    @if(canAddReview()){
                                     <div class="card-body">
                                         <h5 class="card-title mb-4">Add review to help us improve</h5>
                                         <div class="mb-3">
@@ -85,16 +90,23 @@
                                         <div class="mb-3">
                                             <label class="form-label"> Your Review </label>
                                             <textarea class="form-control" rows="4"
-                                                placeholder="share your thoughts about this product ..."></textarea>
+                                                placeholder="share your thoughts about this product ..."
+                                                #comment></textarea>
                                         </div>
-                                        <button class="btn btn-primary">Submit</button>
+                                        <button class="btn btn-primary" (click)="addReview();">Submit</button>
                                     </div>
+                                    }@else {
+                                        <h5 class="card-title mx-3 mb-4">you must purchase this product before rating it</h5>
+                                    }
+                                    }@else{
+                                    <h5 class="card-title mx-3 mb-4">"please log in to add comment" </h5>
+                                    }
                                 </div>
                                 <div class="reviews-list mt-4">
                                     <h5 class="mb-3">Customer Reviews</h5>
                                     @if(selectedProduct.reviews.length > 0){
-                                    <div class="reviews-container" style="max-height: 400px; overflow-y: auto;">
-                                        <div class="review-item card mb-3"
+                                    <div class="reviews-container" style="max-height: 200px; overflow-y: auto;">
+                                        <div class="review-item p-2 mb-3"
                                             *ngFor="let review of selectedProduct.reviews">
                                             <div class="card-body">
                                                 <div class="d-flex justify-content-between align-items-center mb-2">

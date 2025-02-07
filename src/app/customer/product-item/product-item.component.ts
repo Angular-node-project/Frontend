@@ -5,6 +5,7 @@ import { CartService } from '../_services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthCustomerService } from '../_services/authCustomer.service';
 import { ProductService } from '../_services/product.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-customer-product-item',
@@ -15,7 +16,12 @@ import { ProductService } from '../_services/product.service';
 export class ProductItemComponent {
   @Input() product!: Product;
 
-  constructor(private cartSer: CartService, private productService: ProductService, private authCustomerService: AuthCustomerService, public toastr: ToastrService) { }
+  constructor(private cartSer: CartService
+    , private productService: ProductService
+    , private authCustomerService: AuthCustomerService
+    , public toastr: ToastrService
+    ,private viewPortScroller:ViewportScroller
+  ) { }
 
   addProductToCart(productId: string) {
     let toast = this.toastr
@@ -30,9 +36,9 @@ export class ProductItemComponent {
         next: (e) => {
           console.log(e.data)
           if (e.data.success) {
-            console.log(e.data)
             this.cartSer.updateCartRegisterdCustomerProductNum();
-            toast.success("Product Added To Cart")
+            this.viewPortScroller.scrollToPosition([0,0]);
+            toast.success("Product Added To Cart");
           } else {
             toast.error("e.data.ErrorMsg")
           }

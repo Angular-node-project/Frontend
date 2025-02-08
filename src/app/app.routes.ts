@@ -25,6 +25,7 @@ import { ClerkComponent } from './admin/clerk/clerk.component';
 import { authCustomerGuard } from './customer/authCustomer.guard';
 import { SellersComponent } from './admin/sellers/sellers.component';
 import { authAdminGuard } from './admin/authAdmin.guard';
+import { UpdateRequestsComponent } from './admin/update-requests/update-requests.component';
 
 
 export const routes: Routes = [
@@ -70,7 +71,9 @@ export const routes: Routes = [
                     { path: 'clerks/:page', component: ClerkComponent },
                     {path:'clerks',redirectTo:"clerks/1",pathMatch:'full'},
                     { path: 'seller', redirectTo: '/seller/1', pathMatch: 'full' },
-                    { path: 'seller/:page', component: SellersComponent }
+                    { path: 'seller/:page', component: SellersComponent },
+                    { path: 'UpdateRequests', redirectTo: '/UpdateRequests/1', pathMatch: 'full' },
+                    { path: 'UpdateRequests/:page', component: UpdateRequestsComponent }
                 ]
             }
         ]

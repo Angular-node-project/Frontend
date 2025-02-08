@@ -1,27 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Clerk } from 'src/app/_models/clerk';
 import { CommonModule } from '@angular/common'; // Import CommonModule
+import { ClerksService } from '../_services/clerks.service';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 
 
 @Component({
   selector: 'app-clerk',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule,RouterLink],
   templateUrl: './clerk.component.html',
   styleUrl: './clerk.component.css'
 })
-export class ClerkComponent {
+export class ClerkComponent implements OnInit ,OnDestroy {
 
+  constructor(
+    private clerkService: ClerksService
+    , private activeRoute: ActivatedRoute
+  ) { }
 
-  clerks:Clerk[]=[
-    {"clerk_id":"1","name":"Ali","email":"Ali@Ali.com","password":"123456","role_id":"123","status":"active"},
-    {"clerk_id":"2","name":"Yousef","email":"Yousef@Yousef.com","password":"123456","role_id":"456","status":"inactive"},
-    {"clerk_id":"3","name":"Ba7Ba7","email":"Ba7Ba7@Ba7Ba7.com","password":"123456","role_id":"789","status":"active"}
-  ]
+  sub!: Subscription;
+  sub2!:Subscription;
+  currentPage = 1;
+  clerks: Clerk[] = [];
+  totalPages!:number;
+  totalResults!:number;
+  ngOnInit(): void {
 
-    constructor() {}
+    this.sub = this.activeRoute.paramMap.subscribe(params => {
+      this.currentPage= +params.get('page')!;
+      console.log("fdgfd",params.get('page'));
+      this.sub2 =this.clerkService.getAllClerks(this.currentPage).subscribe({
+        next:(response)=>{
+          if(response.status==201){
+            this.clerks=response.data.updatedClerks;
+            this.totalPages = response.data.totalPages;
+            this.totalResults = response.data.totalClerksCount;
+            console.log(response.data);
+          }
+        },
+        error:(err)=>{
+          console.log(err);
+        }
+      })
+    })
+  }
 
+  getPages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
 
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.sub2) {
+      this.sub2.unsubscribe();
+    }
+  }
+  
 
 }

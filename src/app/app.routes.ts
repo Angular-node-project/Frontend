@@ -24,6 +24,7 @@ import { SellerProfileComponent } from './seller/seller-profile/seller-profile.c
 import { ClerkComponent } from './admin/clerk/clerk.component';
 import { authCustomerGuard } from './customer/authCustomer.guard';
 import { SellersComponent } from './admin/sellers/sellers.component';
+import { authAdminGuard } from './admin/authAdmin.guard';
 
 
 export const routes: Routes = [
@@ -58,14 +59,16 @@ export const routes: Routes = [
     ]},
     {path: 'admin',children: [
             { path: 'login', component: AdminLoginComponent },
-            {path: '',redirectTo: 'login',pathMatch: 'full'},
-            {path: '',component: AdminComponent
+            {path: '',redirectTo: 'dashboard',pathMatch: 'full'},
+            {path: '',component: AdminComponent,
+                canActivate:[authAdminGuard]
                 ,children: [
                     { path: 'dashboard', component: DashboardComponent },
                     {path:'products',redirectTo:"products/1",pathMatch:'full'},
                     { path: 'products/:page', component: ProductsComponent },
                     { path: 'profile', component: ProfileComponent },
-                    { path: 'clerk', component: ClerkComponent },
+                    { path: 'clerks/:page', component: ClerkComponent },
+                    {path:'clerks',redirectTo:"clerks/1",pathMatch:'full'},
                     { path: 'seller', redirectTo: '/seller/1', pathMatch: 'full' },
                     { path: 'seller/:page', component: SellersComponent }
                 ]

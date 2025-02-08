@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthAdminService } from '../_services/authAdmin.service';
+import { AuthenticatedClerk } from 'src/app/_models/clerk';
 declare var bootstrap: any;
 
 @Component({
@@ -10,15 +12,13 @@ declare var bootstrap: any;
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
-  adminProfile = {
-    name: 'John Doe',
-    email: 'admin@gmail.com',
-    phone: '+1 234 567 890',
-    role: 'Administrator',
-    joinDate: 'January 15, 2024',
-    status: 'Active',
-  };
+export class ProfileComponent implements OnInit {
+
+  adminProfile:AuthenticatedClerk|null =null;
+  constructor(private authAdminService:AuthAdminService){}
+  ngOnInit(): void {
+    this.adminProfile=this.authAdminService.getUserData();
+  }
 
   editedProfile: any = {};
   modal: any;

@@ -68,6 +68,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
     });
     this.loadCategories();
     this.loadSellers();
+    this.imagePreviews=[];
   }
   ngOnChanges(changes: SimpleChanges) {
 
@@ -90,7 +91,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
         categories: this.selectedCategories,
       });
     }
-
+    this.imagePreviews=[];
     this.imagePreviews=this.selectedProduct.pics.length>0?this.selectedProduct.pics:[];
   }
 

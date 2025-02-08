@@ -55,13 +55,14 @@ export class CheckoutComponent {
     let product=this.data?.product
     let customer_id=this.data?.customer_id;
     let additional_data=addInfo||" "
+    let totalPrice=this.data?.Total
 
     if(!(address && zipcode && phone_number && governorate) ){
       this.toastr.error("Please Complete your Billing details")
     }else{
       console.log("Entered")
       this.cartSer
-      .addOrder({ address, zipcode, phone_number, governorate, product,customer_id,additional_data })
+      .addOrder({ address, zipcode, phone_number, governorate, product,customer_id,additional_data, totalPrice })
       .subscribe({
         next(e) {
         toast.success(e.message)

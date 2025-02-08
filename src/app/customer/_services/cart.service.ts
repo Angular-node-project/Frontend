@@ -9,6 +9,7 @@ import { environment } from '@environments/environment'
 import { GeneralService } from './general.service';
 import { AuthCustomerService } from './authCustomer.service';
 import { ProductService } from './product.service';
+import { Order } from 'src/app/_models/order';
 
 interface cartguestproduct {
   productId: string;
@@ -40,7 +41,8 @@ export class CartService {
             cartData.customer_id,
             new Date(cartData.createdAt),
             new Date(cartData.updatedAt),
-            cartData.Total
+            cartData.Total,
+            cartData.err
           );
         })
       );
@@ -59,6 +61,14 @@ export class CartService {
   addOrder(data: any) {
     return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, order: any } }>(`http://localhost:5000/api/customer/order`, data)
   }
+
+  getOrder(id:string){
+    return this.http.get<{ status: number, message: string, data:  Order[]  }>
+    (`http://localhost:5000/api/customer/order?id:${id}`)
+  }
+
+
+
 
   updateCartRegisterdCustomerProductNum(): void {
     if(this.authCustomerService.isLoggedIn()){

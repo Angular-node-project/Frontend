@@ -1,6 +1,6 @@
 <div class="plant-card">
-    <a [routerLink]="['/productdetails',product.product_id]">
-        <img src="{{product.pics[0]}}" alt="Birdnest Japanese">
+    <a [routerLink]="['/productdetails',product.product_id]" >
+        <img src="{{product.pics[0]}}" alt="Birdnest Japanese" class="product-img">
     </a>
     <a class="add-to-cart" (click)="addProductToCart(product.product_id)">
         <i class="fa-solid fa-basket-shopping fa-1x"></i>

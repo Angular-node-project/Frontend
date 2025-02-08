@@ -32,7 +32,14 @@ export class AuthService {
         var decodedToken = jwtDecode<any>(this.getToken(user_type));
         return decodedToken.id || null;
     }
-
+   
+    getLoggedInData(user_type:'customer'|'seller'|'admin'):any{
+        if (this.getToken(user_type) === '') {
+            return '';
+        }
+        var decodedToken = jwtDecode<any>(this.getToken(user_type));
+        return decodedToken || null;
+    }
 
     saveToken(token: string): void {
         var userType = this.getUserType(token);

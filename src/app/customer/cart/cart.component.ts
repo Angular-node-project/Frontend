@@ -148,7 +148,8 @@ in(){
           if(e.data.success){
             this.data!.product=this.data!.product.filter(p=>p.product_id!=product_id)
             this.data!.Total-=(price*qty)
-            this.toastr.success("Product Deleted")  
+            this.toastr.success("Product Deleted") ;
+            this.cartSer.updateCartRegisterdCustomerProductNum();
           }else{
             this.toastr.error(e.data.ErrorMsg)
           }
@@ -162,15 +163,16 @@ in(){
         this.data!.Total-=(price*qty)
         console.log(this.data.Total);
       }
+      this.cartSer.updateCartRegisterdCustomerProductNum();
     }
-    this.cartSer.updateCartRegisterdCustomerProductNum()
+  
+    
   }
 
   porceedToCheckout(){
     if(!this.authCustomerService.isLoggedIn()){
       let cartGuest=this.data?.product;
-     // console.log(cartGuest);
-      localStorage.setItem('cart',JSON.stringify(cartGuest));
+      localStorage.setItem('processedCart',JSON.stringify(cartGuest));
     } 
     this.route.navigate(['checkout']);
   }

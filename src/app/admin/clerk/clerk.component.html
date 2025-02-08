@@ -1,6 +1,6 @@
 <div class="products-container" [class.sidebar-open]="true">
   <div class="header-actions">
-    <button class="btn btn-success">New Clerk</button>
+    <button class="btn btn-success rounded-0">New Clerk</button>
     <div class="search-box">
       <i class="fas fa-search"></i>
       <input type="text" placeholder="Search Clerks..." />
@@ -20,22 +20,21 @@
         </tr>
       </thead>
       <tbody>
-        @for (item of clerks; track item.clerk_id) {
-        <tr>
-          <td>{{ item.clerk_id }}</td>
+        <tr *ngFor="let item of clerks; let i = index">
+          <td>{{ i +1}}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.email }}</td>
-          <td class="d-none d-md-table-cell">{{ item.role_id }}</td>
+          <td class="d-none d-md-table-cell">{{ item.role_name }}</td>
           <td>{{ item.status }}</td>
           <td class="actions">
             <div class="btn-group">
-              <button class="btn btn-success btn-sm">
+              <button class="btn btn-success btn-sm rounded-0">
                 <i class="fa-solid fa-edit"></i>
               </button>
-              <button class="btn btn-danger btn-sm">
+              <button class="btn btn-danger btn-sm rounded-0">
                 <i class="fa-solid fa-trash"></i>
               </button>
-              <button class="btn btn-warning btn-sm">
+              <button class="btn btn-warning btn-sm rounded-0">
                 <i
                   class="fa-solid"
                   [ngClass]="{
@@ -49,25 +48,24 @@
           </td>
           <td></td>
         </tr>
-        }
+        
       </tbody>
     </table>
   </div>
-
   <div class="pagination-wrapper">
     <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link rounded-0"   [routerLink]="['/admin/clerks',currentPage-1]">
           <i class="fas fa-chevron-left"></i>
         </a>
       </li>
 
-      <li class="page-item">
-        <a class="page-link"></a>
+      <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
+        <a class="page-link rounded-0"  [routerLink]="['/admin/clerks',page]"  >{{page}}</a>
       </li>
 
-      <li class="page-item">
-        <a class="page-link">
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link rounded-0"   [routerLink]="['/admin/clerks',currentPage+1]" >
           <i class="fas fa-chevron-right"></i>
         </a>
       </li>

@@ -1,5 +1,5 @@
 <div class="profile-container">
-  <div class="profile-header">
+  <div class="profile-header rounded-0">
     <div class="profile-cover"></div>
     <div class="profile-avatar-section">
       <div class="profile-avatar">
@@ -9,46 +9,35 @@
         </button>
       </div>
       <div class="profile-title">
-        <h1>Admin Profile</h1>
+        <h1>Profile</h1>
         <span class="subtitle">Manage your info, privacy and security</span>
       </div>
     </div>
   </div>
 
   <div class="profile-content">
-    <div class="profile-card">
+    <div class="profile-card rounded-0">
       <div class="card-header">
         <h2>Personal Information</h2>
-        <button class="edit-btn" (click)="openEditModal()">
+        <!-- <button class="edit-btn" (click)="openEditModal()">
           <i class="fas fa-edit"></i> Edit
-        </button>
+        </button> -->
       </div>
       <div class="card-body">
         <div class="info-grid">
           <div class="info-item">
             <label>Full Name</label>
-            <p>{{adminProfile.name}}</p>
+            <p>{{adminProfile?.name}}</p>
           </div>
           <div class="info-item">
             <label>Email</label>
-            <p>{{adminProfile.email}}</p>
-          </div>
-          <div class="info-item">
-            <label>Phone</label>
-            <p>{{adminProfile.phone}}</p>
+            <p>{{adminProfile?.email}}</p>
           </div>
           <div class="info-item">
             <label>Role</label>
-            <p>Administrator</p>
+            <p>{{adminProfile?.role_name}}</p>
           </div>
-          <div class="info-item">
-            <label>Join Date</label>
-            <p>January 15, 2024</p>
-          </div>
-          <div class="info-item">
-            <label>Status</label>
-            <p class="status active">Active</p>
-          </div>
+ 
         </div>
       </div>
     </div>

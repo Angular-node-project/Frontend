@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment'
 import { Observable } from 'rxjs';
-import { CustomerLogin } from 'src/app/_models/customer';
+import { CustomerLogin, CustomerProfileInfo } from 'src/app/_models/customer';
 import { Response } from 'src/app/_models/response';
-import { AuthService as AuthServiceGeneral } from 'src/app/_services/auth.service';  
+import { AuthService as AuthServiceGeneral } from 'src/app/_services/auth.service';
 import { Customer } from 'src/app/_models/customer';
 
 @Injectable({
@@ -31,5 +31,17 @@ export class AuthCustomerService {
   getLoggedInName():string{
     return this.authServiceGeneral.getLoggedInName('customer');
   }
+
+  getProfileInfo(){
+    return this.http.get<{ status: number, message: string, data: any }>(`${this.baseUrl}`)
+  }
+  updateProfileInfoWithPassword(data:any){
+    return this.http.put<{ status: number, message: string, data: any }>(`${this.baseUrl}/profile`,data)
+  }
+  updateProfileInfoWithoutPassword(data:any){
+    return this.http.put<{ status: number, message: string, data: any }>(`${this.baseUrl}/profile2`,data)
+  }
+
+
 
 }

@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="profile-container">
-   
+
 
     <div class="tabs">
       <button class="tab-button" [ngClass]="{'active': selectedTab === 'profile'}" (click)="selectTab('profile')">Profile</button>
@@ -18,17 +18,28 @@
    <!-- Profile Tab Content -->
 <div class="tab-content" [ngClass]="{'active': selectedTab === 'profile'}" id="profile">
   <div class="profile-details">
-    
+
     <!-- Name Input -->
     <div class="detail-item">
       <label for="name"><i class="fas fa-user"></i> Name</label>
       <input type="text" id="name" [(ngModel)]="adminProfile.name" placeholder="Enter Name">
     </div>
+    <!-- CurrentPassword Input -->
+    <div class="detail-item">
+      <label for="currentPassword"><i class="fas fa-user"></i> currentPassword</label>
+      <button type="button" class="col-3" (click)="isEdit=!isEdit">Edit</button>
+      <input type="text" id="currentPassword"  placeholder="Enter currentPassword" #currentPassword [disabled]="!isEdit">
+    </div>
+    <!-- NewPassword Input -->
+    <div class="detail-item">
+      <label for="newPassword"><i class="fas fa-user"></i> newPassword</label>
+      <input type="text" id="newPassword" placeholder="Enter newPassword" #newPassword [disabled]="!isEdit">
+    </div>
 
     <!-- Email Input -->
     <div class="detail-item">
       <label for="email"><i class="fas fa-envelope"></i> Email</label>
-      <input type="email" id="email" [(ngModel)]="adminProfile.email" placeholder="Enter Email">
+      <input disabled type="email" id="email" [(ngModel)]="adminProfile.email" placeholder="Enter Email">
     </div>
 
     <!-- Address Input -->
@@ -49,13 +60,13 @@
       <select id="gender" [(ngModel)]="adminProfile.gender">
         <option value="male">Male</option>
         <option value="female">Female</option>
-        <option value="other">Other</option>
+        <!-- <option value="other">Other</option> -->
       </select>
     </div>
 
     <!-- Buttons Section -->
     <div class="button-container">
-      <button class="save-button btn-success">Save</button>
+      <button class="save-button btn-success" (click)="saveProfile(currentPassword.value,newPassword.value)">Save</button>
       <button class="logout-button btn-success">Logout</button>
     </div>
 
@@ -68,166 +79,40 @@
     <div class="tab-content" [ngClass]="{'active': selectedTab === 'orders'}" id="orders">
       <div class="order-history">
         <!-- Order 1 -->
-        <div class="order-card">
-          <div class="order-status delivered">
-            <i class="fas fa-check-circle"></i>
-            Delivered
-          </div>
-          <div class="order-content">
-            <div class="order-meta">
-              <span class="order-id">Order #12345</span>
-              <span class="order-date">Oct 10, 2023</span>
+        @for (item of orders; track item.order_id) {
+          <div class="order-card">
+            <div class="order-status delivered">
+              <i class="fas fa-check-circle"></i>
+              {{item.status}}
             </div>
-            <div class="order-products">
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-5.jpg" alt="Product">
-                <span>2x Monstera Plant</span>
+            <div class="order-content">
+              <div class="order-meta">
+                <span class="order-id">{{item.order_id}}</span>
+                <span class="order-date">200/5/</span>
               </div>
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-6.jpg" alt="Product">
-                <span>1x Succulent Pack</span>
-              </div>
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-5.jpg" alt="Product">
-                <span>2x Monstera Plant</span>
-              </div>
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-6.jpg" alt="Product">
-                <span>1x Succulent Pack</span>
-              </div>
-            </div>
-            <div class="order-footer">
-              <span class="total">Total: $45.00</span>
-              <button class="reorder-button">
-                <i class="fas fa-shopping-cart"></i> Reorder
-              </button>
-            </div>
-          </div>
-        </div>
+            @for (product of item.product ; track product.product_id) {
+              <div class="order-products">
+                <div class="product-item">
+                  <img src="{{product.pic_path[0]}}" alt="Product">
+                  <span>{{product.name}}  x{{product.qty}}</span>
+                </div>
 
+              </div>
+            }
+              <div class="order-footer">
+                <span class="total">${{item.totalPrice}}</span>
+                <button class="reorder-button">
+                  <i class="fas fa-shopping-cart"></i> Reorder
+                </button>
+              </div>
+            </div>
+          </div>
+        }
 
-        <div class="order-card">
-          <div class="order-status delivered">
-            <i class="fas fa-check-circle"></i>
-            Delivered
-          </div>
-          <div class="order-content">
-            <div class="order-meta">
-              <span class="order-id">Order #12345</span>
-              <span class="order-date">Oct 10, 2023</span>
-            </div>
-            <div class="order-products">
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-5.jpg" alt="Product">
-                <span>2x Monstera Plant</span>
-              </div>
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-6.jpg" alt="Product">
-                <span>1x Succulent Pack</span>
-              </div>
-            </div>
-            <div class="order-footer">
-              <span class="total">Total: $45.00</span>
-              <button class="reorder-button">
-                <i class="fas fa-shopping-cart"></i> Reorder
-              </button>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="order-card">
-          <div class="order-status delivered">
-            <i class="fas fa-check-circle"></i>
-            Delivered
-          </div>
-          <div class="order-content">
-            <div class="order-meta">
-              <span class="order-id">Order #12345</span>
-              <span class="order-date">Oct 10, 2023</span>
-            </div>
-            <div class="order-products">
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-5.jpg" alt="Product">
-                <span>2x Monstera Plant</span>
-              </div>
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-6.jpg" alt="Product">
-                <span>1x Succulent Pack</span>
-              </div>
-            </div>
-            <div class="order-footer">
-              <span class="total">Total: $45.00</span>
-              <button class="reorder-button">
-                <i class="fas fa-shopping-cart"></i> Reorder
-              </button>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="order-card">
-          <div class="order-status delivered">
-            <i class="fas fa-check-circle"></i>
-            Delivered
-          </div>
-          <div class="order-content">
-            <div class="order-meta">
-              <span class="order-id">Order #12345</span>
-              <span class="order-date">Oct 10, 2023</span>
-            </div>
-            <div class="order-products">
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-5.jpg" alt="Product">
-                <span>2x Monstera Plant</span>
-              </div>
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-6.jpg" alt="Product">
-                <span>1x Succulent Pack</span>
-              </div>
-            </div>
-            <div class="order-footer">
-              <span class="total">Total: $45.00</span>
-              <button class="reorder-button">
-                <i class="fas fa-shopping-cart"></i> Reorder
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Order 2 -->
-        <div class="order-card">
-          <div class="order-status shipped">
-            <i class="fas fa-shipping-fast"></i>
-            Shipped
-          </div>
-          <div class="order-content">
-            <div class="order-meta">
-              <span class="order-id">Order #12346</span>
-              <span class="order-date">Oct 15, 2023</span>
-            </div>
-            <div class="order-products">
-              <div class="product-item">
-                <img src="customer/imgs/plants-ecommerce-product-featured-img-8-600x900.jpg" alt="Product">
-                <span>1x Fiddle Leaf Fig</span>
-              </div>
-              <div class="product-item">
-                <img src="customer/imgs/plants-store-gallery-img-1.jpg" alt="Product">
-                <span>3x Ceramic Pots</span>
-              </div>
-            </div>
-            <div class="order-footer">
-              <span class="total">Total: $75.00</span>
-              <button class="track-button">
-                <i class="fas fa-map-marked-alt"></i> Track
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 
-  
+
 </body>
 </html>

@@ -41,7 +41,8 @@ export class CartService {
             cartData.customer_id,
             new Date(cartData.createdAt),
             new Date(cartData.updatedAt),
-            cartData.Total
+            cartData.Total,
+            cartData.err
           );
         })
       );

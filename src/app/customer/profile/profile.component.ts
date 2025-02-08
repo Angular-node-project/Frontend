@@ -38,6 +38,7 @@ export class ProfileComponent implements OnInit {
 
     constructor(private customerService:AuthCustomerService,private toastr: ToastrService,private cartService:CartService){}
   ngOnInit(): void {
+    let customerId="7a3f6369-37c9-4b00-b9a3-b6181a54eb0e";
     this.customerService.getProfileInfo().subscribe(
       {
         next:(e)=>{
@@ -50,7 +51,7 @@ export class ProfileComponent implements OnInit {
       }
     )
 
-    this.cartService.getOrder("7a3f6369-37c9-4b00-b9a3-b6181a54eb0e").subscribe({
+    this.cartService.getOrder(customerId).subscribe({
       next:(e)=>{
         console.log(this.orders)
         console.log("***********************************")

@@ -7,5 +7,6 @@ export class Cart {
     public createdAt:Date,
     public updatedAt:Date,
     public Total:number,
+    public err:string[]
   ){}
 }

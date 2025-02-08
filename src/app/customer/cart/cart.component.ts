@@ -26,17 +26,18 @@ export class CartComponent implements OnInit {
   test: any
   newQty: number = 0;
   productMaxQty: { [productId: string]: number } = {};
+  customer_id=""
 
-in(){
-
-}
 
   constructor(public cartSer: CartService ,private toastr:ToastrService, private authCustomerService: AuthCustomerService,private route:Router ) { }
 
   ngOnInit(): void {
+    this.customer_id=this.authCustomerService.getLoggedInId();
     if (this.authCustomerService.isLoggedIn()) {
       this.cartSer.getCart().subscribe(e => {
+        console.log("-----------------------------------")
         console.log(e);
+        console.log("-----------------------------------")
         this.data = e
         this.data.Total = 0
         e.product.forEach(p => {
@@ -48,7 +49,7 @@ in(){
 
       this.cartSer.getCartGuest().subscribe(guestCart => {
         if (guestCart.length > 0) {
-          this.data = new Cart('', '', [], '', new Date(), new Date(), 0);
+          this.data = new Cart('', '', [], '', new Date(), new Date(), 0,[]);
           guestCart.forEach(item => {
             const updatedQty = item.productDetails.qty > item.qty ? item.qty : item.productDetails.qty;
             if (updatedQty > 0) {
@@ -74,7 +75,7 @@ in(){
 
   IncreaseDecrease(data: CartProduct, num: number, inputElement: HTMLInputElement) {
     this.newQty = (data.qty) + num
-    let CustomerId = "1";
+    let CustomerId = this.customer_id
     let ProductId = data.product_id;
     let NewQuantity = this.newQty;
 
@@ -148,7 +149,7 @@ in(){
           if(e.data.success){
             this.data!.product=this.data!.product.filter(p=>p.product_id!=product_id)
             this.data!.Total-=(price*qty)
-            this.toastr.success("Product Deleted")  
+            this.toastr.success("Product Deleted")
           }else{
             this.toastr.error(e.data.ErrorMsg)
           }
@@ -171,10 +172,10 @@ in(){
       let cartGuest=this.data?.product;
      // console.log(cartGuest);
       localStorage.setItem('cart',JSON.stringify(cartGuest));
-    } 
+    }
     this.route.navigate(['checkout']);
   }
 
- 
-  
+
+
 }

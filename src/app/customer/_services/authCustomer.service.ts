@@ -31,6 +31,9 @@ export class AuthCustomerService {
   getLoggedInName():string{
     return this.authServiceGeneral.getLoggedInName('customer');
   }
+  getLoggedInId():string{
+    return this.authServiceGeneral.getLoggedInId('customer');
+  }
 
   getProfileInfo(){
     return this.http.get<{ status: number, message: string, data: any }>(`${this.baseUrl}`)

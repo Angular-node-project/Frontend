@@ -24,6 +24,7 @@ import { SellerProfileComponent } from './seller/seller-profile/seller-profile.c
 import { ClerkComponent } from './admin/clerk/clerk.component';
 import { authCustomerGuard } from './customer/authCustomer.guard';
 import { SellersComponent } from './admin/sellers/sellers.component';
+import { CashierComponent } from './admin/cashier/cashier.component';
 
 
 export const routes: Routes = [
@@ -66,6 +67,7 @@ export const routes: Routes = [
                     { path: 'products/:page', component: ProductsComponent },
                     { path: 'profile', component: ProfileComponent },
                     { path: 'clerk', component: ClerkComponent },
+                    { path: 'cashier', component: CashierComponent },
                     { path: 'seller', redirectTo: '/seller/1', pathMatch: 'full' },
                     { path: 'seller/:page', component: SellersComponent }
                 ]

@@ -5,26 +5,42 @@
        (click)="onLinkClick()">
        <i class="fa-solid fa-chart-line"></i> Dashboard
     </a>
+
     <a routerLink="/admin/products"
       [routerLinkActiveOptions]="{exact:false}"
        routerLinkActive="active"
        (click)="onLinkClick()">
        <i class="fa-solid fa-box"></i> Products
     </a>
+
     <a routerLink="/admin/clerks"
     [routerLinkActiveOptions]="{exact:false}"
        routerLinkActive="active"
        (click)="onLinkClick()">
        <i class="fa-solid fa-person"></i> Clerks
     </a>
+
+    <a routerLink="/admin/roles"
+    [routerLinkActiveOptions]="{exact:false}"
+       routerLinkActive="active"
+       (click)="onLinkClick()">
+       <i class="fa-solid fa-lock"></i> Roles
+    </a>
+
     <a routerLink="/admin/seller/1"
     routerLinkActive="active"
     (click)="onLinkClick()">
     <i class="fa-solid fa-user-tie"></i> Sellers
  </a>
+
  <a routerLink="/admin/UpdateRequests/1"
  routerLinkActive="active"
  (click)="onLinkClick()">
  <i class="fa-solid fa-edit"></i> Update Requests
 </a>
+    <a routerLink="/admin/cashier"
+    routerLinkActive="active"
+    (click)="onLinkClick()">
+    <i class="fa-solid fa-person"></i> Cashier
+    </a>
 </div>

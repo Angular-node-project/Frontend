@@ -15,6 +15,7 @@
         <tr>
 
           <th>Name</th>
+          <th>Pic</th>
           <th>Qty</th>
           <th>Price</th>
           <th class="d-none d-md-table-cell">Seller</th>
@@ -25,9 +26,9 @@
       <tbody>
         <tr *ngFor="let product of products; let i = index">
           <td>{{product.name}}</td>
-          <!--  <td>
+           <td>
             <img [src]="product.pics[0]" alt="Product Image" width="70" height="70">
-          </td>-->
+          </td>
 
           <td>{{product.qty}}</td>
           <td>{{product.price}}</td>

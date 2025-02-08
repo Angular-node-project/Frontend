@@ -6,6 +6,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { AuthService as AuthServiceGeneral } from '../../_services/auth.service';
 import { Router } from '@angular/router';
+import { GeneralService } from '../_services/general.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,13 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  constructor(private authCustomerService: AuthCustomerService,private authServiceGeneral: AuthServiceGeneral, private toastr: ToastrService, private router: Router) { }
+  constructor(
+    private authCustomerService: AuthCustomerService
+    ,private authServiceGeneral: AuthServiceGeneral
+    , private toastr: ToastrService
+    , private router: Router
+    ,private generalService:GeneralService
+  ) { }
   form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -27,9 +34,13 @@ export class RegisterComponent {
   register() {
     this.authCustomerService.register(this.form.value).subscribe({
       next: (response) => {
-        this.authServiceGeneral.saveToken(response.data.token);
-        this.toastr.success('Registration successful');
-        this.router.navigate(['/']);
+        if(response.status==201){
+          this.authServiceGeneral.saveToken(response.data.token);
+          this.toastr.success('Registration successful');
+          this.generalService.updateCustomerCartAfterAuthentication('/');
+        }else{
+          this.toastr.error(response.message);
+        }
       },
       error: (error) => {
         this.toastr.error(error.error.message);

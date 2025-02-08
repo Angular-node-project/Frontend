@@ -42,7 +42,7 @@ label {
 .btn-login {
   width: 100%;
   padding: 12px;
-  background: #4CAF50;
+  background: #5c9735;
   color: white;
   border: none;
   border-radius: 6px;
@@ -51,5 +51,5 @@ label {
 }
 
 .btn-login:hover {
-  background: #43a047;
+  background: #2d4739;
 }

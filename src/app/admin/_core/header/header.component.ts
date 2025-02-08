@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+import { AuthAdminService } from '../../_services/authAdmin.service';
 
 @Component({
   selector: 'app-header',
@@ -11,11 +12,15 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  
+  constructor(private authAdminService:AuthAdminService){}
+
+
   @Output() toggleSidebarEvent = new EventEmitter<void>();
   @Input() isSidebarOpen = false;
 
-  email: string = 'admin@gmail.com';
-  role: string = 'Admin';
+  email: string =""
+  role: string = "";
   notifications = [
     {
       id: 1,
@@ -38,7 +43,10 @@ export class HeaderComponent implements OnInit {
   ];
 
   ngOnInit() {
-    // Initialize all dropdowns
+
+    this.email=this.authAdminService.getUserData().email;
+    this.role=this.authAdminService.getUserData().role_name;
+     
     document.querySelectorAll('.dropdown-toggle').forEach(dropdownToggle => {
       new bootstrap.Dropdown(dropdownToggle);
     });

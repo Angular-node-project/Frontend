@@ -42,11 +42,11 @@
       <div class="radio-group">
         <label>
           <input type="radio" name="gender" value="male" formControlName="gender" />
-          <span class="custom-radio">Male</span>
+          <span class="custom-radio rounded-0">Male</span>
         </label>
         <label>
           <input type="radio" name="gender" value="female" formControlName="gender" />
-          <span class="custom-radio">Female</span>
+          <span class="custom-radio rounded-0">Female</span>
         </label>
       </div>
       <div *ngIf="form.get('gender')?.touched && form.get('gender')?.invalid" class="error-message">

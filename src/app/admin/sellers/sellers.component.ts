@@ -6,6 +6,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { ToastrService } from 'ngx-toastr';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-sellers',
@@ -29,7 +30,7 @@ export class SellersComponent implements OnInit {
     status:string='';
     search:string='';
      @Input() isSidebarOpen = false;
-    constructor(private sellerService:SellerService,private route:ActivatedRoute,private viewPortScroller: ViewportScroller) {
+    constructor(private sellerService:SellerService,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
 
     }
     loadSellers(page:number){
@@ -88,6 +89,7 @@ export class SellersComponent implements OnInit {
     this.sellerService.Changestatus(id,status).subscribe({
   next:(response)=>{
     this.loadSellers(this.currentPage);
+    this.toastr.success("Status Changed Successfully");
   }
   ,
       error: (err) => {
@@ -99,6 +101,7 @@ export class SellersComponent implements OnInit {
  confirmDelete() {
      if (this.SellerToDelete) {
        this.changeStatus(this.SellerToDelete,'inactive');
+     
        const modalElement = document.getElementById('deleteModal');
        if (modalElement) {
          const modal = bootstrap.Modal.getInstance(modalElement);

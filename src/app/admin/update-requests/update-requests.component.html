@@ -13,35 +13,39 @@
         <thead class="table-dark">
           <tr>
           
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Status</th>
-            <th class="d-none d-md-table-cell">National ID</th>
+            <th>Seller Name</th>
+            <th>Product Name</th>
+            <th>Product Status</th>
+            <th >Pictures</th>
+            <th>Quantity</th>
+            <th>Price </th>
+            <th>Status</th>       
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let seller of sellers; let i = index">
-            <td>{{seller.name}}</td>
-            <td>{{seller.email}}</td>
-            <td>{{seller.phone_number}}</td>
-            <td>{{seller.status}}</td>
-            <td>{{seller.national_id}}</td>
+          <tr *ngFor="let requests of UpdateRequests; let i = index">
+            <td>{{requests.seller.name}}</td>
+            <td>{{requests.updatedProduct.name}}</td>
+            <td>{{requests.updatedProduct.status}}</td>
+            <td>{{requests.updatedProduct.qty}}</td>
+            <td>{{requests.updatedProduct.price}}</td>
+            <td> <img [src]="requests.updatedProduct.pics[0]" alt="Product Image" width="50" height="50"></td>  
+            <td>{{requests.status}}</td>
+
             <td class="actions">
               <div class="btn-group">
-                @if(seller.status!='active')
-                {
-                <button class="btn btn-success btn-sm rounded-0" (click)="changeStatus(seller.seller_id,'active')">
+              
+              <button class="btn btn-success btn-sm rounded-0" (click)="changeStatus(requests.request_id,'approved')"
+              [disabled]="requests.status === 'approved'">
                   <i class="fa-solid fa-check"></i>
                 </button>
-              }
-              @if(seller.status!='inactive')
-              {
-                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(seller.seller_id)">
-                  <i class="fa-solid fa-lock"></i>
+              
+              
+                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(requests.request_id)"[disabled]="requests.status === 'disapproved'||requests.status ==='approved'">
+                  <i class="fa-solid fa-cancel"></i>
                 </button>
-              }
+              
       
               </div>
             </td>
@@ -79,15 +83,15 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Confirm Delete</h5>
+          <h5 class="modal-title">Confirm Disapprove</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to Deactive this Seller?</p>
+          <p>Are you sure you want to Disapprove this Request?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Deactive</button>
+          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Disapprove</button>
         </div>
       </div>
     </div>

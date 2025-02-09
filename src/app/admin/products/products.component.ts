@@ -123,7 +123,7 @@ export class ProductsComponent implements OnInit {
 
   confirmDelete() {
     if (this.productToDelete) {
-      this.changeStatus(this.productToDelete, 'inactive');
+      this.changeStatus(this.productToDelete, 'deleted');
       const modalElement = document.getElementById('deleteModal');
       if (modalElement) {
         const modal = bootstrap.Modal.getInstance(modalElement);

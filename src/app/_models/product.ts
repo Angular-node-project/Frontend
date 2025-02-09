@@ -8,7 +8,7 @@ export class Product {
       public price: number,
       public seller_id: string,
       public seller:{seller_id:number,name:string},
-      public status: "active" | "inactive" | "pending" | "outStock",
+      public status: "active" | "inactive" | "pending" | "outStock"|"deleted",
       public pics: string[] = [],
       public reviews: { customer: {customer_id: string,name:string}, rate: number; comment?: string ,created_at:Date}[] = [],
       public doesCustomerOrderThisProduct:boolean

@@ -1,24 +1,24 @@
-import { Component, Input, OnInit, ViewChild, viewChild } from '@angular/core';
-import { SellerService } from '../_services/sellers.services';
-import { Seller } from 'src/app/_models/sellers';
-import { FormsModule } from '@angular/forms';
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Component, Input, input, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { UpdateRequestsService } from '../_services/UpdateRequests.service';
+import { UpdateRequests } from 'src/app/_models/UpdateRequests';
 export declare const bootstrap: any;
 @Component({
-  selector: 'app-sellers',
+  selector: 'app-update-requests',
   imports: [FormsModule,CommonModule,RouterLink],
-  templateUrl: './sellers.component.html',
-  styleUrl: './sellers.component.css'
+  templateUrl: './update-requests.component.html',
+  styleUrl: './update-requests.component.css'
 })
-export class SellersComponent implements OnInit {
-  @ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
-  sellers:Seller[]=[];
+export class UpdateRequestsComponent {
+@ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
+  UpdateRequests:UpdateRequests[]=[];
   isEditMode: boolean = false;
- SellerToDelete: string | null = null;
+ RequestrToDelete: string | null = null;
   isLoading: boolean = true;
     selectedSort: string = '';
     currentPage = 1;
@@ -29,14 +29,16 @@ export class SellersComponent implements OnInit {
     sub!: Subscription;
     status:string='';
     search:string='';
+    seller_id:string='';
+    selectedCategory: string = '';
      @Input() isSidebarOpen = false;
-    constructor(private sellerService:SellerService,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
+    constructor(private updaterequest:UpdateRequestsService,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
 
     }
-    loadSellers(page:number){
-      this.sellerService.getAllsellers(page, this.selectedSort,this.status, this.search).subscribe({
+    loadRequests(page:number){
+      this.updaterequest.getAllRequests(page, this.selectedSort,this.selectedCategory,this.status,this.seller_id, this.search).subscribe({
         next:(response)=>{
-          this.sellers=response.data.sellers;
+          this.UpdateRequests=response.data.products;
           this.totalPages = response.data.totalPages;
           this.totalResults = response.data.totalProductsCount;
           this.generatePageNumbers();
@@ -44,7 +46,7 @@ export class SellersComponent implements OnInit {
           this.isLoading = false;
         },
         error:()=>{
-            console.log("error loading sellers");
+            console.log("error loading requests");
         }
       })
         }
@@ -52,7 +54,7 @@ export class SellersComponent implements OnInit {
     this.sub = this.route.paramMap.subscribe(params => {
       this.currentPage = +params.get('page')!;
       console.log(this.currentPage);
-   this.loadSellers(this.currentPage);
+   this.loadRequests(this.currentPage);
   });
    import('bootstrap').then(bootstrap => {
     const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
@@ -67,12 +69,12 @@ export class SellersComponent implements OnInit {
   changeSearch(name:string){
     this.search=name;
     this.currentPage = 1; 
-    this.loadSellers(this.currentPage)
+    this.loadRequests(this.currentPage)
   }
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.loadSellers(this.currentPage)
+      this.loadRequests(this.currentPage)
     }
   }
      
@@ -85,10 +87,10 @@ export class SellersComponent implements OnInit {
       this.pageNumbers.push(i);
     }
   }
-  changeStatus(id:string,status:string){
-    this.sellerService.Changestatus(id,status).subscribe({
+ changeStatus(id:string,status:string){
+    this.updaterequest.changeStatus(id,status).subscribe({
   next:(response)=>{
-    this.loadSellers(this.currentPage);
+    this.loadRequests(this.currentPage);
     this.toastr.success("Status Changed Successfully");
   }
   ,
@@ -99,9 +101,8 @@ export class SellersComponent implements OnInit {
   }
  
  confirmDelete() {
-     if (this.SellerToDelete) {
-       this.changeStatus(this.SellerToDelete,'inactive');
-     
+     if (this.RequestrToDelete) {
+       this.changeStatus(this.RequestrToDelete,'disapproved');
        const modalElement = document.getElementById('deleteModal');
        if (modalElement) {
          const modal = bootstrap.Modal.getInstance(modalElement);
@@ -109,11 +110,11 @@ export class SellersComponent implements OnInit {
            modal.hide();
          }
        }
-       this.SellerToDelete = null;
+       this.RequestrToDelete = null;
      }
    }
-   onDelete(sellerid: string) {
-       this.SellerToDelete = sellerid;
+   onDelete(requestId: string) {
+       this.RequestrToDelete = requestId;
        const modalElement = document.getElementById('deleteModal');
        if (modalElement) {
          const modal = new bootstrap.Modal(modalElement);

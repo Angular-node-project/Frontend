@@ -41,24 +41,29 @@
 
           <td class="actions">
             <div class="btn-group">
-              <button class="btn btn-success btn-sm rounded-0 " (click)="onUpdate(product)">
+           
+              <button class="btn btn-success btn-sm rounded-0 " (click)="onUpdate(product)" >
                 <i class="fa-solid fa-edit"></i>
               </button>
-              <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(product.product_id)">
+         
+              
+              <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(product.product_id)" [disabled]="product.status === 'deleted'">
                 <i class="fa-solid fa-trash"></i>
               </button>
+            
               <div class="dropdown d-inline">
                 <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
                   data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
+              
                 <ul class="dropdown-menu">
                   @if(product.status!='active')
                   {
                   <li><button class="dropdown-item" type="button"
                       (click)="changeStatus(product.product_id,'active')">Active</button></li>
                   }
-                  @if (product.status!='inactive') {
+                  @if (product.status!='inactive'&&product.status!='deleted') {
                   <li><button class="dropdown-item" type="button"
                       (click)="changeStatus(product.product_id,'inactive')">Deactive</button></li>
                   }

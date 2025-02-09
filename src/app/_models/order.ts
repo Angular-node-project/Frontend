@@ -19,6 +19,7 @@ export class Order {
     }],
     public status:  String,
     public totalPrice:  String,
+    public createdAt:string
   ){}
 
 }

@@ -47,7 +47,7 @@
             style="transform: translate(20%, -20%);">3</span>
         </a> -->
         @if(isLoggedIn){
-        <a href="#" class="user ms-3 text-decoration-none">
+        <a href="/profile" class="user ms-3 text-decoration-none">
           <i class="fa-solid fa-user fa-1x" style="font-size: medium" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"> <span class="header-name mx-1" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">{{loggedInName}}</span></i>
         </a>
         }

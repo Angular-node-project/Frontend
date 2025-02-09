@@ -8,6 +8,6 @@ export class CustomerProfileInfo{
     constructor(public name:string,public email:string,public address:string,public phone:string,public gender:string){}
 }
 export class UpdatedCustomerProfileInfo{
-    constructor(public customer_id:string,public name:string,public email:string,public address:string,public phone_number:string,public gender:string,public currentPassword:string,public newPassword:string){}
+    constructor(public name:string,public email:string,public address:string,public phone_number:string,public gender:string,public currentPassword:string,public newPassword:string){}
 }
 

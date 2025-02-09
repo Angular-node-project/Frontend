@@ -62,9 +62,9 @@ export class CartService {
     return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, order: any } }>(`http://localhost:5000/api/customer/order`, data)
   }
 
-  getOrder(id:string){
+  getOrder(){
     return this.http.get<{ status: number, message: string, data:  Order[]  }>
-    (`http://localhost:5000/api/customer/order?id:${id}`)
+    (`http://localhost:5000/api/customer/order`)
   }
 
 

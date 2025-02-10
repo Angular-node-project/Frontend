@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { CategoryService } from '../_services/category.service';
 
 export declare const bootstrap: any;
 
@@ -42,6 +43,7 @@ export class ProductsComponent implements OnInit {
     , private route: ActivatedRoute
     , private viewPortScroller: ViewportScroller
     , private toastr: ToastrService
+    
   ) {
 
   }

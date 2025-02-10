@@ -20,8 +20,8 @@ export class AuthorizationService {
       return false; 
     }
 
-    if (userData.role === 'super_admin') {
-      return true; 
+    if (userData.role_name === 'super_admin') {
+      return false; 
     }
 
     const userPermissions = userData.permissions || [];

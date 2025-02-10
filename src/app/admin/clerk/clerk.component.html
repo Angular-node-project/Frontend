@@ -1,9 +1,9 @@
 <div class="products-container" [class.sidebar-open]="true">
   <div class="header-actions">
-    <button class="btn btn-success rounded-0" (click)="openAddModal()">New Clerk</button>
-    <div class="search-box">
+    <button class="btn btn-success rounded-0"  *hasPermission="'clerks.add'" (click)="openAddModal()">New Clerk</button>
+    <div class="search-box"  *hasPermission="'clerks.show'">
       <i class="fas fa-search"></i>
-      <input type="text" placeholder="Search Clerks..." [(ngModel)]="searchedWord" (input)="onSearchChange()"/>
+      <input type="text" placeholder="Search Clerks..."  [(ngModel)]="searchedWord" (input)="onSearchChange()"/>
     </div>
   </div>
 

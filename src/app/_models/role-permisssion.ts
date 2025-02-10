@@ -1,6 +1,6 @@
 
 export class Permission{
-    constructor(public controller:string ,public action:string){}
+    constructor(public permission_id:string,public controller:string ,public action:string){}
 }
 export class Role{
     constructor(public role_id:string

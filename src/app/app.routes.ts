@@ -28,6 +28,7 @@ import { CashierComponent } from './admin/cashier/cashier.component';
 import { authAdminGuard } from './admin/authAdmin.guard';
 import { UpdateRequestsComponent } from './admin/update-requests/update-requests.component';
 import { RoleComponent } from './admin/role/role.component';
+import { OrdersComponent } from './admin/orders/orders.component';
 
 
 export const routes: Routes = [
@@ -79,6 +80,8 @@ export const routes: Routes = [
                     { path: 'UpdateRequests/:page', component: UpdateRequestsComponent },
                     { path: 'roles/:page', component: RoleComponent },
                     {path:'roles',redirectTo:"roles/1",pathMatch:'full'},
+                    { path: 'order', redirectTo: '/order/1', pathMatch: 'full' },
+                    { path: 'order/:page', component: OrdersComponent },
 
                 ]
             }

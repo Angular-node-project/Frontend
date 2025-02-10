@@ -1,24 +1,26 @@
 export class Order {
   constructor(
-    public order_id:  String,
-    public customer_id:String,
-    public cashier_id: String,
-    public address: String,
-    public governorate: String,
-    public zipcode: Number,
-    public phone_number:  String,
-    public additional_data:  String,
+    public order_id:  string,
+    public customer_id:string,
+    public cashier_id: string,
+    public address: string,
+    public governorate: string,
+    public zipcode: number,
+    public phone_number:  string,
+    public additional_data:  string,
     public product: [{
-        product_id: String,
-        seller_id:  String,
-        name:  String,
-        qty:  Number,
-        price: Number,
-        pic_path:[String],
-        status: String
+        product_id: string,
+        seller_id:  string,
+        name:  string,
+        qty:  number,
+        price: number,
+        pic_path:[string],
+        status: string
     }],
-    public status:  String,
-    public totalPrice:  String,
+    public customer={name:String,email:String},
+    public cashier={name:String,email:String},
+    public status: "pending" | "processing" | "shipped" | "cancelled"|"delivered",
+    public totalPrice:  string,
   ){}
 
 }

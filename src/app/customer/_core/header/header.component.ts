@@ -20,7 +20,12 @@ export class HeaderComponent implements OnInit {
   loggedInName: string = '';
   numOfProducts = 0;
   cartSub: Subscription | null = null;
-  constructor(private router: Router, private authCustomerService: AuthCustomerService,private cartService:CartService, private generalService: GeneralService) { }
+  constructor(private router: Router
+    , private authCustomerService: AuthCustomerService
+    , private cartService: CartService
+    , private generalService: GeneralService
+
+  ) { }
 
   ngOnInit(): void {
     this.cartService.updateCartRegisterdCustomerProductNum();
@@ -32,8 +37,6 @@ export class HeaderComponent implements OnInit {
       this.cartService.updateCartRegisterdCustomerProductNum();
       this.loadInfo();
 
-
-      console.log(event.urlAfterRedirects);
       if (event.urlAfterRedirects == '/home' || event.urlAfterRedirects == '/') {
         this.isTransparent = true;
       } else {
@@ -58,5 +61,9 @@ export class HeaderComponent implements OnInit {
       this.numOfProducts = e;
     })
 
+  }
+  logout() {
+    this.authCustomerService.logout();
+     window.location.reload();
   }
 }

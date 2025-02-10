@@ -41,7 +41,11 @@ export class AuthCustomerService {
   updateProfileInfoWithPassword(data:any){
     return this.http.put<{ status: number, message: string, data: any }>(`${this.baseUrl}/profile`,data)
   }
-
+  
+  logout(){
+    console.log("gfd");
+    this.authServiceGeneral.logout('customer');
+  }
 
 
 }

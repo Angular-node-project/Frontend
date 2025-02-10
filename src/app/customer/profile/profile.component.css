@@ -10,7 +10,7 @@ body, html {
 /* Make the container take full width */
 .profile-container {
   max-width: 100%; /* Make it full width */
-  width: 90%; /* Adjust to fit screen size */
+  width: 70%; /* Adjust to fit screen size */
   margin: 30px auto;
   background-color: #fff;
   border-radius: 0;
@@ -102,7 +102,7 @@ body, html {
 
 .detail-item label {
   font-weight: bold;
-  font-family: var(--secondary-font-family);
+  font-family: var(--primary-font-family);
   color: #333;
   display: flex;
   align-items: center;
@@ -119,7 +119,7 @@ body, html {
   border: 1px solid #ccc;
   border-radius: 0;
   font-size: 16px;
-  font-family: var(--secondary-font-family);
+  font-family: var(--primary-font-family);
   background: #fff;
   outline: none;
   transition: border 0.3s ease;

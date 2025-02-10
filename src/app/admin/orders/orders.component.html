@@ -1,5 +1,5 @@
 
-<div class="products-container" >
+<div class="products-container" [class.sidebar-open]="isSidebarOpen" >
     <div class="header-actions">
       <div class="search-box">
         <i class="fas fa-search"></i>
@@ -13,7 +13,6 @@
       <table class="table table-hover">
         <thead class="table-dark">
           <tr>
-          
             <th>Customer Name</th>
             <th>Cashier Name</th>
             <th>Governorate</th>
@@ -79,6 +78,10 @@
           </tr>
         </tbody>
       </table>
+       <div *ngIf="!orders || orders.length === 0" class="text-center text-muted py-4">
+            <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+            <p class="mt-2">No Orders found.</p>
+           </div>
     </div>
   
     <div class="pagination-wrapper">

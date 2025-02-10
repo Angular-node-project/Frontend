@@ -7,6 +7,7 @@ import { Category } from 'src/app/_models/category';
 import { Seller } from 'src/app/_models/sellers';
 import { SellerService } from '../../_services/sellers.services';
 import { ToastrService } from 'ngx-toastr';
+import { CategoryService } from '../../_services/category.service';
 
 @Component({
   standalone: true,
@@ -31,7 +32,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
   imagePreviews: any[] = [];
   fileInputs: HTMLInputElement[] = [];
 
-  constructor(private productservice: ProductService, private sellerservice: SellerService, private toastr: ToastrService) {
+  constructor(private productservice: ProductService, private sellerservice: SellerService, private toastr: ToastrService,private categoryservice:CategoryService) {
 
   }
 
@@ -109,7 +110,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
   }
 
   loadCategories() {
-    this.productservice.getActiveCategories().subscribe({
+    this.categoryservice.getActiveCategories().subscribe({
       next: (response) => {
         console.log("Fetched categories:", response);
         this.categories = response.data;

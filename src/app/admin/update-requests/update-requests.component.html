@@ -1,4 +1,4 @@
-<div class="products-container" >
+<div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
       <div class="search-box">
         <i class="fas fa-search"></i>
@@ -52,6 +52,10 @@
           </tr>
         </tbody>
       </table>
+      <div *ngIf="!UpdateRequests || UpdateRequests.length === 0" class="text-center text-muted py-4">
+        <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+        <p class="mt-2">No UpdateRequests found.</p>
+       </div>
     </div>
   
     <div class="pagination-wrapper">

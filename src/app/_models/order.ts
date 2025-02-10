@@ -17,6 +17,8 @@ export class Order {
         pic_path:[string],
         status: string
     }],
+
+    public createdAt:string,
     public customer={name:String,email:String},
     public cashier={name:String,email:String},
     public status: "pending" | "processing" | "shipped" | "cancelled"|"delivered",

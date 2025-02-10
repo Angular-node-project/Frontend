@@ -72,7 +72,7 @@ export const routes: Routes = [
                     {path:'products',redirectTo:"products/1",pathMatch:'full'},
                     { path: 'products/:page', component: ProductsComponent },
                     { path: 'profile', component: ProfileComponent },
-                    { path: 'cashier', component: CashierComponent },
+                    { path: 'cashier/:page', component: CashierComponent },
                     { path: 'clerks/:page', component: ClerkComponent },
                     {path:'clerks',redirectTo:"clerks/1",pathMatch:'full'},
                     { path: 'seller', redirectTo: '/seller/1', pathMatch: 'full' },

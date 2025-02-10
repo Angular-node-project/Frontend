@@ -41,9 +41,6 @@ export class AuthCustomerService {
   updateProfileInfoWithPassword(data:any){
     return this.http.put<{ status: number, message: string, data: any }>(`${this.baseUrl}/profile`,data)
   }
-  updateProfileInfoWithoutPassword(data:any){
-    return this.http.put<{ status: number, message: string, data: any }>(`${this.baseUrl}/profile2`,data)
-  }
 
 
 

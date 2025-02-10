@@ -25,7 +25,7 @@ export class CategoryService {
   }
   
   getActiveCategories(): Observable<Response<any>> {
-    const result = this.http.get<any>(`${this.baseUrl}`);
+    const result = this.http.get<any>(`${this.baseUrl}?&status=active`);
     return result;
   }
 

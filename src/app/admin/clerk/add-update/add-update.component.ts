@@ -94,7 +94,7 @@ export class AddUpdateComponent implements OnInit, OnDestroy,OnChanges {
     }
   }
   resetForm(){
-    this.clerkForm.reset({
+    this.clerkForm?.reset({
       clerk_id: '',
       name: '',
       email: '',

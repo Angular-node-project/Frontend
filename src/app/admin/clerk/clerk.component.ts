@@ -7,12 +7,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { debounceTime, Subject, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AddUpdateComponent } from './add-update/add-update.component';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 
 
 @Component({
   selector: 'app-clerk',
-  imports: [FormsModule, CommonModule,RouterLink,AddUpdateComponent],
+  imports: [FormsModule, CommonModule,RouterLink,AddUpdateComponent,HasPermissionDirective],
   templateUrl: './clerk.component.html',
   styleUrl: './clerk.component.css'
 })

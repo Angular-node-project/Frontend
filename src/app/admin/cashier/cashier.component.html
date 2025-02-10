@@ -1,5 +1,6 @@
 <div class="products-container">
   <div class="header-actions">
+    <button class="btn btn-success rounded-0" (click)="show()" >Make Order</button>
     <div class="search-box">
       <i class="fas fa-search"></i>
       <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search products...">
@@ -12,47 +13,45 @@
     <table class="table table-hover">
       <thead class="table-dark">
         <tr>
+          <th>Selected</th>
           <th>Name</th>
           <th>Pic</th>
           <th>Qty</th>
+          <th>Stock</th>
           <th>Price</th>
           <th class="d-none d-md-table-cell">Seller</th>
           <th>Status</th>
-          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let product of products; let i = index">
+          <td>
+            <input #refCheck class="form-check-input btn-lg" type="checkbox" [checked]="isChecked(product.product_id)" id="flexCheckDefault"
+            (change)="refCheck.checked? AddproductTocart(product,+product.qty):RemoveProductFromCart(product.product_id)" >
+          </td>
           <td>{{product.name}}</td>
            <td>
             <img [src]="product.pics[0]" alt="Product Image" width="70" height="70">
           </td>
 
-          <td>{{product.qty}}</td>
-          <td>{{product.price}}</td>
+          <td>
+            <div class="col-md-3">
+              <div class="d-flex align-items-center gap-2">
+                <button class="quantity-btn" (click)="IncreaseDecrease(product.product_id,-1)" >-</button>
+                <input disabled #t1 type="number" class="quantity-input"
+                   value="{{product.qty}}" min="1">
+                <button class="quantity-btn" (click)="IncreaseDecrease(product.product_id,1)">+</button>
+              </div>
+            </div>
+          </td>
+          <td>{{product.stock}}</td>
+          <td>${{product.price}}</td>
           <td class="d-none d-md-table-cell">{{product.seller.name}}</td>
           @if(product.status=='active'){
             <td class="text-success">{{product.status}}</td>
           }@else {
             <td class="text-danger">{{product.status}}</td>
           }
-
-          <td class="actions">
-            <div class="btn-group">
-              <button class="btn btn-success btn-sm rounded-0 ">
-                <i class="fa-solid fa-edit"></i>
-              </button>
-              <button class="btn btn-danger btn-sm rounded-0">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-              <div class="dropdown d-inline">
-                <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
-              </div>
-            </div>
-          </td>
         </tr>
       </tbody>
     </table>
@@ -84,31 +83,128 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content rounded-0">
       <div class="modal-header">
-        <h5 class="modal-title"> Product</h5>
+        <h5 class="modal-title"> Order</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
+
+
+        <div>
+          @for (item of cashierProducts; track item.product_id) {
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">{{item.name}} x{{item.qty}} </span>
+              <img src="{{item.pics[0]}}" width="30%" height="30%" alt="" srcset="">
+
+              <span>${{(item.price*item.qty).toFixed(2)}}</span>
+            </div>
+            }
+
+
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">Total</span>
+              <span>${{TotalAmount}}</span>
+            </div>
+
+
+        <form [formGroup]="form" method="post">
+
+          <div class="row mx-2">
+            <div class="col-12 mb-4">
+              <div class="form-floating">
+                <input required type="text" class="form-control" id="Address" #address placeholder="Address" formControlName="Address">
+                <label for="Address">Address</label>
+                <div *ngIf="form.get('Address')?.touched && form.get('Address')?.invalid" class="error-message">
+                  <div *ngIf="form.get('Address')?.errors?.['required']">Address is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mb-4">
+              <div class="form-floating">
+                <select id="in-City" required class="form-select" #city  formControlName="city">
+                  <option value="">Select City</option>
+                  <option value="cairo">Cairo</option>
+                  <option value="alexandria">Alexandria</option>
+                  <option value="giza">Giza</option>
+                  <option value="qalyubia">Qalyubia</option>
+                  <option value="port_said">Port Said</option>
+                  <option value="suez">Suez</option>
+                  <option value="sharqia">Sharqia</option>
+                  <option value="dakahlia">Dakahlia</option>
+                  <option value="aswan">Aswan</option>
+                  <option value="asiyut">Asyut</option>
+                  <option value="beheira">Beheira</option>
+                  <option value="beni_suef">Beni Suef</option>
+                  <option value="fayoum">Fayoum</option>
+                  <option value="gharbia">Gharbia</option>
+                  <option value="ismailia">Ismailia</option>
+                  <option value="kafr_el_sheikh">Kafr El Sheikh</option>
+                  <option value="matruh">Matruh</option>
+                  <option value="minya">Minya</option>
+                  <option value="monufia">Monufia</option>
+                  <option value="new_valley">New Valley</option>
+                  <option value="north_sinai">North Sinai</option>
+                  <option value="qena">Qena</option>
+                  <option value="red_sea">Red Sea</option>
+                  <option value="sohag">Sohag</option>
+                  <option value="south_sinai">South Sinai</option>
+                  <option value="damietta">Damietta</option>
+                  <option value="luxor">Luxor</option>
+                </select>
+                <div *ngIf="form.get('city')?.touched && form.get('city')?.invalid" class="error-message">
+                  <div *ngIf="form.get('city')?.errors?.['required']">city is required</div>
+                </div>
+
+                <!-- <label for="Governorate">Governorate</label> -->
+              </div>
+            </div>
+            <div class="col-6 mb-4">
+              <div class="form-floating">
+                <input required type="text" class="form-control" id="ZipCode" placeholder="ZipCode" #zipCode  formControlName="zipCode">
+                <label for="ZipCode">ZipCode</label>
+              </div>
+              <div *ngIf="form.get('zipCode')?.touched && form.get('zipCode')?.invalid" class="error-message">
+                <div *ngIf="form.get('zipCode')?.errors?.['required']">zipCode is required</div>
+                <div *ngIf="form.get('zipCode')?.errors?.['minlength']">zipCode min length is 5</div>
+              </div>
+            </div>
+            <div class="col-12 mb-4">
+              <div class="form-floating">
+                <input required type="text" class="form-control" id="Phone Number" placeholder="Phone Number"
+                  #phoneNumber formControlName="phone_number">
+                <label for="Phone Number">Phone Number</label>
+                <div *ngIf="form.get('phone_number')?.touched && form.get('phone_number')?.invalid" class="error-message">
+                  <div *ngIf="form.get('phone_number')?.errors?.['required']">phone_number is required</div>
+                  <div *ngIf="form.get('phone_number')?.errors?.['pattern']">Phone Number Must Dtart with (010/011/012/015) followed by 8 digits</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 mb-4">
+              <div class="form-floating ">
+                <textarea #addinfo name="" id=""  rows="4" class="col-12 form-control"  placeholder="Additional Details"></textarea>
+                <label for="Additional Details">Additional Details</label>
+              </div>
+            </div>
+
+
+          </div>
+
+          </form>
+
+          <div class="d-grid gap-2">
+            <button
+              type="button"
+              name=""
+              id=""
+              class="btn btn-success form-control"
+            >
+              Order
+            </button>
+          </div>
 
       </div>
     </div>
   </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirm Delete</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete this product?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger rounded-0">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
+

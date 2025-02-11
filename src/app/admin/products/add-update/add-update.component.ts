@@ -113,7 +113,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
     this.categoryservice.getActiveCategories().subscribe({
       next: (response) => {
         console.log("Fetched categories:", response);
-        this.categories = response.data;
+        this.categories = response.data.categories;
 
       },
       error: () => {

@@ -37,7 +37,7 @@ export class AuthAdminService {
       decodedToken.user_type, 
       decodedToken.role_id,
       decodedToken.role_name,
-      decodedToken.permissions.map((p: any) => new Permission(p.controller, p.action))
+      decodedToken.permissions
     );
 
   }

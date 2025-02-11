@@ -10,7 +10,7 @@
     <div [ngClass]="{'collapse': isCollapsed, 'navbar-collapse': true}" id="main">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link p-3 p-lg-3 mx-2" [routerLink]="['/home']"
+          <a class="nav-link p-2 p-lg-3 mx-2" [routerLink]="['/home']"
             [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}" aria-current="page"
             routerLinkActive="active">Home</a>
         </li>
@@ -47,9 +47,21 @@
             style="transform: translate(20%, -20%);">3</span>
         </a> -->
         @if(isLoggedIn){
-        <a href="/profile" class="user ms-3 text-decoration-none">
-          <i class="fa-solid fa-user fa-1x" style="font-size: medium" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}"> <span class="header-name mx-1" [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">{{loggedInName}}</span></i>
-        </a>
+          <div class="dropdown ms-3 ">
+            <a class="user text-decoration-none" href="#" id="userDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-user fa-1x" style="font-size: medium"
+                [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">
+                <span class="header-name mx-1"
+                  [ngClass]="{'text-white': isTransparent, 'text-dark': !isTransparent}">{{loggedInName}}</span>
+              </i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end rounded-0" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" [routerLink]="['/profile']">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item text-danger" (click)="logout()">Logout</button></li>
+            </ul>
+          </div>
         }
         @if(!isLoggedIn){
         <a [routerLink]="['/login']" routerLinkActive="router-link-active" class=" btn  main-btn ms-3"

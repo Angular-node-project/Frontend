@@ -2,25 +2,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Product } from 'src/app/_models/product';
 import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CashierService {
+  private baseUrl = `${environment.apiUrl}/api/cashier/order`;
 
-  constructor() { }
+  constructor(public http: HttpClient) { }
 
-getCartGuest(): Observable<any[]> {
-  const cart = localStorage.getItem('CashierCart');
-  if (!cart) {
-    // Return an empty array wrapped in an Observable
-    return of([]);
+  addCashierOrder(data: any) {
+    return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, order: any } }>
+    (`${this.baseUrl}`, data)
   }
-
-  // Parse the cart from localStorage and return it as an Observable
-  let allCartProducts: Product[] = JSON.parse(cart);
-  return of(allCartProducts); // Wrap the array in an Observable using `of`
-}
 
 
 

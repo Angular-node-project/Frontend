@@ -1,0 +1,30 @@
+<form>
+    <input type="hidden" [(ngModel)]="roleData.role_id" name="role_id">
+    <div class="mb-5">
+        <label for="roleName" class="form-label">Role Name</label>
+        <input type="text" id="roleName" class="form-control rounded-0" [(ngModel)]="roleData.name" name="roleName"
+            required />
+    </div>
+
+    <div class="row">
+        <div *ngFor="let permissionGroup of groupedPermissions|keyvalue" class="col-md-4 mb-5">
+            <strong>{{ permissionGroup.key }}</strong>
+            <div *ngFor="let action of permissionGroup.value" class="form-check mt-1">
+                <input type="checkbox" class="form-check-input rounded-0" [id]="action.permission_id"
+                    [value]="action.permission_id" [checked]="isChecked(action.permission_id)" name="permissions"
+                    (change)="togglePermission(permissionGroup.key, action.action, action.permission_id, $event)" />
+                <label class="form-check-label" [for]="action.permission_id">
+                    {{ action.action }}
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-success rounded-0" (click)="saveData()">
+                {{ isEditMode ? 'Update' : 'Save' }}
+
+            </button>
+        </div>
+    </div>
+</form>

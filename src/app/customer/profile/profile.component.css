@@ -10,7 +10,7 @@ body, html {
 /* Make the container take full width */
 .profile-container {
   max-width: 100%; /* Make it full width */
-  width: 90%; /* Adjust to fit screen size */
+  width: 70%; /* Adjust to fit screen size */
   margin: 30px auto;
   background-color: #fff;
   border-radius: 0;
@@ -30,16 +30,16 @@ body, html {
     gap: 20px;
     margin-bottom: 30px;
   }
-  
+
   .profile-details {
     padding: 30px;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-  
-  
-  
+
+
+
   /* Tabs */
   .tabs {
     display: flex;
@@ -47,7 +47,7 @@ body, html {
     padding: 0 30px;
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
   }
-  
+
   .tab-button {
     background: transparent;
     border: none;
@@ -59,13 +59,13 @@ body, html {
     transition: all 0.3s ease;
     font-weight: 600;
   }
-  
+
   .tab-button.active {
     color: #fff;
     font-weight: 600;
-    
+
   }
-  
+
   .tab-button.active::after {
     content: '';
     position: absolute;
@@ -75,15 +75,15 @@ body, html {
     height: 2px;
     background: #5c9735;
   }
-  
+
   .tab-content {
     display: none; /* Hide all tab contents by default */
   }
-  
+
   .tab-content.active {
     display: block; /* Show active tab content */
   }
-  
+
   /* Profile Inputs */
 .profile-details {
   padding: 30px;
@@ -102,7 +102,7 @@ body, html {
 
 .detail-item label {
   font-weight: bold;
-  font-family: var(--secondary-font-family);
+  font-family: var(--primary-font-family);
   color: #333;
   display: flex;
   align-items: center;
@@ -119,7 +119,7 @@ body, html {
   border: 1px solid #ccc;
   border-radius: 0;
   font-size: 16px;
-  font-family: var(--secondary-font-family);
+  font-family: var(--primary-font-family);
   background: #fff;
   outline: none;
   transition: border 0.3s ease;
@@ -158,7 +158,7 @@ button {
 }
 
 .save-button:hover {
-  background: white; 
+  background: white;
   color: #5c9735;
   border: 1px solid #5c9735;
 }
@@ -170,7 +170,7 @@ button {
 }
 
 .logout-button:hover {
-  background:white; 
+  background:white;
   color: #5c9735;
   border: 1px solid #5c9735;
 }
@@ -180,7 +180,7 @@ button {
     display: grid;
     gap: 20px;
   }
-  
+
   .order-card {
     border: 1px solid #eee;
     border-radius: 0;
@@ -189,7 +189,7 @@ button {
     background: #fff;
     position: relative;
   }
-  
+
   .order-status {
     position: absolute;
     right: 20px;
@@ -202,48 +202,48 @@ button {
     align-items: center;
     gap: 8px;
   }
-  
+
   .order-status.delivered {
     background: #e8f5e9;
     color: #2e7d32;
   }
-  
+
   .order-status.shipped {
     background: #fff3e0;
     color: #ef6c00;
   }
-  
+
   .order-content {
     padding: 20px;
     flex: 1;
   }
-  
+
   .order-meta {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
     color: #666;
   }
-  
+
   .order-products {
     display: grid;
     gap: 15px;
     margin-bottom: 15px;
   }
-  
+
   .product-item {
     display: flex;
     align-items: center;
     gap: 15px;
   }
-  
+
   .product-item img {
     width: 60px;
     height: 60px;
     border-radius: 0;
     object-fit: cover;
   }
-  
+
   .order-footer {
     display: flex;
     justify-content: space-between;
@@ -251,13 +251,13 @@ button {
     padding-top: 15px;
     border-top: 1px solid #eee;
   }
-  
+
   .total {
     font-weight: 600;
     font-family: var(--secondary-font-family);
     color: #4CAF50;
   }
-  
+
   button {
     padding: 8px 20px;
     border-radius: 0;
@@ -265,15 +265,41 @@ button {
     cursor: pointer;
     transition: all 0.3s ease;
   }
-  
+
   .reorder-button {
-    background: #4CAF50;
+    background: red;
     color: #fff;
   }
-  
+
   .track-button {
     background: #2196F3;
     color: #fff;
   }
-  
-  
+
+
+
+/** Style For Order Status  **/
+  .pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  .processing {
+    background-color: #cce5ff;
+    color: #004085;
+  }
+
+  .shipped {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .delivered {
+    background-color: #d1ecf1;
+    color: #0c5460;
+  }

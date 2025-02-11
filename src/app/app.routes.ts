@@ -29,6 +29,8 @@ import { authAdminGuard } from './admin/authAdmin.guard';
 import { UpdateRequestsComponent } from './admin/update-requests/update-requests.component';
 import { RoleComponent } from './admin/role/role.component';
 import { SellerOrdersComponent } from './seller/seller-orders/seller-orders.component';
+import { OrdersComponent } from './admin/orders/orders.component';
+import { CategoryComponent } from './admin/category/category.component';
 
 
 export const routes: Routes = [
@@ -72,7 +74,7 @@ export const routes: Routes = [
                     {path:'products',redirectTo:"products/1",pathMatch:'full'},
                     { path: 'products/:page', component: ProductsComponent },
                     { path: 'profile', component: ProfileComponent },
-                    { path: 'cashier', component: CashierComponent },
+                    { path: 'cashier/:page', component: CashierComponent },
                     { path: 'clerks/:page', component: ClerkComponent },
                     {path:'clerks',redirectTo:"clerks/1",pathMatch:'full'},
                     { path: 'seller', redirectTo: '/seller/1', pathMatch: 'full' },
@@ -81,6 +83,10 @@ export const routes: Routes = [
                     { path: 'UpdateRequests/:page', component: UpdateRequestsComponent },
                     { path: 'roles/:page', component: RoleComponent },
                     {path:'roles',redirectTo:"roles/1",pathMatch:'full'},
+                    { path: 'order', redirectTo: '/order/1', pathMatch: 'full' },
+                    { path: 'order/:page', component: OrdersComponent },
+                    { path: 'category', redirectTo: '/category/1', pathMatch: 'full' },
+                    { path: 'category/:page', component: CategoryComponent },
 
                 ]
             }

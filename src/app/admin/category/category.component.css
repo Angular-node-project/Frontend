@@ -1,0 +1,16 @@
+@import url("../products/products.component.css");
+.add-category-box {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adds spacing between input and buttons */
+  }
+  
+  .add-category-box input {
+    flex: 1; /* Makes input take available space */
+    max-width: 250px; /* Adjust width as needed */
+  }
+  
+  .add-category-box button {
+    white-space: nowrap; /* Prevents text from wrapping */
+  }
+  

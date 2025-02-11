@@ -1,4 +1,4 @@
-<div class="products-container" >
+<div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
       <div class="search-box">
         <i class="fas fa-search"></i>
@@ -52,19 +52,23 @@
           </tr>
         </tbody>
       </table>
+      <div *ngIf="!UpdateRequests || UpdateRequests.length === 0" class="text-center text-muted py-4">
+        <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+        <p class="mt-2">No UpdateRequests found.</p>
+       </div>
     </div>
   
     <div class="pagination-wrapper">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="currentPage === 1">
-          <a class="page-link rounded-0" [routerLink]="['/admin/seller',currentPage-1]" >
+          <a class="page-link rounded-0" [routerLink]="['/admin/UpdateRequests',currentPage-1]" >
             <i class="fas fa-chevron-left"></i>
           </a>
         </li>
         
         <li class="page-item" *ngFor="let page of getPages()" 
             [class.active]="page === currentPage">
-          <a class="page-link rounded-0"  [routerLink]="['/admin/seller',page]">{{page}}</a>
+          <a class="page-link rounded-0"  [routerLink]="['/admin/UpdateRequests',page]">{{page}}</a>
         </li>
   
         <li class="page-item" [class.disabled]="currentPage === totalPages">

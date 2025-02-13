@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component,NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {NgApexchartsModule} from 'ng-apexcharts'
 import { HeaderComponent } from './_core/header/header.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 
@@ -11,11 +13,17 @@ import { SideBarComponent } from './side-bar/side-bar.component';
     CommonModule,
     RouterModule, 
     HeaderComponent, 
-    SideBarComponent
+    SideBarComponent,
+    NgApexchartsModule
   ],
+  schemas : [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
+
+
+
+
 export class AdminComponent {
   isSidebarOpen = false;
 

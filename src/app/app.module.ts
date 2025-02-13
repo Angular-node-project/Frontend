@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { AddUpdateComponent } from './admin/products/add-update/add-update.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { AddUpdateComponent } from './admin/products/add-update/add-update.compo
     BrowserModule,
     NgbModule,
     CommonModule,
-    AddUpdateComponent
+    AddUpdateComponent,
+    NgApexchartsModule
   ],
   providers: [],
   bootstrap: []

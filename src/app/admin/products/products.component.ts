@@ -74,6 +74,7 @@ export class ProductsComponent implements OnInit {
   loadProducts(page: number): void {
     this.productservice.getAllProducts(page, this.selectedSort, this.selectedCategory, this.status, this.search).subscribe({
       next: (response) => {
+        
         this.products = response.data.products;
         this.totalPages = response.data.totalPages;
         this.totalResults = response.data.totalProductsCount;

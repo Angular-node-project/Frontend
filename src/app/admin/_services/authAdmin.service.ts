@@ -21,6 +21,11 @@ export class AuthAdminService {
 
   }
 
+  resetPassword():Observable<Response<any>>{
+    var res = this.http.post<Response<any>>(`${this.baseUrl}/password/reset`,{});
+    return res;
+  }
+
   isLoggedIn(): boolean {
     return this.authGeneralService.isLoggedIn('admin');
   }

@@ -32,6 +32,7 @@ import { OrdersComponent } from './admin/orders/orders.component';
 import { CategoryComponent } from './admin/category/category.component';
 import { CustomerService } from './_models/customerservice';
 import { CustomerserviceComponent } from './admin/customerservice/customerservice.component';
+import { SellerRegisterComponent } from './seller/seller-register/seller-register.component';
 
 
 export const routes: Routes = [
@@ -39,6 +40,7 @@ export const routes: Routes = [
     {path: 'seller',children: [
         { path: 'login', component: SellerLoginComponent},
         {path: '',redirectTo: 'login',pathMatch: 'full'},
+        { path:'register', component: SellerRegisterComponent},
         {path: '',component: SellerComponent
           //  canActivate: [adminAuthGuard]
             ,children: [

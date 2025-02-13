@@ -30,6 +30,8 @@ import { UpdateRequestsComponent } from './admin/update-requests/update-requests
 import { RoleComponent } from './admin/role/role.component';
 import { OrdersComponent } from './admin/orders/orders.component';
 import { CategoryComponent } from './admin/category/category.component';
+import { CustomerService } from './_models/customerservice';
+import { CustomerserviceComponent } from './admin/customerservice/customerservice.component';
 
 
 export const routes: Routes = [
@@ -85,6 +87,8 @@ export const routes: Routes = [
                     { path: 'order/:page', component: OrdersComponent },
                     { path: 'category', redirectTo: '/category/1', pathMatch: 'full' },
                     { path: 'category/:page', component: CategoryComponent },
+                    { path: 'customerservice', redirectTo: '/customerservice/1', pathMatch: 'full' },
+                    { path: 'customerservice/:page', component: CustomerserviceComponent },
 
                 ]
             }

@@ -15,7 +15,7 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   getAllcategories(page: number,status:string,name:String): Observable<Response<any>> {
-    var result = this.http.get<any>(`${this.baseUrl}?page=${page}&status=${status}&name=${name}`);
+    var result = this.http.get<any>(`${this.baseUrl}?page=${page}&status=${status}&name=${name}&limit=6`);
     return result;
   }
   changeStatus(id:string,status:string)
@@ -25,7 +25,7 @@ export class CategoryService {
   }
   
   getActiveCategories(): Observable<Response<any>> {
-    const result = this.http.get<any>(`${this.baseUrl}?&status=active`);
+    const result = this.http.get<any>(`${this.baseUrl}?&limit=0&status=active`);
     return result;
   }
 

@@ -30,6 +30,8 @@ import { UpdateRequestsComponent } from './admin/update-requests/update-requests
 import { RoleComponent } from './admin/role/role.component';
 import { OrdersComponent } from './admin/orders/orders.component';
 import { CategoryComponent } from './admin/category/category.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SellerRegisterComponent } from './seller/seller-register/seller-register.component';
 import { CustomerService } from './_models/customerservice';
 import { CustomerserviceComponent } from './admin/customerservice/customerservice.component';
 
@@ -39,6 +41,7 @@ export const routes: Routes = [
     {path: 'seller',children: [
         { path: 'login', component: SellerLoginComponent},
         {path: '',redirectTo: 'login',pathMatch: 'full'},
+        {path:'register',component:SellerRegisterComponent},
         {path: '',component: SellerComponent
           //  canActivate: [adminAuthGuard]
             ,children: [
@@ -46,7 +49,8 @@ export const routes: Routes = [
                 { path: 'products', component: SellerProductsComponent },
                 { path: 'profile', component: SellerProfileComponent }
             ]
-        }
+        },
+        
     ]
 
 },
@@ -63,6 +67,7 @@ export const routes: Routes = [
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
         {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]},
+      
     ]},
     {path: 'admin',children: [
             { path: 'login', component: AdminLoginComponent },
@@ -94,4 +99,6 @@ export const routes: Routes = [
             }
         ]
     }
+    ,
+    {path :'**',component:PageNotFoundComponent}
 ];

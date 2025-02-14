@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/_services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class AdminLoginComponent {
-
+  showPassword = false;
   constructor(private router: Router
     , private authAdminService: AuthAdminService
     , private authGeneralService: AuthService

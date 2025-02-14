@@ -1,6 +1,6 @@
 <div class="login-container">
   <div class="login-card rounded-0">
-    <h2>seller Login</h2>
+    <h2>Admin Login</h2>
     <form [formGroup]="form" (ngSubmit)="onLogin()">
       <div class="form-group">
         <label>Email</label>
@@ -12,7 +12,20 @@
       </div>
       <div class="form-group">
         <label>Password</label>
-        <input type="password" formControlName="password" name="password" class="form-control rounded-0" placeholder="Enter password">
+        <div class="password-wrapper">
+          <input 
+            type="password" 
+            formControlName="password" 
+            name="password" 
+            class="form-control rounded-0" 
+            placeholder="Enter password"
+            [type]="showPassword ? 'text' : 'password'"
+          >
+          <span 
+            class="password-toggle"
+            (click)="showPassword = !showPassword"
+          >{{ showPassword ? '🙈' : '👁️' }}</span>
+        </div>
         <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="error-message">
           <div *ngIf="form.get('password')?.errors?.['required']">Password is required</div>
         </div>

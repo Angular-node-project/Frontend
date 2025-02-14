@@ -13,13 +13,16 @@ import { Router } from '@angular/router';
   templateUrl: './seller-register.component.html',
   styleUrl: './seller-register.component.css'
 })
+
+
 export class SellerRegisterComponent implements OnDestroy {
   constructor(
     private authsellerService: AuthSellerService,
     private toastre: ToastrService,
     private router: Router
   ) { }
-
+  
+  showPassword = false;
   sub!: Subscription;
   form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),

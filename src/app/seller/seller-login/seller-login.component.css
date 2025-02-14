@@ -30,7 +30,24 @@ label {
   margin-bottom: 8px;
   color: #2d4739;
 }
+.password-wrapper {
+  position: relative;
+}
 
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  z-index: 2;
+}
+
+/* Add padding to prevent text overlap */
+.password-wrapper .form-control {
+  padding-right: 35px;
+}
 .form-control {
   width: 100%;
   padding: 10px;

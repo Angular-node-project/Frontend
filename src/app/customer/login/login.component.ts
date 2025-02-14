@@ -15,6 +15,7 @@ import { GeneralService } from '../_services/general.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  showPassword = false;
   constructor(private toastr: ToastrService
     , private route :ActivatedRoute
     , private authService: AuthCustomerService

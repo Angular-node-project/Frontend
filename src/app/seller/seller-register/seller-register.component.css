@@ -45,7 +45,23 @@
             color: gray;
             margin-bottom: 20px;
         }
-
+        .password-container {
+            position: relative;
+        }
+        
+        .password-input {
+            padding-right: 35px; 
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 43%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            z-index: 2;
+        }
         .form-group {
             display: flex;
             gap: 20px;

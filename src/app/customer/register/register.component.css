@@ -27,7 +27,20 @@ body {
     color: #666;
     margin-bottom: 20px;
   }
+  .password-wrapper {
+    position: relative;
+    margin-bottom: 15px; /* Maintain existing spacing */
+  }
   
+  .password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 40%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    z-index: 2;
+  }
   .register-container input[type="text"],
   .register-container input[type="email"],
   .register-container input[type="tel"],

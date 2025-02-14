@@ -14,7 +14,7 @@ export class CashierService {
   constructor(public http: HttpClient) { }
 
   addCashierOrder(data: any) {
-    return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, order: any } }>
+    return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, data: any } }>
     (`${this.baseUrl}`, data)
   }
 

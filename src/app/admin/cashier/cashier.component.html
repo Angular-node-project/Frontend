@@ -33,7 +33,7 @@
             </td>
           }@else {
             <td>
-              OutOfStock
+              <span class="badge  bg-danger">OutOfStock</span>
             </td>
           }
           <td>{{product.name}}</td>
@@ -99,7 +99,7 @@
           @for (item of cashierProducts; track item.product_id) {
           <div class="d-flex justify-content-between mb-3">
             <span class="text-muted">{{item.name}} x{{item.qty}} </span>
-            <img src="{{item.pics[0]}}" width="15%" height="15%" alt="Product image" srcset="">
+            <img [src]="item.pics[0]" width="15%" height="15%" alt="Product image" srcset="">
 
             <span>${{(item.price*item.qty).toFixed(2)}}</span>
           </div>

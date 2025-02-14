@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../_services/products.services';
-import { CashierProduct } from 'src/app/_models/product';
+import { CashierProduct, ProductResponse } from 'src/app/_models/product';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +35,7 @@ export class CashierComponent implements OnInit {
   currentPage = 1;
   cashierProducts: CashierProduct[] = [];
   TotalAmount = 0;
+  Productres:ProductResponse[]=[];
 
   form: FormGroup = new FormGroup({
     Address: new FormControl('', [Validators.required]),
@@ -189,7 +190,9 @@ export class CashierComponent implements OnInit {
 
   //* Making orders
   createOrder(data: any,addInfo:string) {
+
     this.getCashierCart();
+    console.log(this.cashierProducts)
     let address = data.Address
     let governorate = data.city
     let zipcode = data.zipCode
@@ -199,7 +202,7 @@ export class CashierComponent implements OnInit {
     let product=this.cashierProducts.map(p=>{
       return{
         product_id:p.product_id,
-        seller_id:p.seller.seller_id,
+        seller_id:p.seller?.seller_id||p.seller_id,
         name:p.name,
         qty:p.qty,
         price:p.price,
@@ -212,12 +215,35 @@ export class CashierComponent implements OnInit {
     this.cahierService.addCashierOrder({ address, zipcode, phone_number, governorate, product,additional_data, totalPrice })
     .subscribe({
       next:(e)=>{
+       if(e.data.success){
         this.RemoveCashierCart()
         console.log(e)
         this.loadProducts(this.currentPage)
         this.form.reset()
         this.TotalAmount=0;
         this.toastr.success(e.message)
+       }else{
+        this.getCashierCart();
+        console.log("*********************************")
+        console.log(e.data.data.product)
+        this.loadProducts(this.currentPage)
+        this.toastr.error(e.data.ErrorMsg)
+        //  this.cashierProducts=e.data.data.product
+        this.Productres=e.data.data.product
+        this.cashierProducts.forEach(p=>{
+          this.Productres.forEach(pr=>{
+            if(pr.product_id==p.product_id){
+              p.price=pr.price;
+              p.stock=pr.qty;
+              if(p.qty>p.stock)
+                p.qty=p.stock
+            }
+          })
+        });
+        const productIds = new Set(this.Productres.map(product => product.product_id));
+        this.cashierProducts=this.cashierProducts.filter(product => productIds.has(product.product_id))
+        this.save()
+       }
       }
     })
   }

@@ -22,6 +22,7 @@ interface cartguestproduct {
 
 export class CartService {
   private baseUrl = `${environment.apiUrl}/api/customer/cart`;
+  private orderUrl = `${environment.apiUrl}/api/customer/order`;
   private productNumSubject = new BehaviorSubject<number>(0);
   productNum$ = this.productNumSubject.asObservable();
 
@@ -59,12 +60,12 @@ export class CartService {
   }
 
   addOrder(data: any) {
-    return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, order: any } }>(`http://localhost:5000/api/customer/order`, data)
+    return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, data: any } }>(`${this.orderUrl}`, data)
   }
 
   getOrder(){
     return this.http.get<{ status: number, message: string, data:  Order[]  }>
-    (`http://localhost:5000/api/customer/order`)
+    (`${this.orderUrl}`)
   }
 
 

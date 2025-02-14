@@ -40,7 +40,8 @@ export class ProductItemComponent {
             this.viewPortScroller.scrollToPosition([0,0]);
             toast.success("Product Added To Cart");
           } else {
-            toast.error("e.data.ErrorMsg")
+            console.log(e)
+            toast.error(e.data.ErrorMsg)
           }
         }
       })

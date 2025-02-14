@@ -31,3 +31,13 @@ export class CashierProduct {
       public doesCustomerOrderThisProduct:boolean
     ) {}
   }
+export class ProductResponse {
+    constructor(
+      public product_id:string,
+      public seller_id:string,
+      public name:string,
+      public qty:number,
+      public price:number,
+      public pic_path:string[],
+    ) {}
+  }

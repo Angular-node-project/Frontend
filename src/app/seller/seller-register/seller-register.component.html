@@ -1,51 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Page</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-</head>
-<body>
-    <div class="container">
-        <div class="image-section">
-            <img src="customer/imgs/plants-store-gallery-img-3.jpg" alt="Jewelry Display">
-        </div>
-        <div class="form-section">
-            <h2>Adventure starts here with blingg</h2>
-            <p>Sell more, gain more</p>
-            <form>
-                <div class="form-group">
-                    <div>
-                        <label>Name</label>
-                        <input type="text" placeholder="johndoe">
-                    </div>
-                    <div>
-                        <label>Email</label>
-                        <input type="email" placeholder="admin@gmail.com">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div>
-                        <label>Password</label>
-                        <input type="password" placeholder="password">
-                    </div>
-                    <div>
-                        <label>Phone</label>
-                        <input type="text" placeholder="phone">
-                    </div>
-                </div>
-                <label>National ID</label>
-                <input type="text" placeholder="29810051201313">
-                
-                <label>Commercial Registration Number</label>
-                <input type="text" placeholder="9874512">
-                
-                <button type="submit" class="signup-btn btn-success">Sign up</button>
-            </form>
-        </div>
+<div class="container">
+    <div class="image-section">
+        <img src="customer/imgs/plants-store-gallery-img-3.jpg" alt="Jewelry Display">
     </div>
-</body>
-</html>
+    <div class="form-section">
+        <h2>Adventure starts here with greenhouse</h2>
+        <p>Sell more, gain more</p>
+        <form method="post" [formGroup]="form">
+            <div class="form-group">
+                <div>
+                    <label>Name</label>
+                    <input type="text" placeholder="johndoe" formControlName="name">
+                    <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="error-message">
+                        <div *ngIf="form.get('name')?.errors?.['required']">Name is required</div>
+                    </div>
+                </div>
+                <div>
+                    <label>Phone</label>
+                    <input type="text" placeholder="phone" formControlName="phone_number">
+                    <div *ngIf="form.get('phone_number')?.touched && form.get('phone_number')?.invalid" class="error-message">
+                        <div *ngIf="form.get('phone_number')?.errors?.['required']">phone_number is required</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <div>
+                    <label>Email</label>
+                    <input type="email" placeholder="admin@gmail.com" formControlName="email">
+                    <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="error-message">
+                        <div *ngIf="form.get('email')?.errors?.['required']">email is required</div>
+                        <div *ngIf="form.get('email')?.errors?.['email']">please enter valid email</div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label>National ID</label>
+                <input type="text" placeholder="29810051201313" formControlName="national_id">
+                <div *ngIf="form.get('national_id')?.touched && form.get('national_id')?.invalid" class="error-message">
+                    <div *ngIf="form.get('national_id')?.errors?.['required']">nationa_id is required</div>
+                    <!-- <div *ngIf="form.get('national_id')?.errors?.['pattern']">nationa_id must be more than 15 num</div> -->
+                </div>
+
+            </div>
+            <div>
+                <label>Commercial Registration Number</label>
+                <input type="text" placeholder="9874512" formControlName="registeration_number">
+
+            </div>
+            <button  class="signup-btn btn-success" (click)="register()">  Sign up</button>
+        </form>
+    </div>
+</div>

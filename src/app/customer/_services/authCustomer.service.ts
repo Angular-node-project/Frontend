@@ -13,7 +13,6 @@ import { Customer } from 'src/app/_models/customer';
 export class AuthCustomerService {
   private baseUrl = `${environment.apiUrl}/api/customer/account`;
 
-
   constructor(private http: HttpClient,private authServiceGeneral: AuthServiceGeneral) { }
 
   login(email:string,password:string):Observable<Response<string>>{
@@ -43,7 +42,6 @@ export class AuthCustomerService {
   }
   
   logout(){
-    console.log("gfd");
     this.authServiceGeneral.logout('customer');
   }
 

@@ -24,6 +24,14 @@ export class AuthService {
         var decodedToken = jwtDecode<any>(this.getToken(user_type));
         return decodedToken.name || null;
     }
+    getLoggedInEmail(user_type: 'customer' | 'seller' | 'admin'): string {
+        if (this.getToken(user_type) === '') {
+            return '';
+        }
+        var decodedToken = jwtDecode<any>(this.getToken(user_type));
+        return decodedToken.email || null;
+    }
+
 
     getLoggedInId(user_type: 'customer' | 'seller' | 'admin'): string {
         if (this.getToken(user_type) === '') {
@@ -32,8 +40,8 @@ export class AuthService {
         var decodedToken = jwtDecode<any>(this.getToken(user_type));
         return decodedToken.id || null;
     }
-   
-    getLoggedInData(user_type:'customer'|'seller'|'admin'):any{
+
+    getLoggedInData(user_type: 'customer' | 'seller' | 'admin'): any {
         if (this.getToken(user_type) === '') {
             return '';
         }
@@ -50,11 +58,11 @@ export class AuthService {
     getToken(user_type: 'customer' | 'seller' | 'admin'): string {
 
         const storageKey = this.getStorageKeyByUserType(user_type);
-        const token =localStorage.getItem(storageKey);
-        if(token){
-            const expiryDate= jwtDecode<any>(token).exp;
-            const expiryDateTime=new Date(expiryDate * 1000); 
-            if(expiryDateTime&& new Date().getTime()>expiryDateTime.getTime()){
+        const token = localStorage.getItem(storageKey);
+        if (token) {
+            const expiryDate = jwtDecode<any>(token).exp;
+            const expiryDateTime = new Date(expiryDate * 1000);
+            if (expiryDateTime && new Date().getTime() > expiryDateTime.getTime()) {
                 this.removeToken(user_type);
                 return '';
             }

@@ -75,17 +75,53 @@ export class AddUpdateComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   togglePermission(controller: string, action: string, permission_id: string, event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    console.log(checked);
+    const checked = (event.target as HTMLInputElement).checked;  
     if (checked) {
       if (!this.selectedPermissions.some(perm => perm.permission_id === permission_id)) {
         this.selectedPermissions.push({ controller, action, permission_id });
       }
+  
+      if (["add", "update", "changeStatus", "delete"].includes(action)) {
+        const showPermission = this.groupedPermissions[controller]?.find(perm => perm.action === "show");
+  
+        if (showPermission) {
+          const isShowAlreadySelected = this.selectedPermissions.some(perm => perm.permission_id === showPermission.permission_id);
+          if (!isShowAlreadySelected) {
+            this.selectedPermissions.push({ 
+              controller, 
+              action: "show", 
+              permission_id: showPermission.permission_id 
+            });
+            setTimeout(() => {
+              const showCheckbox = document.getElementById(`${showPermission.permission_id}`) as HTMLInputElement;
+              if (showCheckbox) {
+                showCheckbox.checked = true;
+              }
+            }, 0);
+          }
+        }
+      }
     } else {
       this.selectedPermissions = this.selectedPermissions.filter(perm => perm.permission_id !== permission_id);
+      if (action === "show") {
+        console.log(`❌ "show" removed, unchecking all permissions for ${controller}`);
+        this.selectedPermissions = this.selectedPermissions.filter(perm => perm.controller !== controller);
+        setTimeout(() => {
+          ["add", "update", "changeStatus", "delete"].forEach(act => {
+            const relatedPermission = this.groupedPermissions[controller]?.find(perm => perm.action === act);
+            if (relatedPermission) {
+              const relatedCheckbox = document.getElementById(`${relatedPermission.permission_id}`) as HTMLInputElement;
+              if (relatedCheckbox) {
+                relatedCheckbox.checked = false;
+              }
+            }
+          });
+        }, 0);
+      }
     }
-
   }
+  
+  
 
   saveData() {
     this.roleData.permissions=this.selectedPermissions;

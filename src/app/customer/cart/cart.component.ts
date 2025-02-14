@@ -114,9 +114,6 @@ export class CartComponent implements OnInit {
         }, 0) ?? 0;
       }
     }
-
-
-
   }
   UpdateQty(data: CartProduct, num: number) {
     this.newQty = num

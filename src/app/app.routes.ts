@@ -31,6 +31,10 @@ import { RoleComponent } from './admin/role/role.component';
 import { SellerOrdersComponent } from './seller/seller-orders/seller-orders.component';
 import { OrdersComponent } from './admin/orders/orders.component';
 import { CategoryComponent } from './admin/category/category.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SellerRegisterComponent } from './seller/seller-register/seller-register.component';
+import { CustomerService } from './_models/customerservice';
+import { CustomerserviceComponent } from './admin/customerservice/customerservice.component';
 
 
 export const routes: Routes = [
@@ -38,6 +42,7 @@ export const routes: Routes = [
     {path: 'seller',children: [
         { path: 'login', component: SellerLoginComponent},
         {path: '',redirectTo: 'login',pathMatch: 'full'},
+        {path:'register',component:SellerRegisterComponent},
         {path: '',component: SellerComponent
           //  canActivate: [adminAuthGuard]
             ,children: [
@@ -46,7 +51,8 @@ export const routes: Routes = [
                 { path: 'profile', component: SellerProfileComponent },
                 { path: 'orders/:page', component: SellerOrdersComponent }
             ]
-        }
+        },
+        
     ]
 
 },
@@ -63,6 +69,7 @@ export const routes: Routes = [
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
         {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]},
+      
     ]},
     {path: 'admin',children: [
             { path: 'login', component: AdminLoginComponent },
@@ -87,9 +94,13 @@ export const routes: Routes = [
                     { path: 'order/:page', component: OrdersComponent },
                     { path: 'category', redirectTo: '/category/1', pathMatch: 'full' },
                     { path: 'category/:page', component: CategoryComponent },
+                    { path: 'customerservice', redirectTo: '/customerservice/1', pathMatch: 'full' },
+                    { path: 'customerservice/:page', component: CustomerserviceComponent },
 
                 ]
             }
         ]
     }
+    ,
+    {path :'**',component:PageNotFoundComponent}
 ];

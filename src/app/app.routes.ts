@@ -19,7 +19,7 @@ import { AdminLoginComponent } from './admin/login/login.component';
 import { adminAuthGuard } from './admin/guards/admin-auth.guard';
 import { SellerLoginComponent } from './seller/seller-login/seller-login.component';
 import { SellerDashboardComponent } from './seller/seller-dashboard/seller-dashboard.component';
-import { SellerProductsComponent } from './seller/seller-products/seller-products.component';
+import { ProductsComponent as SellerProductsComponent } from './seller/products/products.component';
 import { SellerProfileComponent } from './seller/seller-profile/seller-profile.component';
 import { ClerkComponent } from './admin/clerk/clerk.component';
 import { authCustomerGuard } from './customer/authCustomer.guard';
@@ -28,6 +28,7 @@ import { CashierComponent } from './admin/cashier/cashier.component';
 import { authAdminGuard } from './admin/authAdmin.guard';
 import { UpdateRequestsComponent } from './admin/update-requests/update-requests.component';
 import { RoleComponent } from './admin/role/role.component';
+import { SellerOrdersComponent } from './seller/seller-orders/seller-orders.component';
 import { OrdersComponent } from './admin/orders/orders.component';
 import { CategoryComponent } from './admin/category/category.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -46,8 +47,9 @@ export const routes: Routes = [
           //  canActivate: [adminAuthGuard]
             ,children: [
                 { path: 'dashboard', component:SellerDashboardComponent },
-                { path: 'products', component: SellerProductsComponent },
-                { path: 'profile', component: SellerProfileComponent }
+                { path: 'products/:page', component: SellerProductsComponent },
+                { path: 'profile', component: SellerProfileComponent },
+                { path: 'orders', component: SellerOrdersComponent }
             ]
         },
         

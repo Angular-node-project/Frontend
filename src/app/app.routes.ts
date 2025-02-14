@@ -16,7 +16,6 @@ import { ProductsComponent } from './admin/products/products.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProfileComponent } from './admin/profile/profile.component';
 import { AdminLoginComponent } from './admin/login/login.component';
-import { adminAuthGuard } from './admin/guards/admin-auth.guard';
 import { SellerLoginComponent } from './seller/seller-login/seller-login.component';
 import { SellerDashboardComponent } from './seller/seller-dashboard/seller-dashboard.component';
 import { ProductsComponent as SellerProductsComponent } from './seller/products/products.component';
@@ -35,6 +34,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SellerRegisterComponent } from './seller/seller-register/seller-register.component';
 import { CustomerserviceComponent } from './admin/customerservice/customerservice.component';
 import { RequestSentComponent } from './seller/request-sent/request-sent.component';
+import { authSellerGuard } from './seller/auth-seller.guard';
 
 
 
@@ -45,9 +45,9 @@ export const routes: Routes = [
         {path: '',redirectTo: 'login',pathMatch: 'full'},
         {path:'register',component:SellerRegisterComponent},
         {path:'request',component:RequestSentComponent},
-        {path: '',component: SellerComponent
-          //  canActivate: [adminAuthGuard]
-            ,children: [
+        {path: '',component: SellerComponent,
+           canActivate: [authSellerGuard],
+            children: [
                 { path: 'dashboard', component:SellerDashboardComponent },
                 { path: 'products/:page', component: SellerProductsComponent },
                 { path: 'profile', component: SellerProfileComponent },
@@ -70,11 +70,11 @@ export const routes: Routes = [
         {path:"about",component:AboutComponent},
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
-        {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]},
-        {path:"**",component:PageNotFoundComponent}
+        {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]}
+       // {path:"**",component:PageNotFoundComponent}
       
     ]},
-    {path: 'admin',children: [
+    {path:'admin',children: [
             { path: 'login', component: AdminLoginComponent },
             {path: '',redirectTo: 'dashboard',pathMatch: 'full'},
             {path: '',component: AdminComponent,
@@ -103,7 +103,7 @@ export const routes: Routes = [
                 ]
             }
         ]
-    }
-    ,
-    {path :'**',component:PageNotFoundComponent}
+    },
+    {path:"**",component:PageNotFoundComponent}
+    
 ];

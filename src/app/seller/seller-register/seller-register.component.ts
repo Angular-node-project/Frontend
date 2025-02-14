@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthSellerService } from '../_services/authSeller.service';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './seller-register.component.html',
   styleUrl: './seller-register.component.css'
 })
-export class SellerRegisterComponent implements OnInit {
+export class SellerRegisterComponent implements OnDestroy {
   constructor(
     private authsellerService: AuthSellerService,
     private toastre: ToastrService,
@@ -41,7 +41,9 @@ export class SellerRegisterComponent implements OnInit {
 
       this.sub = this.authsellerService.register(this.form.value).subscribe({
         next: (res) => {
+          console.log(res.status);
           if (res.status == 201) {
+            console.log(res);
             this.router.navigate(['/seller/request']);
           } else {
             this.toastre.error("something went wrong , please try again later");
@@ -53,9 +55,11 @@ export class SellerRegisterComponent implements OnInit {
 
     }
   }
-  ngOnInit(): void {
 
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
-
 
 }

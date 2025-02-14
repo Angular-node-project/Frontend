@@ -7,3 +7,8 @@ export class Seller{
         ,public phone_number:String
     ){}
 }
+export class SellerLogin{
+    constructor(public email:string
+        ,public password:string
+    ){}
+}

@@ -46,5 +46,8 @@ export class AuthAdminService {
     );
 
   }
+  logout(){
+    return this.authGeneralService.logout('admin');
+  }
 
 }

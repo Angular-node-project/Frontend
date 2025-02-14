@@ -33,6 +33,7 @@ import { CategoryComponent } from './admin/category/category.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SellerRegisterComponent } from './seller/seller-register/seller-register.component';
 import { CustomerserviceComponent } from './admin/customerservice/customerservice.component';
+import { RequestSentComponent } from './seller/request-sent/request-sent.component';
 
 
 
@@ -42,6 +43,7 @@ export const routes: Routes = [
         { path: 'login', component: SellerLoginComponent},
         {path: '',redirectTo: 'login',pathMatch: 'full'},
         {path:'register',component:SellerRegisterComponent},
+        {path:'request',component:RequestSentComponent},
         {path: '',component: SellerComponent
           //  canActivate: [adminAuthGuard]
             ,children: [
@@ -55,7 +57,7 @@ export const routes: Routes = [
 
 },
     {path:'',component:CustomerComponent,children:[
-        {path:"",component:CustomerHome},
+        {path:'',component:CustomerHome},
         {path:"productdetails/:id",component:CustomerProductDetails},
         {path:"home",component:CustomerHome},
         {path:"products",redirectTo:"products/1",pathMatch:'full'},
@@ -67,6 +69,7 @@ export const routes: Routes = [
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
         {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]},
+        {path:"**",component:PageNotFoundComponent}
       
     ]},
     {path: 'admin',children: [

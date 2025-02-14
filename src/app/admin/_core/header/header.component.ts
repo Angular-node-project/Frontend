@@ -52,6 +52,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  logout(){
+    this.authAdminService.logout();
+    window.location.reload();
+  }
   markAsRead(notification: any) {
     notification.isRead = true;
   }

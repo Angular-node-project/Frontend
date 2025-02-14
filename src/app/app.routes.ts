@@ -16,10 +16,9 @@ import { ProductsComponent } from './admin/products/products.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProfileComponent } from './admin/profile/profile.component';
 import { AdminLoginComponent } from './admin/login/login.component';
-import { adminAuthGuard } from './admin/guards/admin-auth.guard';
 import { SellerLoginComponent } from './seller/seller-login/seller-login.component';
 import { SellerDashboardComponent } from './seller/seller-dashboard/seller-dashboard.component';
-import { SellerProductsComponent } from './seller/seller-products/seller-products.component';
+import { ProductsComponent as SellerProductsComponent } from './seller/products/products.component';
 import { SellerProfileComponent } from './seller/seller-profile/seller-profile.component';
 import { ClerkComponent } from './admin/clerk/clerk.component';
 import { authCustomerGuard } from './customer/authCustomer.guard';
@@ -28,12 +27,15 @@ import { CashierComponent } from './admin/cashier/cashier.component';
 import { authAdminGuard } from './admin/authAdmin.guard';
 import { UpdateRequestsComponent } from './admin/update-requests/update-requests.component';
 import { RoleComponent } from './admin/role/role.component';
+import { SellerOrdersComponent } from './seller/seller-orders/seller-orders.component';
 import { OrdersComponent } from './admin/orders/orders.component';
 import { CategoryComponent } from './admin/category/category.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SellerRegisterComponent } from './seller/seller-register/seller-register.component';
-import { CustomerService } from './_models/customerservice';
 import { CustomerserviceComponent } from './admin/customerservice/customerservice.component';
+import { RequestSentComponent } from './seller/request-sent/request-sent.component';
+import { authSellerGuard } from './seller/auth-seller.guard';
+
 
 
 export const routes: Routes = [
@@ -42,12 +44,14 @@ export const routes: Routes = [
         { path: 'login', component: SellerLoginComponent},
         {path: '',redirectTo: 'login',pathMatch: 'full'},
         {path:'register',component:SellerRegisterComponent},
-        {path: '',component: SellerComponent
-          //  canActivate: [adminAuthGuard]
-            ,children: [
+        {path:'request',component:RequestSentComponent},
+        {path: '',component: SellerComponent,
+           canActivate: [authSellerGuard],
+            children: [
                 { path: 'dashboard', component:SellerDashboardComponent },
-                { path: 'products', component: SellerProductsComponent },
-                { path: 'profile', component: SellerProfileComponent }
+                { path: 'products/:page', component: SellerProductsComponent },
+                { path: 'profile', component: SellerProfileComponent },
+                { path: 'orders', component: SellerOrdersComponent }
             ]
         },
         
@@ -55,7 +59,7 @@ export const routes: Routes = [
 
 },
     {path:'',component:CustomerComponent,children:[
-        {path:"",component:CustomerHome},
+        {path:'',component:CustomerHome},
         {path:"productdetails/:id",component:CustomerProductDetails},
         {path:"home",component:CustomerHome},
         {path:"products",redirectTo:"products/1",pathMatch:'full'},
@@ -66,10 +70,11 @@ export const routes: Routes = [
         {path:"about",component:AboutComponent},
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
-        {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]},
+        {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]}
+       // {path:"**",component:PageNotFoundComponent}
       
     ]},
-    {path: 'admin',children: [
+    {path:'admin',children: [
             { path: 'login', component: AdminLoginComponent },
             {path: '',redirectTo: 'dashboard',pathMatch: 'full'},
             {path: '',component: AdminComponent,
@@ -98,7 +103,7 @@ export const routes: Routes = [
                 ]
             }
         ]
-    }
-    ,
-    {path :'**',component:PageNotFoundComponent}
+    },
+    {path:"**",component:PageNotFoundComponent}
+    
 ];

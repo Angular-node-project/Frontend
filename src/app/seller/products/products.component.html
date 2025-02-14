@@ -1,0 +1,116 @@
+<div class="products-container" [class.sidebar-open]="isSidebarOpen">
+    <div class="header-actions">
+      <button class="btn btn-success rounded-0" (click)="addNewProduct()">New Product</button>
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search products...">
+  
+  
+      </div>
+    </div>
+  
+    <div class="table-wrapper">
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+  
+            <th>Name</th>
+            <th>Pic</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products; let i = index">
+            <td>{{product.name}}</td>
+             <td>
+              <img [src]="product.pics[0]" alt="Product Image" width="70" height="70">
+            </td>
+  
+            <td>{{product.qty}}</td>
+            <td>{{product.price}}</td>
+            @if(product.status=='active'){
+              <td class="text-success">{{product.status}}</td>
+            }@else {
+              <td class="text-danger">{{product.status}}</td>
+            }
+  
+            <td class="actions">
+              <div class="btn-group">
+             
+                <button class="btn btn-success btn-sm rounded-0 " (click)="onUpdate(product)" >
+                  <i class="fa-solid fa-edit"></i>
+                </button>
+           
+                
+                
+                @if (product.status!="pending") {
+                <div class="dropdown d-inline">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                
+                
+                    <ul class="dropdown-menu">
+                      @if(product.status!='active')
+                      {
+                      <li><button class="dropdown-item" type="button"
+                          (click)="changeStatus(product.product_id,'active')">Active</button></li>
+                      }
+                      @if (product.status!='inactive'&&product.status!='deleted') {
+                      <li><button class="dropdown-item" type="button"
+                          (click)="changeStatus(product.product_id,'inactive')">Deactive</button></li>
+                        }
+                      </ul>
+                  
+                </div>
+              }
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div class="pagination-wrapper">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link rounded-0" [routerLink]="['/seller/products', currentPage - 1]">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+        </li>
+
+        <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
+          <a class="page-link rounded-0" [routerLink]="['/seller/products', page]">{{page}}</a>
+        </li>
+
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link rounded-0" [routerLink]="['/seller/products', currentPage + 1]">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade " id="productModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded-0">
+        <div class="modal-header">
+          <h5 class="modal-title">{{isEditMode ? 'Update' : 'Add'}} Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <app-add-update-product [selectedProduct]="selectedProduct" [isEditMode]="isEditMode"
+            (saveProduct)="onSaveProduct($event)">
+          </app-add-update-product>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  

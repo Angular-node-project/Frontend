@@ -4,17 +4,17 @@
       <i class="fa-solid fa-chart-line"></i> Dashboard
    </a>
 
-   <a routerLink="/admin/products" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
+   <a *hasPermission="'product.show'" routerLink="/admin/products" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
       (click)="onLinkClick()">
       <i class="fa-solid fa-box"></i> Products
    </a>
 
-   <a routerLink="/admin/clerks" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
+   <a *hasPermission="'clerks.show'" routerLink="/admin/clerks" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
       (click)="onLinkClick()">
       <i class="fa-solid fa-user-tie"></i> Clerks
    </a>
 
-   <a routerLink="/admin/roles" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
+   <a  routerLink="/admin/roles" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
       (click)="onLinkClick()">
       <i class="fa-solid fa-lock"></i> Roles
    </a>

@@ -30,7 +30,16 @@
                 <div class="form-group">
                     <div>
                         <label>Password</label>
-                        <input type="password" placeholder="password">
+                        <div class="password-container">
+                            <input 
+                                class="password-input"
+                                [type]="showPassword ? 'text' : 'password'" 
+                                placeholder="password"
+                            >
+                            <span class="toggle-password" (click)="showPassword = !showPassword">
+                                {{ showPassword ? '🙈' : '👁️' }}
+                            </span>
+                        </div>
                     </div>
                     <div>
                         <label>Phone</label>

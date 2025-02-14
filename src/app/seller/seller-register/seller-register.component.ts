@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './seller-register.component.css'
 })
 export class SellerRegisterComponent {
-
+// Add this property
+showPassword = false;
 }

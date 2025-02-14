@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './seller-login.component.css'
 })
 export class SellerLoginComponent {
+  showPassword = false;
   email: string = '';
   password: string = '';
 

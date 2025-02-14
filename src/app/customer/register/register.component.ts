@@ -15,6 +15,7 @@ import { GeneralService } from '../_services/general.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  showPassword = false;
   constructor(
     private authCustomerService: AuthCustomerService
     ,private authServiceGeneral: AuthServiceGeneral

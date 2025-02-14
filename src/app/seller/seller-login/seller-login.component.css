@@ -9,7 +9,6 @@
   .login-card {
     background: white;
     padding: 30px;
-    border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     width: 100%;
     max-width: 400px;
@@ -35,17 +34,33 @@
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 6px;
     font-size: 14px;
   }
+  .input-container {
+    position: relative;
+  }
   
+  .password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    z-index: 2;
+  }
+  
+  /* Add padding to input without affecting other styles */
+  .form-control[type="password"],
+  .form-control[type="text"] {
+    padding-right: 35px;
+  }
   .btn-login {
     width: 100%;
     padding: 12px;
     background: #4CAF50;
     color: white;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
   }

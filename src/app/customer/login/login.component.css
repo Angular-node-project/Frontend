@@ -28,9 +28,34 @@ body {
     margin-bottom: 20px;
   }
   
-  .login-container input[type="email"],
-  .login-container input[type="password"] {
+  .login-container input[type="email"]
+  {
     width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .password-container {
+    position: relative;
+    margin-bottom: 15px; /* Maintain existing margin */
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 43%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    z-index: 2;
+  }
+
+  .login-container input[type="password"] ,
+  .password-container input[type="text"]{
+
+    width: 100%;
+    padding-right: 35px;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;

@@ -222,6 +222,7 @@ export class CashierComponent implements OnInit {
         this.form.reset()
         this.TotalAmount=0;
         this.toastr.success(e.message)
+        window.print()
        }else{
         this.getCashierCart();
         console.log("*********************************")
@@ -247,4 +248,10 @@ export class CashierComponent implements OnInit {
       }
     })
   }
+
+
+
 }
+
+
+

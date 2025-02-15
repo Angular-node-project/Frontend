@@ -1,29 +1,76 @@
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card rounded-0">
         <h5><i class="fa-solid fa-seedling"></i> 120</h5>
         <p>Products Available</p>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card rounded-0">
         <h5><i class="fa-solid fa-truck"></i> 45</h5>
         <p>Pending Orders</p>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+      <div class="card rounded-0">
+        <h5><i class="fa-solid fa-users"></i> 350</h5>
+        <p>Happy Customers</p>
+      </div>
+    </div>
+    <div class="col-md-3">
       <div class="card rounded-0">
         <h5><i class="fa-solid fa-users"></i> 350</h5>
         <p>Happy Customers</p>
       </div>
     </div>
   </div>
-  <!-- <div id="chart">
-    <apx-chart
-      [series]!="chartOptions.series"
-      [chart]!="chartOptions.chart"
-      [xaxis]!="chartOptions.xaxis"
-      [dataLabels]!="chartOptions.dataLabels"
-      [title]!="chartOptions.title"
-    ></apx-chart>
-  </div> -->
+
+
+
+
+
+  <div class="row">
+    <!-- First Chart -->
+    <div class="col-md-6">
+      <div id="chart2" class="chart-container">
+        <apx-chart
+          [series]="chartOptions2.series"
+          [chart]="chartOptions2.chart"
+          [labels]="chartOptions2.labels"
+          [responsive]="chartOptions2.responsive"
+        ></apx-chart>
+      </div>
+    </div>
+
+    <!-- Second Chart -->
+    <div class="col-md-6">
+      <div id="chart3" class="chart-container">
+        <apx-chart
+          [series]="chartOptions3.series"
+          [chart]="chartOptions3.chart"
+          [dataLabels]="chartOptions3.dataLabels"
+          [plotOptions]="chartOptions3.plotOptions"
+          [yaxis]="chartOptions3.yaxis"
+          [xaxis]="chartOptions3.xaxis"
+          [fill]="chartOptions3.fill"
+          [title]="chartOptions3.title"
+        ></apx-chart>
+      </div>
+    </div>
+  </div>
+
+  <!-- Line Chart -->
+  <div class="row">
+    <div class="col-md-12">
+      <div id="chart1" class="chart-container">
+        <apx-chart
+          [series]="chartOptions1.series"
+          [chart]="chartOptions1.chart"
+          [xaxis]="chartOptions1.xaxis"
+          [dataLabels]="chartOptions1.dataLabels"
+          [grid]="chartOptions1.grid"
+          [title]="chartOptions1.title"
+        ></apx-chart>
+      </div>
+    </div>
+  </div>

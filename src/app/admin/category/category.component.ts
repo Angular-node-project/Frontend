@@ -29,6 +29,7 @@ categories:Category[]=[];
     sub!: Subscription;
     status:string='';
     search:string='';
+    selectedCategoryId:string='';
     isAddingCategory: boolean = false
     NewCategoryName:string=''
      @Input() isSidebarOpen = false;
@@ -132,6 +133,38 @@ categories:Category[]=[];
     scrollToTop(): void {
       this.viewPortScroller.scrollToPosition([0, 0])
     }
+     FillCategoryToEdit(category: Category) {
+          this.isAddingCategory = true;  
+          this.isEditMode = true;  
+          this.NewCategoryName = category.name;  
+          
+          this.selectedCategoryId = category.category_id;  
+        }
+        UpdateCategory()
+    {
+      
+      if (!this.NewCategoryName.trim()) {  
+        this.toastr.error("category name cannot be empty!");  
+        return;  
+      }  
+    this.isEditMode=true;
+      this.categoryservice.updateCategory(this.selectedCategoryId,{
+  name: this.NewCategoryName,
+       
+      } ).subscribe({  
+        next: (response) => {  
+          this.toastr.success("category Updated Successfully!");  
+          this.isAddingCategory = false;  
+          this.isEditMode=false;
+          this.NewCategoryName = '';  
+    
+          this.loadCategories(this.currentPage);  
+        },  
+        error: () => {  
+          this.toastr.error("Failed to add category.");  
+        }  
+      });  
+    }
     showAddCategory()
     {
       this.isAddingCategory = true;  
@@ -159,6 +192,9 @@ categories:Category[]=[];
      {
       this.isAddingCategory = false;  
   this.NewCategoryName = '';  
-
+ 
+  this.isEditMode = false;
+  
+  this.selectedCategoryId = '';
      }
 }

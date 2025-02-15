@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../_services/category.service';
 import { BranchService } from '../../_services/branch.service';
 import { Branch } from 'src/app/_models/branch';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -30,6 +31,7 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
   selectedCategories: any[] = [];
   imagePreviews: any[] = [];
   fileInputs: HTMLInputElement[] = [];
+  subBranches!:Subscription;
 
 
   selectedBranches: { branch_id: string, qty: number }[] = []
@@ -45,8 +47,10 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
     , private categoryservice: CategoryService
     , private branchesService:BranchService
   ) { }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+  ngOnDestroy(): void { 
+         if(this.subBranches){
+          this.subBranches.unsubscribe()
+         }
   }
 
   ngOnInit(): void {
@@ -261,7 +265,7 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
   }
 
   loadBranches(){
-    this.branchesService.getAllActiveBranches().subscribe({
+    this.subBranches= this.branchesService.getAllActiveBranches().subscribe({
       next:(res)=>{
         this.branches=res.data
         console.log(this.branches);

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, QueryList, OnDestroy } from '@angular/core';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductService } from '../../_services/products.services';
 import { Category } from 'src/app/_models/category';
@@ -8,6 +8,8 @@ import { Seller } from 'src/app/_models/sellers';
 import { SellerService } from '../../_services/sellers.services';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../_services/category.service';
+import { BranchService } from '../../_services/branch.service';
+import { Branch } from 'src/app/_models/branch';
 
 @Component({
   standalone: true,
@@ -16,7 +18,7 @@ import { CategoryService } from '../../_services/category.service';
   templateUrl: './add-update.component.html',
   styleUrls: ['./add-update.component.css']
 })
-export class AddUpdateComponent implements OnInit, OnChanges {
+export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
   @Input() selectedProduct: any = {};
   @Input() isEditMode: boolean = false;
   @Output() saveProduct = new EventEmitter<any>();
@@ -24,16 +26,27 @@ export class AddUpdateComponent implements OnInit, OnChanges {
   sellers: Seller[] = []
   isLoading: boolean = false;
   selectedFiles: File[] = [];
-
   form!: FormGroup;
   selectedCategories: any[] = [];
-
-
   imagePreviews: any[] = [];
   fileInputs: HTMLInputElement[] = [];
 
-  constructor(private productservice: ProductService, private sellerservice: SellerService, private toastr: ToastrService,private categoryservice:CategoryService) {
 
+  selectedBranches: { branch_id: string, qty: number }[] = []
+  branches :Branch[]=[
+
+  ];
+
+
+
+  constructor(private productservice: ProductService
+    , private sellerservice: SellerService
+    , private toastr: ToastrService
+    , private categoryservice: CategoryService
+    , private branchesService:BranchService
+  ) { }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {
@@ -63,14 +76,26 @@ export class AddUpdateComponent implements OnInit, OnChanges {
         Validators.required,
         Validators.pattern('^[1-9]\\d*$')
       ]),
+      show: new FormControl(this.selectedProduct.show, [Validators.required]),
       status: new FormControl('active'),
       seller_id: new FormControl(this.selectedProduct.seller_id, [Validators.required]),
       categories: new FormControl(this.selectedCategories, [Validators.required]),
+      branches: new FormArray([])
     });
     this.loadCategories();
     this.loadSellers();
-    this.imagePreviews=[];
+    this.loadBranches();
+    this.imagePreviews = [];
+    if (this.branchesArray.length == 0) {
+      this.addBranchRow();
+      // this.addBranchRow();
+    }
   }
+
+  get branchesArray(): FormArray {
+    return this.form.get('branches') as FormArray;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
 
     if (this.form && changes['selectedProduct']?.currentValue) {
@@ -81,19 +106,47 @@ export class AddUpdateComponent implements OnInit, OnChanges {
           name: category.name,
         }))
         : [];
+      this.selectedBranches = Array.isArray(product.branches)
+        ? product.branches.map((branch: any) => ({
+          branch_id: branch.branch_id,
+          qty: branch.qty,
+        }))
+        : [];
 
-      this.form.setValue({
+      this.form.patchValue({
         name: product.name || '',
         description: product.description || '',
         price: product.price || '',
         qty: product.qty || '',
         status: product.status || 'active',
+        show: product.show || '',
         seller_id: product.seller?.seller_id || '',
         categories: this.selectedCategories,
+        branches: []
       });
+
+      const branchesFormArray = this.form.get('branches') as FormArray;
+      branchesFormArray.clear();
+      this.selectedBranches.forEach(branch => {
+        branchesFormArray.push(
+          new FormGroup({
+            branch_id: new FormControl(branch.branch_id, Validators.required),
+            qty: new FormControl(branch.qty, [Validators.required, Validators.min(1)]),
+          })
+        );
+      });
+
+      if (branchesFormArray.length == 0) {
+        this.addBranchRow();
+      }
     }
-    this.imagePreviews=[];
-    this.imagePreviews=this.selectedProduct.pics.length>0?this.selectedProduct.pics:[];
+
+
+
+
+    this.imagePreviews = [];
+    this.imagePreviews = this.selectedProduct?.pics?.length > 0 ? this.selectedProduct.pics : [];
+
   }
 
 
@@ -143,9 +196,23 @@ export class AddUpdateComponent implements OnInit, OnChanges {
 
 
   onSubmit(): void {
-    var productData={
+    const totalBranchesQty = this.branchesArray.value.reduce((sum: number, item: any) => sum = sum + item.qty, 0);
+    const totalQty = this.form.value.qty;
+    if (totalBranchesQty != totalQty) {
+      this.toastr.error("the qty added to branches must equal the total qty");
+      return;
+    }
+
+    var productData = {
       ...this.form.value,
-      pics:this.imagePreviews
+      pics: this.imagePreviews,
+      branches: this.branchesArray.value.map((item: any) => ({
+        branch: {
+          branch_id: item.branch_id,
+          name: this.branches.find(b => b.branch_id === item.branch_id)?.name || ""
+        },
+        qty: item.qty
+      }))
     }
     if (this.isEditMode) {
       this.productservice.UpdateProduct(productData, this.selectedProduct.product_id).subscribe({
@@ -155,11 +222,12 @@ export class AddUpdateComponent implements OnInit, OnChanges {
           this.toastr.success("product updated successfully");
         },
         error: (error) => {
-          this.toastr.success("something went wrong");
+          this.toastr.error("something went wrong");
           console.error('Error updating product:', error);
         },
       });
     } else {
+
       this.productservice.addProduct(productData).subscribe({
         next: (response) => {
           console.log('Product Added:', response);
@@ -181,17 +249,54 @@ export class AddUpdateComponent implements OnInit, OnChanges {
     if (input.files && input.files.length > 0) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.imagePreviews.push(reader.result as string); 
+        this.imagePreviews.push(reader.result as string);
       };
       reader.readAsDataURL(input.files[0]);
-      input.value = ""; 
+      input.value = "";
     }
   }
-  
+
   removeImage(index: number) {
     this.imagePreviews.splice(index, 1);
   }
 
+  loadBranches(){
+    this.branchesService.getAllActiveBranches().subscribe({
+      next:(res)=>{
+        this.branches=res.data
+        console.log(this.branches);
+      },error:(err)=>{
+      console.log(err);
+      }
+    })
+
+
+  }
+
+  addBranchRow(branch_id: number | null = null, qty: number = 1) {
+    console.log("77");
+    this.branchesArray.push(
+      new FormGroup({
+        branch_id: new FormControl(branch_id, Validators.required),
+        qty: new FormControl(qty, [Validators.required, Validators.min(1)]),
+      })
+    );
+     console.log(this.branches);
+
+  }
+
+  removeBranch(index: number) {
+    this.branchesArray.removeAt(index);
+  }
+  getAvailableBranches(currentBranchId: string | null = null): any[] {
+    const selectedBranchIds = this.branchesArray.value
+      .map((b: any) => b.branch_id)
+      .filter((id: string | null) => id !== currentBranchId); 
+    
+    return this.branches.filter(branch => 
+      !selectedBranchIds.includes(branch.branch_id) || branch.branch_id === currentBranchId
+    );
+  }
 
 }
 

@@ -12,4 +12,9 @@ export class ClerkBranch {
       public status:"active" | "inactive"
     ){}
   }
+  export class ClerkBranchLogin{
+    constructor(public email:string,public password:string){}
+  }
+  
+  
   

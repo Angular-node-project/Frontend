@@ -37,6 +37,10 @@ import { RequestSentComponent } from './seller/request-sent/request-sent.compone
 import { authSellerGuard } from './seller/auth-seller.guard';
 import { BranchesComponent } from './admin/branches/branches.component';
 import { ClerkBranchComponent } from './admin/clerk-branch/clerk-branch.component';
+import { ClerkComponent as clerkBranchComponent } from './clerk/clerk.component';
+import { LoginComponent as clerkBranchLoginComponent } from './clerk/login/login.component';
+import { ProductsBranchComponent } from './clerk/products-branch/products-branch.component';
+import { authClerkBranchGuard } from './clerk/auth-clerk-branch.guard';
 
 
 
@@ -53,7 +57,7 @@ export const routes: Routes = [
                 { path: 'dashboard', component:SellerDashboardComponent },
                 { path: 'products/:page', component: SellerProductsComponent },
                 { path: 'profile', component: SellerProfileComponent },
-                { path: 'orders', component: SellerOrdersComponent }
+                { path: 'orders/:page', component: SellerOrdersComponent }
             ]
         },
         
@@ -110,6 +114,17 @@ export const routes: Routes = [
             }
         ]
     },
+    {path:'clerk',children:[
+        { path:'login', component:clerkBranchLoginComponent },
+        {path: '',redirectTo: 'products',pathMatch: 'full'},
+        {path:'',component:clerkBranchComponent,
+            canActivate:[authClerkBranchGuard],
+            children:[
+                {path:'products',component:ProductsBranchComponent}
+            ]
+        },
+        
+    ]},
     {path:"**",component:PageNotFoundComponent}
     
 ];

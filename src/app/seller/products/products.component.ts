@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AuthSellerService } from '../_services/authSeller.service';
 
 export declare const bootstrap: any;
 
@@ -33,15 +34,16 @@ export class ProductsComponent implements OnInit {
   totalResults: number = 0;
   pageSize: number = 6;
   sub!: Subscription;
-  status: string = ''
-  search: string = ''
+  status: string = '';
+  search: string = '';
   @Input() isSidebarOpen = false;
 
   constructor(
     private ProductsService: ProductsService,
     private route: ActivatedRoute,
     private viewPortScroller: ViewportScroller,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private AuthSellerService: AuthSellerService
   ) { }
 
   ngOnInit() {
@@ -64,7 +66,7 @@ export class ProductsComponent implements OnInit {
   }
 
   loadProducts(page: number): void {
-    this.ProductsService.getProductsBySellerPaginated("1",page,this.pageSize, this.selectedSort, this.selectedCategory, this.status, this.search).subscribe({
+    this.ProductsService.getProductsBySellerPaginated(this.AuthSellerService.getLoggedInId(),page,this.pageSize, this.selectedSort, this.selectedCategory, this.status, this.search).subscribe({
       next: (response) => {
         console.log(response);
         this.products = response.data.products;
@@ -131,7 +133,7 @@ export class ProductsComponent implements OnInit {
       description: '',
       qty: 0,
       price: 0,
-      seller_id: ''//
+      seller_id: this.AuthSellerService.getLoggedInId()
     };
     const modalElement = document.getElementById('productModal');
     if (modalElement) {

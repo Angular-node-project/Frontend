@@ -249,7 +249,9 @@ export class CashierComponent implements OnInit {
     })
   }
 
-
+  printPage(){
+    window.open("admin/cashier/p/print","")
+  }
 
 }
 

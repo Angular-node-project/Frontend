@@ -7,6 +7,8 @@ import { Category } from 'src/app/_models/category';
 import { Seller } from 'src/app/_models/sellers';
 import { SellerService } from 'src/app/seller/_services/seller.service';
 import { ToastrService } from 'ngx-toastr';
+import { SellerUpdateRequests } from 'src/app/_models/UpdateRequests';
+import { AuthSellerService } from '../../_services/authSeller.service';
 
 @Component({
   standalone: true,
@@ -20,7 +22,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
   @Input() isEditMode: boolean = false;
   @Output() saveProduct = new EventEmitter<any>();
   categories: Category[] = [];
-  sellers: Seller[] = []
+  sellers: Seller[] = [];
   isLoading: boolean = false;
   selectedFiles: File[] = [];
 
@@ -31,11 +33,15 @@ export class AddUpdateComponent implements OnInit, OnChanges {
   imagePreviews: any[] = [];
   fileInputs: HTMLInputElement[] = [];
 
-  constructor(private ProductsService: ProductsService, private sellerservice: SellerService, private toastr: ToastrService) {
+  SellerProductRequest: SellerUpdateRequests|null=null;
+   
 
+  constructor(private ProductsService: ProductsService, private sellerservice: SellerService, private toastr: ToastrService,private AuthSellerService:AuthSellerService) {
+   
   }
 
   ngOnInit(): void {
+     
     this.selectedCategories = Array.isArray(this.selectedProduct.categories)
       ? this.selectedProduct.categories.map((category: any) => ({
         category_id: category.category_id,
@@ -146,9 +152,31 @@ export class AddUpdateComponent implements OnInit, OnChanges {
       ...this.form.value,
       pics:this.imagePreviews
     }
-    console.log(productData);
+    const sellerId=this.AuthSellerService.getLoggedInId();
+   const sellerName=this.AuthSellerService.getLoggedInName();
+    console.log(sellerId);
+    console.log(sellerName);
+   
+    this.SellerProductRequest = {
+      request_id: this.isEditMode ? this.selectedProduct.request_id : '',
+      seller: { seller_id:sellerId, name:sellerName },
+      updatedProduct: {
+      product_id: this.isEditMode ? this.selectedProduct.product_id : '',
+      categories: this.selectedCategories,
+      name: this.form.value.name,
+      description: this.form.value.description,
+      seller_id: sellerId,
+      pics: this.imagePreviews,
+      details: this.form.value.details || '',
+      qty: this.form.value.qty,
+      price: this.form.value.price,
+      status: this.form.value.status,
+      },
+      status: this.isEditMode ? this.selectedProduct.status : 'pending'
+    };
+    console.log(this.SellerProductRequest);
     if (this.isEditMode) {
-      this.ProductsService.updateProduct("1", this.selectedProduct.product_id,productData).subscribe({
+      this.ProductsService.updateProduct(sellerId, this.selectedProduct.product_id,this.SellerProductRequest).subscribe({
         next: (response) => {
           console.log('Product Updated:', response);
           this.saveProduct.emit(response);
@@ -160,7 +188,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
         },
       });
     } else {
-      this.ProductsService.addProduct("1",productData).subscribe({
+      this.ProductsService.addProduct(sellerId,productData).subscribe({
         next: (response) => {
           console.log('Product Added:', response);
           this.toastr.success("product updated successfully");

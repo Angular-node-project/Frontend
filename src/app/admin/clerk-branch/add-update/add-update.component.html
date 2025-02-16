@@ -1,0 +1,52 @@
+<form [formGroup]="clerkBranchForm" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="clerk_id">
+   <div class="mb-3">
+       <label for="name" class="form-label">Name</label>
+       <input type="text" id="name" class="form-control" formControlName="name" />
+       <div *ngIf="clerkBranchForm.get('name')?.invalid && clerkBranchForm.get('name')?.touched" class="text-danger">
+           Name is required (min 3 characters).
+       </div>
+   </div>
+
+   <div class="mb-3">
+       <label for="email" class="form-label">Email</label>
+       <input type="email" id="email" class="form-control" formControlName="email" />
+       <div *ngIf="clerkBranchForm.get('email')?.invalid && clerkBranchForm.get('email')?.touched" class="text-danger">
+           Enter a valid email.
+       </div>
+   </div>
+
+   <div class="mb-3">
+       <label for="role" class="form-label">Role</label>
+       <select id="role" class="form-select" formControlName="role">
+           <option value="Manager"> Manager</option>
+           <option value="StoreKeeper"> Store Keeper</option>
+           <option value="Cashier"> Cashier </option>
+       </select>
+       <div *ngIf="clerkBranchForm.get('role')?.invalid && clerkBranchForm.get('role')?.touched" class="text-danger">
+           Please select a role.
+       </div>
+   </div>
+   <div class="mb-3">
+    <label for="branch" class="form-label">Branch</label>
+    <select id="branch" class="form-select" formControlName="branch">
+        <option *ngFor="let branch of branches" [ngValue]="branch">
+            {{ branch.name }}
+          </option>
+          
+    </select>
+    <div *ngIf="clerkBranchForm.get('branch')?.invalid && clerkBranchForm.get('branch')?.touched" class="text-danger">
+        Please select a Branch.
+    </div>
+</div>
+
+
+   <div class="row">
+       <div class="col-md-6">
+        <button type="submit" class="btn btn-success rounded-0" [disabled]="clerkBranchForm.invalid">
+            {{ isEditMode ? 'Update' : 'Save' }}
+        </button>
+        
+       </div>
+   </div>
+</form>

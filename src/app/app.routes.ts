@@ -36,6 +36,7 @@ import { CustomerserviceComponent } from './admin/customerservice/customerservic
 import { RequestSentComponent } from './seller/request-sent/request-sent.component';
 import { authSellerGuard } from './seller/auth-seller.guard';
 import { BranchesComponent } from './admin/branches/branches.component';
+import { ClerkBranchComponent } from './admin/clerk-branch/clerk-branch.component';
 
 
 
@@ -102,6 +103,8 @@ export const routes: Routes = [
                     { path: 'customerservice/:page', component: CustomerserviceComponent },
                     { path: 'branch', redirectTo: '/branch/1', pathMatch: 'full' },
                     { path: 'branch/:page', component: BranchesComponent },
+                    { path: 'clerkBranch', redirectTo: '/branch/1', pathMatch: 'full' },
+                    { path: 'clerkBranch/:page', component: ClerkBranchComponent },
 
                 ]
             }

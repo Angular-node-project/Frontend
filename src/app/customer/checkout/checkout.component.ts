@@ -64,9 +64,21 @@ export class CheckoutComponent {
       this.cartSer
       .addOrder({ address, zipcode, phone_number, governorate, product,customer_id,additional_data, totalPrice })
       .subscribe({
-        next(e) {
-        toast.success(e.message)
-        route.navigate(['/']);
+        next:(e)=> {
+          if(e.data.success){
+            console.log(e)
+            toast.success(e.message)
+            route.navigate(['/']);
+          }else{
+            console.log(e)
+            toast.error(e.data.ErrorMsg)
+            this.data!.product=e.data.data.product
+            this.data!.Total=0;
+            this.data!.product.forEach(p=>{
+              this.data!.Total+=(p.price*p.qty)
+            })
+
+          }
         },
       });
     }

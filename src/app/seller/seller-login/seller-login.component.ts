@@ -25,6 +25,7 @@ export class SellerLoginComponent implements OnDestroy {
   ) { }
 
   sub!: Subscription;
+  showPassword = false;
   form: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])

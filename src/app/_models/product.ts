@@ -9,9 +9,11 @@ export class Product {
       public seller_id: string,
       public seller:{seller_id:number,name:string},
       public status: "active" | "inactive" | "pending" | "outStock"|"deleted",
+      public show:"online"|"offline"|"all",
       public pics: string[] = [],
       public reviews: { customer: {customer_id: string,name:string}, rate: number; comment?: string ,created_at:Date}[] = [],
-      public doesCustomerOrderThisProduct:boolean
+      public doesCustomerOrderThisProduct:boolean,
+      public branches:{branch:{branch_id:string,name:string},qty:number}[]=[]
     ) {}
   }
 export class CashierProduct {
@@ -29,5 +31,15 @@ export class CashierProduct {
       public pics: string[] = [],
       public reviews: { customer: {customer_id: string,name:string}, rate: number; comment?: string ,created_at:Date}[] = [],
       public doesCustomerOrderThisProduct:boolean
+    ) {}
+  }
+export class ProductResponse {
+    constructor(
+      public product_id:string,
+      public seller_id:string,
+      public name:string,
+      public qty:number,
+      public price:number,
+      public pic_path:string[],
     ) {}
   }

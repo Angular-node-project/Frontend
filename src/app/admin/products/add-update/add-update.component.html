@@ -12,9 +12,9 @@
     <div class="col-md-12 mb-2">
       <label for="productCategories" class="form-label">Categories</label>
       <ng-select [items]="categories" bindLabel="name" [formControlName]="'categories'" [multiple]="true"
-        name="categories" [closeOnSelect]="false" [addTag]="true" required>
+        name="categories" [closeOnSelect]="false" [addTag]="true" required >
         <ng-template ng-option-tmp let-category="item">
-          <div class="d-flex align-items-center rounded-0">
+          <div class="d-flex align-items-center mx-2 rounded-0">
             <input type="checkbox" [checked]="isSelected(category)" (change)="toggleSelect(category)" class="me-2" />
             {{ category.name }}
           </div>
@@ -24,7 +24,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-6 mt-2">
+    <div class="col-md-4 mt-2">
       <label for="productPrice" class="form-label">Price</label>
       <input type="number" id="productPrice" class="form-control rounded-0" formControlName="price" />
       <div *ngIf="form.get('price')?.invalid && form.get('price')?.touched" class="text-danger">
@@ -32,11 +32,22 @@
       </div>
 
     </div>
-    <div class="col-md-6 mt-2">
+    <div class="col-md-4 mt-2">
       <label for="productQuantity" class="form-label">Quantity</label>
       <input type="number" id="productQuantity" class="form-control rounded-0" formControlName="qty" />
       <div *ngIf="form.get('qty')?.invalid && form.get('qty')?.touched" class="text-danger">
         Quantity must be a positive integer.
+      </div>
+    </div>
+    <div class="col-md-4 mt-2">
+      <label for="productQuantity" class="form-label">show</label>
+      <select class="form-select rounded-0" formControlName="show">
+         <option value="online">online</option>
+         <option value="offline" >affline</option>
+         <option value="all">both</option>
+      </select>
+      <div *ngIf="form.get('show')?.invalid && form.get('show')?.touched" class="text-danger">
+        Show is required.
       </div>
     </div>
 
@@ -57,14 +68,58 @@
       <label for="productDescription" class="form-label">Description</label>
       <textarea id="productDescription" class="form-control rounded-0" formControlName="description"></textarea>
       <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
-       please Enter description
+        please Enter description
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-md-12 mt-2">
+      <div class="d-flex justify-content-end mb-2">
+        <button type="button" class="btn btn-secondary rounded-0" (click)="addBranchRow(null,1)"> Add Branch +</button>
+      </div>
+      <div class="table-responsive" style="max-height: 150px; overflow-y: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Branch</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="branches">
+            <tr *ngFor="let branch of branchesArray.controls; let i = index" [formGroupName]="i">
+              <td>
+                <select class="form-select rounded-0" formControlName="branch_id">
+                  <option *ngFor="let b of  getAvailableBranches(branch.value.branch_id)" [value]="b.branch_id">{{ b.name }}</option>
+                </select>
+                <div *ngIf="branch.get('branch_id')?.invalid && branch.get('branch_id')?.touched" class="text-danger">
+                  Please select a branch
+                </div>
+              </td>
+              <td>
+                <input type="number" class="form-control rounded-0" formControlName="qty" min="1" />
+                <div *ngIf="branch.get('qty')?.invalid && branch.get('qty')?.touched" class="text-danger">
+                  please Enter description
+                </div>
+              </td>
+              <td>
+                <button type="button" class="btn btn-danger btn-sm rounded-0" (click)="removeBranch(i)">×</button>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
       </div>
     </div>
   </div>
 
+  <hr>
+
   <div class="row">
-    <div class="col-md-6 mt-3">
-      <button type="button" class="btn btn-primary rounded-0" (click)="fileInput.click()">add image +</button>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-secondary rounded-0" (click)="fileInput.click()">Add Image +</button>
       <input #fileInput type="file" class="d-none" (change)="onFileChange($event)" accept="image/*">
     </div>
 
@@ -79,32 +134,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-  <!-- File Inputs for Images -->
-  <!-- <div class="mb-3">
-    <label for="in-img1" class="form-label">Image 1</label>
-    <input type="file" id="in-img1" class="form-control" (change)="onFileChange($event, 1)" accept="image/*">
-
-
-  </div>
-
-  <div class="mb-3">
-    <label for="in-img2" class="form-label">Image 2</label>
-    <input type="file" id="in-img2" class="form-control" (change)="onFileChange($event, 2)" accept="image/*">
-  </div> -->
-  <!-- Image Previews -->
-  <!-- <div class="mb-3">
-    <img *ngIf="imagePreview1" [src]="imagePreview1" alt="Image 1 Preview" class="img-thumbnail" width="100"
-      height="100">
-    <img *ngIf="imagePreview2" [src]="imagePreview2" alt="Image 2 Preview" class="img-thumbnail" width="100"
-      height="100">
-  </div> -->
-
-  <!-- <pre>{{ form.value | json }}</pre>
-  <pre>{{ form.valid }}</pre> -->
 
   <!-- Submit Button -->
   <div class="row mt-5">

@@ -1,1 +1,78 @@
-<p>seller-orders works!</p>
+
+<div class="products-container" [class.sidebar-open]="isSidebarOpen" >
+    <div class="header-actions">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" [(ngModel)]="governorate" (input)="changeSearch(governorate)" placeholder="Search Orders...">
+  
+  
+      </div>
+    </div>
+  
+    <div class="table-wrapper">
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Customer Name</th>
+            <th>Cashier Name</th>
+            <th>Governorate</th>
+            <th>Order </th>
+            <th>Total</th>     
+            <th>Status</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders; let i = index">
+            <td>{{order.customer?.name||"no customer"}}</td>
+            <td>{{order.cashier?.name||"no cashier"}}</td>
+            <td>{{order.governorate}}</td>
+            <td>
+                @for (item of order.product; track $index) {
+                    <tr>
+                        Name:    {{item.name}}
+                    </tr>
+                    <tr>
+                       Quantity: {{item.qty}}
+                   </tr>
+                   <tr>
+                   Price: {{item.price}}
+               </tr>
+                }
+            </td>  
+            <td>{{order.totalPrice}}</td>  
+            <td>{{order.status}}</td>
+
+        
+          </tr>
+        </tbody>
+      </table>
+       <div *ngIf="!orders || orders.length === 0" class="text-center text-muted py-4">
+            <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+            <p class="mt-2">No Orders found.</p>
+           </div>
+    </div>
+  
+    <div class="pagination-wrapper">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link rounded-0" [routerLink]="['/seller/orders',currentPage-1]" >
+            <i class="fas fa-chevron-left"></i>
+          </a>
+        </li>
+        
+        <li class="page-item" *ngFor="let page of getPages()" 
+            [class.active]="page === currentPage">
+          <a class="page-link rounded-0"  [routerLink]="['/seller/orders',page]">{{page}}</a>
+        </li>
+  
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link rounded-0" (click)="changePage(currentPage + 1)">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+ 

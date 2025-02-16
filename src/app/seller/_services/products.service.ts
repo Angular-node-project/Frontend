@@ -30,7 +30,7 @@ export class ProductsService {
     return this.http.post<Response<Product>>(`${this.baseUrl}/${sellerId}`, productData);
   }
 
-  updateProduct(sellerId: string, productId: string, productData: FormData): Observable<Response<Product>> {
+  updateProduct(sellerId: string, productId: any, productData: any): Observable<Response<Product>> {
     return this.http.patch<Response<Product>>(`${this.baseUrl}/${sellerId}/${productId}`, productData);
   }
 

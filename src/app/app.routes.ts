@@ -36,6 +36,7 @@ import { CustomerserviceComponent } from './admin/customerservice/customerservic
 import { RequestSentComponent } from './seller/request-sent/request-sent.component';
 import { authSellerGuard } from './seller/auth-seller.guard';
 import { PrintReceiptComponent } from './admin/cashier/print-receipt/print-receipt.component';
+import { BranchesComponent } from './admin/branches/branches.component';
 
 
 
@@ -52,7 +53,7 @@ export const routes: Routes = [
                 { path: 'dashboard', component:SellerDashboardComponent },
                 { path: 'products/:page', component: SellerProductsComponent },
                 { path: 'profile', component: SellerProfileComponent },
-                { path: 'orders', component: SellerOrdersComponent }
+                { path: 'orders/:page', component: SellerOrdersComponent }
             ]
         },
 
@@ -101,6 +102,8 @@ export const routes: Routes = [
                     { path: 'category/:page', component: CategoryComponent },
                     { path: 'customerservice', redirectTo: '/customerservice/1', pathMatch: 'full' },
                     { path: 'customerservice/:page', component: CustomerserviceComponent },
+                    { path: 'branch', redirectTo: '/branch/1', pathMatch: 'full' },
+                    { path: 'branch/:page', component: BranchesComponent },
 
                 ]
             }

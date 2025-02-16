@@ -34,7 +34,9 @@ export class CategoryService {
   addCategory(name: string): Observable<Response<any>> {
     return this.http.post<any>(`${this.baseUrl}`,{name});
   }
-
+  updateCategory(id:String,CategoryData: any): Observable<Response<any>> {
+    return this.http.patch<any>(`${this.baseUrl}/${id}`,CategoryData);
+  }
 
 }
   

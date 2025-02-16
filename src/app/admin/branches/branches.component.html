@@ -1,18 +1,21 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
-      <button class="btn btn-success rounded-0" *ngIf="!isAddingCategory" (click)="showAddCategory()">
-        Add Category
+      <button class="btn btn-success rounded-0" *ngIf="!isAddingBranch" (click)="showAddBranch()">
+        Add Branch
       </button>
-      <div *ngIf="isAddingCategory" class="add-category-box">
-        <input type="text" [(ngModel)]="NewCategoryName" placeholder="Enter category name" class="form-control">
-        <button class="btn btn-success rounded-0" (click)="isEditMode ? UpdateCategory() : saveCategory()">
-          {{ isEditMode ? 'Update' : 'Save' }}
-        </button>
-        <button class="btn btn-secondary  rounded-0" (click)="cancelAddCategory()">Cancel</button>
+     
+      <div *ngIf="isAddingBranch" class="add-category-box">
+        <input type="text" [(ngModel)]="NewBranchName" placeholder="Enter branch name" class="form-control">
+        <input type="text" [(ngModel)]="NewBranchLocation" placeholder="Enter branch location" class="form-control">
+        <button class="btn btn-success rounded-0" (click)="isEditMode ? UpdateBranch() : saveBranch()">
+            {{ isEditMode ? 'Update' : 'Save' }}
+          </button>
+       
+        <button class="btn btn-secondary  rounded-0" (click)="cancelAddBranch()">Cancel</button>
       </div>
       <div class="search-box">
         <i class="fas fa-search"></i>
-        <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search Categories">
+        <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search Branches">
 
       </div>
     </div>
@@ -22,53 +25,56 @@
         <thead class="table-dark">
           <tr>
             <th>Name</th>
+            <th>Location</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let category of categories; let i = index">
-            <td>{{category.name}}</td>
-            <td>{{category.status}}</td>
+          <tr *ngFor="let branch of branches; let i = index">
+            <td>{{branch.name}}</td>
+            <td>{{branch.location}}</td>
+            <td>{{branch.status}}</td>
           
             <td class="actions">
               <div class="btn-group">
               
-                <button class="btn btn-success btn-sm rounded-0" (click)="changeStatus(category.category_id,'active')" [disabled]="category.status === 'active'">
+                <button class="btn btn-success btn-sm rounded-0" (click)="changeStatus(branch.branch_id,'active')" [disabled]="branch.status === 'active'">
                   <i class="fa-solid fa-check"></i>
                 </button>
               
-                <button class="btn btn-warning btn-sm rounded-0"  (click)="FillCategoryToEdit(category)">
-                  <i class="fa-solid fa-edit"></i>
-                </button>
+                <button class="btn btn-warning btn-sm rounded-0"  (click)="FillBranchToEdit(branch)">
+                    <i class="fa-solid fa-edit"></i>
+                  </button>
               
-                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(category.category_id)" [disabled]="category.status === 'inactive'">
-                  <i class="fa-solid fa-lock"></i>
+                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(branch.branch_id)" [disabled]="branch.status === 'inactive'">
+                  <i class="fa-solid fa-cancel"></i>
                 </button>
-              
+               
+                
       
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <div *ngIf="!categories || categories.length === 0" class="text-center text-muted py-4">
+      <div *ngIf="!branches || branches.length === 0" class="text-center text-muted py-4">
         <i class="fa-solid fa-exclamation-circle fa-2x"></i>
-        <p class="mt-2">No Categories found.</p>
+        <p class="mt-2">No Branches found.</p>
        </div>
     </div>
   
     <div class="pagination-wrapper">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="currentPage === 1">
-          <a class="page-link rounded-0" [routerLink]="['/admin/category',currentPage-1]" >
+          <a class="page-link rounded-0" [routerLink]="['/admin/branch',currentPage-1]" >
             <i class="fas fa-chevron-left"></i>
           </a>
         </li>
         
         <li class="page-item" *ngFor="let page of getPages()" 
             [class.active]="page === currentPage">
-          <a class="page-link rounded-0"  [routerLink]="['/admin/category',page]">{{page}}</a>
+          <a class="page-link rounded-0"  [routerLink]="['/admin/branch',page]">{{page}}</a>
         </li>
   
         <li class="page-item" [class.disabled]="currentPage === totalPages">
@@ -91,11 +97,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to Deactive this Category?</p>
+          <p>Are you sure you want to Delete this Branch?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Deactive</button>
+          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Delete</button>
         </div>
       </div>
     </div>

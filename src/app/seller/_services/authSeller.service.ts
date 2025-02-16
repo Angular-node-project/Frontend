@@ -32,6 +32,9 @@ export class AuthSellerService {
    getLoggedInEmail(): string {
     return this.authGeneralService.getLoggedInEmail('seller');
   }
+   getLoggedInId(): string {
+    return this.authGeneralService.getLoggedInId('seller');
+  }
   logout(){
     return this.authGeneralService.logout('seller');
   }

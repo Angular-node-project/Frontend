@@ -1,6 +1,6 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
-      <button class="btn btn-success rounded-0" (click)="requestQty();"> Request Qty</button>
+      <button class="btn btn-success rounded-0" (click)="requestQty();">+ Request Qty From Main Stock</button>
       <div class="search-box">
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="searchedInput" (change)="onsearchChange();"  placeholder="Search products...">

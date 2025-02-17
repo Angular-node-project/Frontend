@@ -1,7 +1,7 @@
 <div class="products-container">
   <div class="header-actions">
     <button class="btn btn-success rounded-0" (click)="show()">Make Order</button>
-    <button (click)="printPage()">print</button>
+    <button (click)="printReceipt.print()">print</button>
     <div class="search-box">
       <i class="fas fa-search"></i>
       <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search products...">
@@ -217,4 +217,5 @@
     </div>
   </div>
 
-
+  <app-print-receipt [receipt]="receipt" #printReceipt></app-print-receipt>
+  <!-- <button (click)="">Print Receipt</button> -->

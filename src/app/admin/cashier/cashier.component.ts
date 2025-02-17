@@ -7,6 +7,7 @@ import { FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule } 
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CashierService } from '../_services/cashier.service';
 import { ToastrService } from 'ngx-toastr';
+import { PrintReceiptComponent } from "./print-receipt/print-receipt.component";
 export declare const bootstrap: any;
 
 
@@ -14,7 +15,7 @@ export declare const bootstrap: any;
 
 @Component({
   selector: 'app-cashier',
-  imports: [FormsModule, CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, RouterLink, ReactiveFormsModule, PrintReceiptComponent],
   templateUrl: './cashier.component.html',
   styleUrl: './cashier.component.css'
 })
@@ -36,6 +37,16 @@ export class CashierComponent implements OnInit {
   cashierProducts: CashierProduct[] = [];
   TotalAmount = 0;
   Productres:ProductResponse[]=[];
+
+  //*Print Receipt
+  receipt:any;
+
+  testRecept(){
+    
+    // console.log(this.receipt)
+    this.receipt={name:"s"}
+    window.open("admin/cashier/p/print","")
+  }
 
   form: FormGroup = new FormGroup({
     Address: new FormControl('', [Validators.required]),
@@ -209,6 +220,7 @@ export class CashierComponent implements OnInit {
         pic_path:p.pics,
       }
     })
+    this.receipt=product
     let cashier_id="1"
     let totalPrice=this.TotalAmount
     console.log(product)
@@ -222,7 +234,7 @@ export class CashierComponent implements OnInit {
         this.form.reset()
         this.TotalAmount=0;
         this.toastr.success(e.message)
-        window.print()
+        // window.print()
        }else{
         this.getCashierCart();
         console.log("*********************************")

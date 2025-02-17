@@ -35,9 +35,6 @@ export class CartComponent implements OnInit {
     this.customer_id=this.authCustomerService.getLoggedInId();
     if (this.authCustomerService.isLoggedIn()) {
       this.cartSer.getCart().subscribe(e => {
-        console.log("-----------------------------------")
-        console.log(e);
-        console.log("-----------------------------------")
         this.data = e
         this.data.Total = 0
         e.product.forEach(p => {
@@ -140,7 +137,7 @@ export class CartComponent implements OnInit {
   removeFromCart(product_id: string,price:number,qty:number) {
 
     if (this.authCustomerService.isLoggedIn()) {
-      let CustomerId = "1";
+      let CustomerId = this.authCustomerService.getLoggedInId()
       this.cartSer.deleteProductFromCart({productID:product_id,CustomerId}).subscribe({
         next:(e)=>{
           if(e.data.success){
@@ -172,7 +169,9 @@ export class CartComponent implements OnInit {
       let cartGuest=this.data?.product;
       localStorage.setItem('processedCart',JSON.stringify(cartGuest));
     }
-    this.route.navigate(['checkout']);
+
+      this.route.navigate(['checkout']);
+    
   }
 
 

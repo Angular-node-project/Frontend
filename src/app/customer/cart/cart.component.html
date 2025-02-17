@@ -2,7 +2,7 @@
   <div class="cart-wrapper">
     <div class="container">
       <div class="row g-4">
-        
+
         <!-- * Cart Items Section -->
         <div class="col-lg-8 col-12">
           <div class="d-flex justify-content-between align-items-center mb-4">
@@ -12,7 +12,7 @@
           <div *ngIf="!data?.product?.length" class="alert alert-warning text-center rounded-0">
             Your cart is empty. <a routerLink="/products" class="text-danger fw-bold">Continue Shopping</a>
           </div>
-      
+
           <!-- Product Cards -->
           <div class="product-items">
             <!-- Product 1 -->
@@ -26,7 +26,7 @@
                   <img src=" " alt="No img " class="product-image">
                   }
                 </div>
-                
+
                 <div class="col-md-4">
                   <h6 class="mb-1">{{item.name}}</h6>
                   @if(item.qty<=0){
@@ -78,6 +78,8 @@
                 <button class="btn btn-outline-secondary" (click)="get()" type="button">Apply</button>
               </div>
             </div> -->
+
+
 
             <button class="btn btn-danger checkout-btn w-100 mb-3" (click)="porceedToCheckout();"
             [disabled]="!data?.product?.length"

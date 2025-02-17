@@ -1,14 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-print-receipt',
   templateUrl: './print-receipt.component.html',
-  styleUrl: './print-receipt.component.css',
+  styleUrls: ['./print-receipt.component.css'], // Fixed styleUrl to styleUrls
 })
-export class PrintReceiptComponent implements OnInit {
-  ngOnInit(): void {
-    window.print()
-  }
+export class PrintReceiptComponent {
+  @Input() receipt: any; // Use @Input decorator for property binding
 
+  print(): void {
+    if (this.receipt) {
+      console.log('Printing receipt:', this.receipt);
+      window.print();
+    } else {
+      console.warn('No receipt data available.');
+    }
+  }
 }

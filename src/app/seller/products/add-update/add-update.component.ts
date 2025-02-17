@@ -9,6 +9,7 @@ import { SellerService } from 'src/app/seller/_services/seller.service';
 import { ToastrService } from 'ngx-toastr';
 import { SellerUpdateRequests } from 'src/app/_models/UpdateRequests';
 import { AuthSellerService } from '../../_services/authSeller.service';
+//import {productservice} from {../../_services/products.service};
 
 @Component({
   standalone: true,
@@ -68,6 +69,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
         Validators.required,
         Validators.pattern('^[1-9]\\d*$')
       ]),
+      show: new FormControl(this.selectedProduct.show, [Validators.required]),
       status: new FormControl('active'),
       seller_id: new FormControl(this.selectedProduct.seller_id, [Validators.required]),
       categories: new FormControl(this.selectedCategories, [Validators.required]),
@@ -92,6 +94,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
         description: product.description || '',
         price: product.price || '',
         qty: product.qty || '',
+        show: product.show || '',
         status: product.status || 'active',
         seller_id: product.seller?.seller_id || '',
         categories: this.selectedCategories,
@@ -150,12 +153,12 @@ export class AddUpdateComponent implements OnInit, OnChanges {
   onSubmit(): void {
     var productData={
       ...this.form.value,
-      pics:this.imagePreviews
+      pics:this.imagePreviews,
+      seller_id:this.AuthSellerService.getLoggedInId()
     }
     const sellerId=this.AuthSellerService.getLoggedInId();
    const sellerName=this.AuthSellerService.getLoggedInName();
-    console.log(sellerId);
-    console.log(sellerName);
+   
    
     this.SellerProductRequest = {
       request_id: this.isEditMode ? this.selectedProduct.request_id : '',
@@ -169,6 +172,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
       pics: this.imagePreviews,
       details: this.form.value.details || '',
       qty: this.form.value.qty,
+      show: this.form.value.show,
       price: this.form.value.price,
       status: this.form.value.status,
       },
@@ -176,6 +180,21 @@ export class AddUpdateComponent implements OnInit, OnChanges {
     };
     console.log(this.SellerProductRequest);
     if (this.isEditMode) {
+      if(this.selectedProduct.status=="pending")
+      {
+        this.ProductsService.updatePendingProduct(productData, this.selectedProduct.product_id).subscribe({
+          next: (response) => {
+            console.log('Product Updated:', response);
+            this.saveProduct.emit(response);
+            this.toastr.success("product updated successfully");
+          },
+          error: (error) => {
+            this.toastr.error("something went wrong");
+            console.error('Error updating product:', error);
+          },
+        });
+      }//end of if
+      else{
       this.ProductsService.updateProduct(sellerId, this.selectedProduct.product_id,this.SellerProductRequest).subscribe({
         next: (response) => {
           console.log('Product Updated:', response);
@@ -183,10 +202,10 @@ export class AddUpdateComponent implements OnInit, OnChanges {
           this.toastr.success("product updated successfully");
         },
         error: (error) => {
-          this.toastr.success("something went wrong");
+          this.toastr.error("something went wrong");
           console.error('Error updating product:', error);
         },
-      });
+      });}//end of else
     } else {
       this.ProductsService.addProduct(sellerId,productData).subscribe({
         next: (response) => {
@@ -196,7 +215,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
         },
         error: (error) => {
           console.error('Error adding product:', error);
-          this.toastr.success("something went wrong");
+          this.toastr.error("something went wrong");
         },
       });
     }

@@ -41,6 +41,17 @@
       </div>
   
     </div>
+    <div class="col-md-4 mt-2">
+      <label for="productQuantity" class="form-label">show</label>
+      <select class="form-select rounded-0" formControlName="show">
+         <option value="online">online</option>
+         <option value="offline" >offline</option>
+         <option value="all">both</option>
+      </select>
+      <div *ngIf="form.get('show')?.invalid && form.get('show')?.touched" class="text-danger">
+        Show is required.
+      </div>
+    </div>
   
    
   
@@ -54,7 +65,7 @@
       </div>
     </div>
   
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-6 mt-3">
         <button type="button" class="btn btn-primary rounded-0" (click)="fileInput.click()">add image +</button>
         <input #fileInput type="file" class="d-none" (change)="onFileChange($event)" accept="image/*">
@@ -70,9 +81,25 @@
           </div>
         </div>
       </div>
+    </div> -->
+  <br>
+    <div class="row">
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-secondary rounded-0" (click)="fileInput.click()">Add Image +</button>
+        <input #fileInput type="file" class="d-none" (change)="onFileChange($event)" accept="image/*">
+      </div>
+  
+      <div class="col-12 mt-3">
+        <div class="d-flex flex-wrap gap-2">
+          <div *ngFor="let image of imagePreviews; let i = index" class="position-relative img-container">
+            <img [src]="image" class="img-thumbnail">
+            <button type="button" class="btn btn-danger btn-sm delete-btn" (click)="removeImage(i)">
+              ×
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  
-  
   
   
    

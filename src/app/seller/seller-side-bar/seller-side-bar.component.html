@@ -1,21 +1,16 @@
 <div class="sidebar">
    <h4><i class="fa-solid fa-seedling"></i> Seller Dashboard</h4>
-   <a routerLink="/seller/dashboard"
-      routerLinkActive="active"
-      (click)="onLinkClick()">
+   <a routerLink="/seller/dashboard" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-chart-line"></i> Dashboard
    </a>
 
-   <a routerLink="/seller/products/1"
-     [routerLinkActiveOptions]="{exact:false}"
-      routerLinkActive="active"
+   <a routerLink="/seller/products/1" [routerLinkActiveOptions]="{exact:false}" routerLinkActive="active"
       (click)="onLinkClick()">
       <i class="fa-solid fa-box"></i> Products
    </a>
 
-   <a routerLink="/seller/orders/1"
-      routerLinkActive="active"
-      (click)="onLinkClick()">
+   <a routerLink="/seller/orders/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-shopping-bag"></i> Orders
    </a>
 
+</div>

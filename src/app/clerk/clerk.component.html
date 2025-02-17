@@ -1,0 +1,12 @@
+<div class="admin-layout" [class.sidebar-open]="isSidebarOpen">
+    <app-side-bar (linkClick)="onSidebarLinkClick()"></app-side-bar>
+    <div class="main-content">
+      <app-header 
+        [isSidebarOpen]="isSidebarOpen"
+        (toggleSidebarEvent)="toggleSidebar()">
+      </app-header>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>

@@ -37,6 +37,11 @@ import { RequestSentComponent } from './seller/request-sent/request-sent.compone
 import { authSellerGuard } from './seller/auth-seller.guard';
 import { PrintReceiptComponent } from './admin/cashier/print-receipt/print-receipt.component';
 import { BranchesComponent } from './admin/branches/branches.component';
+import { ClerkBranchComponent } from './admin/clerk-branch/clerk-branch.component';
+import { ClerkComponent as clerkBranchComponent } from './clerk/clerk.component';
+import { LoginComponent as clerkBranchLoginComponent } from './clerk/login/login.component';
+import { ProductsBranchComponent } from './clerk/products-branch/products-branch.component';
+import { authClerkBranchGuard } from './clerk/auth-clerk-branch.guard';
 
 
 
@@ -104,11 +109,25 @@ export const routes: Routes = [
                     { path: 'customerservice/:page', component: CustomerserviceComponent },
                     { path: 'branch', redirectTo: '/branch/1', pathMatch: 'full' },
                     { path: 'branch/:page', component: BranchesComponent },
+                    { path: 'clerkBranch', redirectTo: '/branch/1', pathMatch: 'full' },
+                    { path: 'clerkBranch/:page', component: ClerkBranchComponent },
 
                 ]
             }
         ]
     },
+    {path:'clerk',children:[
+        { path:'login', component:clerkBranchLoginComponent },
+        {path: '',redirectTo: 'products/1',pathMatch: 'full'},
+        {path:'',component:clerkBranchComponent,
+            canActivate:[authClerkBranchGuard],
+            children:[
+                {path:'products',redirectTo:"/products/1",pathMatch:'full'},
+                {path:'products/:page',component:ProductsBranchComponent}
+            ]
+        },
+        
+    ]},
     {path:"**",component:PageNotFoundComponent}
 
 ];

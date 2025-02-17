@@ -13,6 +13,9 @@
       (click)="onLinkClick()">
       <i class="fa-solid fa-user-tie"></i> Clerks
    </a>
+   <a routerLink="/admin/clerkBranch/1" routerLinkActive="active" (click)="onLinkClick()">
+      <i class="fa-solid fa-code-branch"></i> clerk Branch
+   </a>
 
    <a  routerLink="/admin/roles" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
       (click)="onLinkClick()">
@@ -41,5 +44,9 @@
    </a>
    <a routerLink="/admin/branch/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-code-branch"></i> Customer Service
+   </a>
+   
+   <a routerLink="/admin/clerkBranch/1" routerLinkActive="active" (click)="onLinkClick()">
+      <i class="fa-solid fa-code-branch"></i> clerk Branch
    </a>
 </div>

@@ -8,23 +8,24 @@ export class AuthService {
     private readonly STORAGE_KEY = {
         CUSTOMER_TOKEN: 'customer_token',
         SELLER_TOKEN: 'seller_token',
-        ADMIN_TOKEN: 'admin_token'
+        ADMIN_TOKEN: 'admin_token',
+        CLERK_TOKEN: 'clerk_token'
     };
 
     constructor() { }
 
-    getUserType(token: string): 'customer' | 'seller' | 'admin' {
+    getUserType(token: string): 'customer' | 'seller' | 'admin' | 'clerkBranch' {
         var decodedToken = jwtDecode<any>(token);
         return decodedToken.user_type || null;
     }
-    getLoggedInName(user_type: 'customer' | 'seller' | 'admin'): string {
+    getLoggedInName(user_type: 'clerkBranch' | 'customer' | 'seller' | 'admin'): string {
         if (this.getToken(user_type) === '') {
             return '';
         }
         var decodedToken = jwtDecode<any>(this.getToken(user_type));
         return decodedToken.name || null;
     }
-    getLoggedInEmail(user_type: 'customer' | 'seller' | 'admin'): string {
+    getLoggedInEmail(user_type: 'customer' | 'seller' | 'admin' | 'clerkBranch'): string {
         if (this.getToken(user_type) === '') {
             return '';
         }
@@ -33,7 +34,7 @@ export class AuthService {
     }
 
 
-    getLoggedInId(user_type: 'customer' | 'seller' | 'admin'): string {
+    getLoggedInId(user_type: 'customer' | 'seller' | 'admin' | 'clerkBranch'): string {
         if (this.getToken(user_type) === '') {
             return '';
         }
@@ -41,7 +42,7 @@ export class AuthService {
         return decodedToken.id || null;
     }
 
-    getLoggedInData(user_type: 'customer' | 'seller' | 'admin'): any {
+    getLoggedInData(user_type: 'customer' | 'seller' | 'admin' | 'clerkBranch'): any {
         if (this.getToken(user_type) === '') {
             return '';
         }
@@ -55,7 +56,7 @@ export class AuthService {
         localStorage.setItem(storageKey, token);
     }
 
-    getToken(user_type: 'customer' | 'seller' | 'admin'): string {
+    getToken(user_type: 'customer' | 'seller' | 'admin' | 'clerkBranch'): string {
 
         const storageKey = this.getStorageKeyByUserType(user_type);
         const token = localStorage.getItem(storageKey);
@@ -70,16 +71,16 @@ export class AuthService {
         return localStorage.getItem(storageKey) || '';
     }
 
-    removeToken(user_type: 'customer' | 'seller' | 'admin'): void {
+    removeToken(user_type: 'customer' | 'seller' | 'admin' | 'clerkBranch'): void {
         const storageKey = this.getStorageKeyByUserType(user_type);
         localStorage.removeItem(storageKey);
     }
 
-    isLoggedIn(user_type: 'customer' | 'seller' | 'admin'): boolean {
+    isLoggedIn(user_type: 'customer' | 'seller' | 'admin' | 'clerkBranch'): boolean {
         const token = this.getToken(user_type);
         return token !== '';
     }
-    logout(user_type: 'customer' | 'seller' | 'admin'): void {
+    logout(user_type: 'customer' | 'seller' | 'admin' | 'clerkBranch'): void {
         this.removeToken(user_type);
     }
     private getStorageKeyByUserType(user_type: string) {
@@ -90,6 +91,8 @@ export class AuthService {
                 return this.STORAGE_KEY.SELLER_TOKEN;
             case 'admin':
                 return this.STORAGE_KEY.ADMIN_TOKEN;
+            case 'clerkBranch':
+                return this.STORAGE_KEY.CLERK_TOKEN;
             default:
                 throw new Error('Invalid user type');
         }

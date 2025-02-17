@@ -7,66 +7,69 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { ProcessComponent } from './process/process.component';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-orders',
-  imports: [FormsModule,CommonModule,RouterLink],
+  imports: [FormsModule, CommonModule, RouterLink, ProcessComponent],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css'
 })
-export class OrdersComponent  implements OnInit{
-@ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
- orders:Order[]=[]
+export class OrdersComponent implements OnInit {
+  @ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
+  orders: Order[] = []
   isEditMode: boolean = false;
- OrderToDelete: string | null = null;
+  OrderToDelete: string | null = null;
   isLoading: boolean = true;
-    selectedSort: string = '';
-    currentPage = 1;
-    totalPages !: number;
-    pageNumbers: number[] = [];
-    totalResults: number = 0;
-    pageSize: number = 6;
-    sub!: Subscription;
-    status:string='';
-    governorate:string='';
-     @Input() isSidebarOpen = false;
-    constructor(private orderService:OrderService,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
+  selectedSort: string = '';
+  currentPage = 1;
+  totalPages !: number;
+  pageNumbers: number[] = [];
+  totalResults: number = 0;
+  pageSize: number = 6;
+  sub!: Subscription;
+  status: string = '';
+  governorate: string = '';
+  selectedOrder!: Order;
+  @Input() isSidebarOpen = false;
 
-    }
-    loadOrders(page:number){
-      this.orderService.getAllOrders(page, this.selectedSort,this.status, this.governorate).subscribe({
-        next:(response)=>{
-          this.orders=response.data.orders;
-          this.totalPages = response.data.totalPages;
-          this.totalResults = response.data.totalProductsCount;
-          this.generatePageNumbers();
-          this.scrollToTop();
-          this.isLoading = false;
-        },
-        error:()=>{
-            console.log("error loading orders");
-        }
-      })
-        }
+  constructor(private orderService: OrderService, private route: ActivatedRoute, private viewPortScroller: ViewportScroller, private toastr: ToastrService) {
+
+  }
+  loadOrders(page: number) {
+    this.orderService.getAllOrders(page, this.selectedSort, this.status, this.governorate).subscribe({
+      next: (response) => {
+        this.orders = response.data.orders;
+        this.totalPages = response.data.totalPages;
+        this.totalResults = response.data.totalProductsCount;
+        this.generatePageNumbers();
+        this.scrollToTop();
+        this.isLoading = false;
+      },
+      error: () => {
+        console.log("error loading orders");
+      }
+    })
+  }
   ngOnInit(): void {
     this.sub = this.route.paramMap.subscribe(params => {
       this.currentPage = +params.get('page')!;
       console.log(this.currentPage);
-   this.loadOrders(this.currentPage);
-  });
-   import('bootstrap').then(bootstrap => {
-    const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
-    dropdownElementList.forEach(dropdownToggle => {
-      new bootstrap.Dropdown(dropdownToggle);
+      this.loadOrders(this.currentPage);
     });
-  });
+    import('bootstrap').then(bootstrap => {
+      const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
+      dropdownElementList.forEach(dropdownToggle => {
+        new bootstrap.Dropdown(dropdownToggle);
+      });
+    });
   }
 
 
- 
-  changeSearch(gover:string){
-    this.governorate=gover;
-    this.currentPage = 1; 
+
+  changeSearch(gover: string) {
+    this.governorate = gover;
+    this.currentPage = 1;
     this.loadOrders(this.currentPage)
   }
   changePage(page: number) {
@@ -75,7 +78,7 @@ export class OrdersComponent  implements OnInit{
       this.loadOrders(this.currentPage)
     }
   }
-     
+
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
@@ -85,48 +88,67 @@ export class OrdersComponent  implements OnInit{
       this.pageNumbers.push(i);
     }
   }
- changeStatus(id:string,status:string){
-    this.orderService.changeStatus(id,status).subscribe({
-  next:(response)=>{
-    this.loadOrders(this.currentPage);
-    this.toastr.success("Status Changed Successfully");
-  }
-  ,
+  changeStatus(id: string, status: string) {
+    this.orderService.changeStatus(id, status).subscribe({
+      next: (response) => {
+        this.loadOrders(this.currentPage);
+        this.toastr.success("Status Changed Successfully");
+      }
+      ,
       error: (err) => {
         console.error('Error updating status:', err);
       }
-})
+    })
   }
- 
- confirmDelete() {
-     if (this.OrderToDelete) {
-       this.changeStatus(this.OrderToDelete,'cancelled');
-       const modalElement = document.getElementById('deleteModal');
-       if (modalElement) {
-         const modal = bootstrap.Modal.getInstance(modalElement);
-         if (modal) {
-           modal.hide();
-         }
-       }
-       this.OrderToDelete = null;
-     }
-   }
-   onDelete(orderId: string) {
-       this.OrderToDelete = orderId;
-       const modalElement = document.getElementById('deleteModal');
-       if (modalElement) {
-         const modal = new bootstrap.Modal(modalElement);
-         modal.show();
-       }
-     }
-     ngAfterViewInit() {
-      if (this.sidebarComponent) {
-        this.sidebarComponent.sidebarState$.subscribe(
-          state => this.isSidebarOpen = state
-        );
+
+  confirmDelete() {
+    if (this.OrderToDelete) {
+      this.changeStatus(this.OrderToDelete, 'cancelled');
+      const modalElement = document.getElementById('deleteModal');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        }
       }
+      this.OrderToDelete = null;
     }
-    scrollToTop(): void {
-      this.viewPortScroller.scrollToPosition([0, 0])
+  }
+  onDelete(orderId: string) {
+    this.OrderToDelete = orderId;
+    const modalElement = document.getElementById('deleteModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
     }
+  }
+  ngAfterViewInit() {
+    if (this.sidebarComponent) {
+      this.sidebarComponent.sidebarState$.subscribe(
+        state => this.isSidebarOpen = state
+      );
+    }
+  }
+  scrollToTop(): void {
+    this.viewPortScroller.scrollToPosition([0, 0])
+  }
+  
+  onSaveQty(event: any) {
+    const modalElement = document.getElementById('orderProcessModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+      this.loadOrders(this.currentPage);
+    }
+  }
+  process(order: Order) {
+    this.selectedOrder=order;
+    const modalElement = document.getElementById('orderProcessModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
 }

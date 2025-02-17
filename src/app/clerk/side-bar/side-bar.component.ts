@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-side-bar',
-  imports: [],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })

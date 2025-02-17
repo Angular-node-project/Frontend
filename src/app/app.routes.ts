@@ -116,11 +116,12 @@ export const routes: Routes = [
     },
     {path:'clerk',children:[
         { path:'login', component:clerkBranchLoginComponent },
-        {path: '',redirectTo: 'products',pathMatch: 'full'},
+        {path: '',redirectTo: 'products/1',pathMatch: 'full'},
         {path:'',component:clerkBranchComponent,
             canActivate:[authClerkBranchGuard],
             children:[
-                {path:'products',component:ProductsBranchComponent}
+                {path:'products',redirectTo:"/products/1",pathMatch:'full'},
+                {path:'products/:page',component:ProductsBranchComponent}
             ]
         },
         

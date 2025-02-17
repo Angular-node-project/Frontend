@@ -104,7 +104,6 @@ export class AddUpdateComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.selectedPermissions = this.selectedPermissions.filter(perm => perm.permission_id !== permission_id);
       if (action === "show") {
-        console.log(`❌ "show" removed, unchecking all permissions for ${controller}`);
         this.selectedPermissions = this.selectedPermissions.filter(perm => perm.controller !== controller);
         setTimeout(() => {
           ["add", "update", "changeStatus", "delete"].forEach(act => {

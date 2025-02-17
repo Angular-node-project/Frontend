@@ -4,8 +4,7 @@
        <i class="fa-solid fa-chart-line"></i> Dashboard
     </a>
  
-    <a routerLink="/seller/products/1"  routerLinkActive="active"
-       >
+    <a routerLink="/clerk/products/1"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }"  (click)="onLinkClick()">
        <i class="fa-solid fa-box"></i> Products
     </a>
  

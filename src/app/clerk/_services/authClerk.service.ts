@@ -33,12 +33,12 @@ export class AuthClerkBranchService {
     var data =this.authGeneralService.getLoggedInData("clerkBranch");
     return new ClerkBranch(
       data.clerkBranch_id,
+      data.branch?{branch_id:data.branch.branch_id,name:data.branch.name}:{branch_id:"",name:""},
       data.name,
       data.email,
       '',
       data.role,
-      data.status,
-      data.branch?{branch_id:data.branch.branch_id,name:data.branch.name}:{branch_id:"",name:""}
+      data.status
     )
   }
 }

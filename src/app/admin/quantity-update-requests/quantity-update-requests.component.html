@@ -43,13 +43,13 @@
                 <div class="btn-group">
              
               
-                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(requests.request_id)"[disabled]="requests.status !== 'pending'">
+                <button class="btn btn-danger btn-sm rounded-0" title="Disapprove Request" (click)="onDelete(requests.request_id)"[disabled]="requests.status !== 'pending'">
                   <i class="fa-solid fa-cancel"></i>
                 </button>
               
                 <div class="dropdown d-inline" >
                     <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
-                      data-bs-toggle="dropdown" aria-expanded="false" [disabled]="requests.status !== 'pending'">
+                      data-bs-toggle="dropdown" aria-expanded="false" [disabled]="requests.status !== 'pending'" title="Change Status">
                       <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
                 <ul class="dropdown-menu">

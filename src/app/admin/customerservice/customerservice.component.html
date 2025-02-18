@@ -29,7 +29,8 @@
             <td class="actions">
               <div class="btn-group">
               
-                <button class="btn btn-success btn-sm rounded-0"  *ngIf="!isSendingEmail" (click)="showSendEmail()">
+                <button class="btn btn-success btn-sm rounded-0"  title="Send Email" *ngIf="!isSendingEmail" (click)="showSendEmail()" 
+                [disabled]="message.status === 'resolved'" >
                   <i class="fa-solid fa-comment"></i>
                 </button>
                 <div *ngIf="isSendingEmail" class="add-category-box">

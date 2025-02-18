@@ -28,9 +28,10 @@
             <td>{{requests.seller.name}}</td>
             <td>{{requests.updatedProduct.name}}</td>
             <td>{{requests.updatedProduct.status}}</td>
+            <td> <img [src]="requests.updatedProduct.pics[0]" alt="Product Image" width="50" height="50"></td>  
             <td>{{requests.updatedProduct.qty}}</td>
             <td>{{requests.updatedProduct.price}}</td>
-            <td> <img [src]="requests.updatedProduct.pics[0]" alt="Product Image" width="50" height="50"></td>  
+            
             <td>{{requests.status}}</td>
 
             <td class="actions">

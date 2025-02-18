@@ -41,6 +41,8 @@ import { ClerkComponent as clerkBranchComponent } from './clerk/clerk.component'
 import { LoginComponent as clerkBranchLoginComponent } from './clerk/login/login.component';
 import { ProductsBranchComponent } from './clerk/products-branch/products-branch.component';
 import { authClerkBranchGuard } from './clerk/auth-clerk-branch.guard';
+import { UpdateQtyRequestsService } from './admin/_services/UpdateQtyRequest.service';
+import { QuantityUpdateRequestsComponent } from './admin/quantity-update-requests/quantity-update-requests.component';
 
 
 
@@ -109,6 +111,8 @@ export const routes: Routes = [
                     { path: 'branch/:page', component: BranchesComponent },
                     { path: 'clerkBranch', redirectTo: '/branch/1', pathMatch: 'full' },
                     { path: 'clerkBranch/:page', component: ClerkBranchComponent },
+                    { path: 'UpdateQty', redirectTo: '/UpdateQty/1', pathMatch: 'full' },
+                    { path: 'UpdateQty/:page', component: QuantityUpdateRequestsComponent },
 
                 ]
             }

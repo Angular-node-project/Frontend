@@ -56,7 +56,6 @@ type:string='';
   ngOnInit(): void {
     this.sub = this.route.paramMap.subscribe(params => {
       this.currentPage = +params.get('page')!;
-      console.log(this.currentPage);
       this.loadOrders(this.currentPage);
     });
     import('bootstrap').then(bootstrap => {
@@ -142,7 +141,7 @@ type:string='';
   scrollToTop(): void {
     this.viewPortScroller.scrollToPosition([0, 0])
   }
-  
+
   onSaveQty(event: any) {
     const modalElement = document.getElementById('orderProcessModal');
     if (modalElement) {

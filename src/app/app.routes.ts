@@ -98,7 +98,7 @@ export const routes: Routes = [
                     { path: 'seller/:page', component: SellersComponent },
                     { path: 'UpdateRequests', redirectTo: '/UpdateRequests/1', pathMatch: 'full' },
                     { path: 'UpdateRequests/:page', component: UpdateRequestsComponent },
-                    { path: 'roles/:page', component: RoleComponent },
+                    { path: 'roles/:page', component: RoleComponent,title:"Admin-Roles" },
                     {path:'roles',redirectTo:"roles/1",pathMatch:'full'},
                     { path: 'order', redirectTo: '/order/1', pathMatch: 'full' },
                     { path: 'order/:page', component: OrdersComponent },

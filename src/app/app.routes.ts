@@ -23,7 +23,6 @@ import { SellerProfileComponent } from './seller/seller-profile/seller-profile.c
 import { ClerkComponent } from './admin/clerk/clerk.component';
 import { authCustomerGuard } from './customer/authCustomer.guard';
 import { SellersComponent } from './admin/sellers/sellers.component';
-import { CashierComponent } from './admin/cashier/cashier.component';
 import { authAdminGuard } from './admin/authAdmin.guard';
 import { UpdateRequestsComponent } from './admin/update-requests/update-requests.component';
 import { RoleComponent } from './admin/role/role.component';
@@ -41,6 +40,7 @@ import { ClerkComponent as clerkBranchComponent } from './clerk/clerk.component'
 import { LoginComponent as clerkBranchLoginComponent } from './clerk/login/login.component';
 import { ProductsBranchComponent } from './clerk/products-branch/products-branch.component';
 import { authClerkBranchGuard } from './clerk/auth-clerk-branch.guard';
+import { CahierComponent as cashierComponent } from './clerk/cashier/cashier.component';
 
 
 
@@ -60,7 +60,7 @@ export const routes: Routes = [
                 { path: 'orders/:page', component: SellerOrdersComponent }
             ]
         },
-        
+
     ]
 
 },
@@ -78,7 +78,7 @@ export const routes: Routes = [
         {path:"cart",component:CartComponent},
         {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]}
        // {path:"**",component:PageNotFoundComponent}
-      
+
     ]},
     {path:'admin',children: [
             { path: 'login', component: AdminLoginComponent },
@@ -90,7 +90,6 @@ export const routes: Routes = [
                     {path:'products',redirectTo:"products/1",pathMatch:'full'},
                     { path: 'products/:page', component: ProductsComponent },
                     { path: 'profile', component: ProfileComponent },
-                    { path: 'cashier/:page', component: CashierComponent },
                     { path: 'clerks/:page', component: ClerkComponent },
                     {path:'clerks',redirectTo:"clerks/1",pathMatch:'full'},
                     { path: 'seller', redirectTo: '/seller/1', pathMatch: 'full' },
@@ -121,11 +120,12 @@ export const routes: Routes = [
             canActivate:[authClerkBranchGuard],
             children:[
                 {path:'products',redirectTo:"/products/1",pathMatch:'full'},
-                {path:'products/:page',component:ProductsBranchComponent}
+                {path:'products/:page',component:ProductsBranchComponent},
+                {path:'cashier/order/:page',component:cashierComponent}
             ]
         },
-        
+
     ]},
     {path:"**",component:PageNotFoundComponent}
-    
+
 ];

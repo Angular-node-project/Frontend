@@ -64,7 +64,12 @@ export class RequestQtyComponent implements OnInit ,OnDestroy ,OnChanges{
           this.addedItems.push({
             product_id: this.selectedProduct.product_id,
             product_name: this.selectedProduct.name,
-            requiredQty: this.qty
+            requiredQty: this.qty,
+            status:"pending",
+            branch:{branch_id:'',name:''},
+             requesterClerk:{clerk_id:'',name:''},
+             request_id:'',
+            acceptedQty:this.qty,
           });
         }
       }

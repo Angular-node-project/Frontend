@@ -22,7 +22,7 @@ export class Order {
     public customer={name:String,email:String},
     public cashier={name:String,email:String},
     public status: "pending" | "processing" | "shipped" | "cancelled"|"delivered",
-    public totalPrice:  string,
+    public totalPrice:  number,
   ){}
 
 }

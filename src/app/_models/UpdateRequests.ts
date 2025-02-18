@@ -30,6 +30,7 @@ export class SellerUpdateRequests {
       pics: string[],
       details: string,
       qty: number,
+      show: "online" | "offline" | "all",
       price: number,
       status: "active" | "inactive" | "pending" | "outStock" | "deleted",
     },

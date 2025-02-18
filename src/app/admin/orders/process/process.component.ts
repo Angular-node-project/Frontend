@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { concat, Subscription } from 'rxjs';
 import { Order } from 'src/app/_models/order';
-import { Product } from 'src/app/_models/product';
-import { BranchService } from '../../_services/branch.service';
+
 import { Branch } from 'src/app/_models/branch';
 import { ProductService } from '../../_services/products.services';
+import { ToastrService } from 'ngx-toastr';
+import { OrderService } from '../../_services/order.service';
 
 @Component({
   selector: 'app-process',
@@ -15,14 +16,16 @@ import { ProductService } from '../../_services/products.services';
   styleUrl: './process.component.css'
 })
 export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
-  constructor(private branchService: BranchService
+  constructor(private orderService: OrderService
     , private productServie: ProductService
+    , private toastr: ToastrService
   ) { }
   @Input() selectedOrder!: Order;
   @Output() save = new EventEmitter<any>();
   addedItems: any = [];
   productsOrder: any = [];
   sub!: Subscription;
+  sub2!: Subscription;
   activeBranches: any[] = [];
   selectedBranch: Branch | null = null;
   // availableBranchQty!: number;
@@ -37,21 +40,20 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     this.loadActiveBranches();
     this.productsOrder = this.selectedOrder?.product;
-    console.log(this.selectedOrder);
-   
+
   }
 
   ngOnChanges(): void {
     this.loadActiveBranches();
     this.productsOrder = this.selectedOrder?.product;
-    console.log(this.selectedOrder);
+
   }
+
   loadActiveBranches() {
     var ids = this.selectedOrder?.product?.map(p => p.product_id);
     this.sub = this.productServie.getBranchesByProductIds(ids).subscribe({
       next: (res) => {
         this.activeBranches = res.data;
-        console.log(res.data);
       }, error: (err) => {
         console.log(err);
       }
@@ -60,37 +62,110 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
   }
   onselectBranch(product_id: string) {
     if (!this.currentSelectedBranches[product_id]) {
-        console.warn("No branch selected for product:", product_id);
-        return;
+      console.warn("No branch selected for product:", product_id);
+      return;
     }
-
-    // Create a new object reference to trigger Angular change detection properly
     this.availableBranchQts = { ...this.availableBranchQts };
-
-    // Assign the qty of the selected branch for the specific product
     this.availableBranchQts[product_id] = this.currentSelectedBranches[product_id].qty;
-
     console.log("Updated availableBranchQts:", this.availableBranchQts);
-}
+  }
 
-// Getter function to dynamically retrieve available quantity per product
-getAvailableQty(product_id: string): number {
+
+  getAvailableQty(product_id: string): number {
     return this.availableBranchQts[product_id] || 0;
-}
+  }
   getProductBranches(product_id: string) {
-    //console.log(product_id);
-    console.log(this.activeBranches.filter(b => b.product_id == product_id));
-    return this.activeBranches.filter(b => b.product_id == product_id);
+    var productBranches = this.activeBranches.filter(b => b.product_id == product_id);
+    var branchesIds = this.productAssignedBranches[product_id]?.map(p => p.branch.branch_id);
+    return productBranches.filter(p => !(branchesIds?.includes(p.branch.branch_id)));
+
   }
+
   addSelecteBranch(product_id: string) {
-    console.log("5555");
-    if(    this.productAssignedBranches[product_id]==null){    this.productAssignedBranches[product_id]=[]}
-    this.productAssignedBranches[product_id].push({ branch: this.currentSelectedBranches[product_id], qty: this.currentselectedQts[product_id] })
-    console.log(this.productAssignedBranches[product_id]);
+    if (!this.productAssignedBranches[product_id]) {
+      this.productAssignedBranches[product_id] = [];
+    }
+    let product = this.productsOrder.find((p: any) => p.product_id == product_id);
+    if (!product) {
+      this.toastr.error("Product not found.");
+      return;
+    }
+    let totalQty = parseInt(this.currentselectedQts[product_id].toString()) +
+      this.productAssignedBranches[product_id].reduce((prev, curr) => parseInt(prev.toString()) + parseInt(curr.qty.toString()), 0);
+    if (totalQty > product.qty) {
+      console.log(totalQty);
+      this.toastr.error("the qty entered must me less or more than the product qty ordered");
+    } else {
+      this.productAssignedBranches[product_id].push({
+        branch: this.currentSelectedBranches[product_id].branch,
+        qty: this.currentselectedQts[product_id]
+      });
+
+    }
   }
+  removeBranch(product_id: string, branch_id: string) {
+    var branchesAssigned = this.productAssignedBranches[product_id];
+    var branchesAssigned = branchesAssigned.filter(b => b.branch.branch_id != branch_id);
+    this.productAssignedBranches[product_id] = branchesAssigned;
+
+
+  }
+
+  submitForm() {
+    for (var product of this.productsOrder) {
+      var data = this.productAssignedBranches[product.product_id];
+      if (!data) {
+        this.toastr.error("all products must assign to branches");
+        break;
+      }
+      var totalQtyAssigned = data.reduce((prev, current) => { return parseInt(prev.toString()) + parseInt(current.qty.toString()) }, 0);
+      if (product.qty != totalQtyAssigned) {
+        this.toastr.error("all product ordered qty must assign to branches");
+        break;
+      }
+    }
+    const expandedOrders = {
+      orderId: this.selectedOrder.order_id,
+      data: Object.keys(this.productAssignedBranches).flatMap(product_id => {
+        const product = this.productsOrder.find((p: any) => p.product_id === product_id);
+
+        return this.productAssignedBranches[product_id].map(branchData => ({
+          product: {
+            product_id: product?.product_id || product_id,
+            name: product?.name || "Unknown Product"
+          },
+          branch: {
+            branch_id: branchData.branch.branch_id,
+            name: branchData.branch.name
+          },
+          qty: parseInt(branchData.qty.toString())
+        }));
+      })
+    };
+
+    this.sub2 = this.orderService.assignBranches(expandedOrders).subscribe({
+      next: (res) => {
+        if (res.status == 201) {
+          this.save.emit(res);
+          this.toastr.success("order assined to branches successfully");
+        } else {
+          this.toastr.error("something went wrong");
+        }
+      }, error: (err) => {
+        this.toastr.error("something went wrong");
+      }
+    })
+
+  }
+
+
   ngOnDestroy(): void {
     if (this.sub) {
       this.sub.unsubscribe();
+    }
+
+    if (this.sub2) {
+      this.sub2.unsubscribe();
     }
   }
 

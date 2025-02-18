@@ -11,19 +11,22 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  getAllOrders(page: number,sort:string,status:string,search:String): Observable<Response<any>> {
+  getAllOrders(page: number, sort: string, status: string, search: String): Observable<Response<any>> {
     var result = this.http.get<any>(`${this.baseUrl}?page=${page}&sort=${sort}&status=${status}&governorate=${search}`);
     return result;
   }
-  changeStatus(id:string,status:string)
-  {
-    const result = this.http.patch<any>(`${this.baseUrl}/ChangeOrderStatus/${id}/${status}`,{});
+  changeStatus(id: string, status: string) {
+    const result = this.http.patch<any>(`${this.baseUrl}/ChangeOrderStatus/${id}/${status}`, {});
     return result;
   }
-  
-cancelOrder(id:string)
-{
-    
+
+  cancelOrder(id: string) {
+
+  }
+
+  assignBranches(data:any):Observable<Response<any>>{
+    var body={data:data}
+    const result= this.http.post<Response<any>>(`${this.baseUrl}/assign/branches`,body);
+    return result;
+  }
 }
-}
-  

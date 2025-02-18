@@ -11,10 +11,10 @@
    
    <a *hasPermission="'clerks.show'" routerLink="/admin/clerks" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
       (click)="onLinkClick()">
-      <i class="fa-solid fa-user-tie"></i> Clerks
+      <i class="fa-solid fa-user-tie"></i> Sub Admins
    </a>
    <a routerLink="/admin/clerkBranch/1" routerLinkActive="active" (click)="onLinkClick()">
-      <i class="fa-solid fa-code-branch"></i> clerk Branch
+      <i class="fa-solid fa-code-branch"></i> Clerk Branch
    </a>
 
    <a  routerLink="/admin/roles" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
@@ -23,18 +23,7 @@
    </a>
    
    <a routerLink="/admin/UpdateQty/1" routerLinkActive="active" (click)="onLinkClick()">
-      <i class="fa-solid fa-user-tie"></i> Update Quantity Requests
-   </a>
-   <a routerLink="/admin/seller/1" routerLinkActive="active" (click)="onLinkClick()">
-      <i class="fa-solid fa-user-tie"></i> Sellers
-   </a>
-
-   <a routerLink="/admin/UpdateRequests/1" routerLinkActive="active" (click)="onLinkClick()">
-      <i class="fa-solid fa-edit"></i> Update Requests
-   </a>
-  
-   <a routerLink="/admin/order/1" routerLinkActive="active" (click)="onLinkClick()">
-      <i class="fa-solid fa-truck"></i> Orders
+      <i class="fa-solid fa-user-tie"></i> Clerks Quantity Requests
    </a>
    <a routerLink="/admin/category/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-list"></i> Categories
@@ -46,8 +35,18 @@
    <a routerLink="/admin/branch/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-code-branch"></i> Branch
    </a>
-   
-   <a routerLink="/admin/clerkBranch/1" routerLinkActive="active" (click)="onLinkClick()">
-      <i class="fa-solid fa-code-branch"></i> clerk Branch
+   <a routerLink="/admin/seller/1" routerLinkActive="active" (click)="onLinkClick()">
+      <i class="fa-solid fa-user-tie"></i> Sellers
    </a>
+
+   <a routerLink="/admin/UpdateRequests/1" routerLinkActive="active" (click)="onLinkClick()">
+      <i class="fa-solid fa-edit"></i> Sellers Update Requests
+   </a>
+  
+   <a routerLink="/admin/order/1" routerLinkActive="active" (click)="onLinkClick()">
+      <i class="fa-solid fa-truck"></i> Orders
+   </a>
+
+   
+  
 </div>

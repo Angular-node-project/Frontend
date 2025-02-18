@@ -30,18 +30,16 @@
             <td>{{seller.national_id}}</td>
             <td class="actions">
               <div class="btn-group">
-                @if(seller.status!='active')
-                {
-                <button class="btn btn-success btn-sm rounded-0" title="active" (click)="changeStatus(seller.seller_id,'active')">
+               
+                <button class="btn btn-success btn-sm rounded-0" title="active" (click)="changeStatus(seller.seller_id,'active')" [disabled]="seller.status=='active'">
                   <i class="fa-solid fa-check"></i>
                 </button>
-              }
-              @if(seller.status!='inactive')
-              {
-                <button class="btn btn-danger btn-sm rounded-0" title="deactive"  (click)="onDelete(seller.seller_id)">
-                  <i class="fa-solid fa-x"></i>
+              
+             
+                <button class="btn btn-danger btn-sm rounded-0" title="deactive"  (click)="onDelete(seller.seller_id)"  [disabled]="seller.status=='inactive'">
+                  <i class="fa-solid fa-cancel"></i>
                 </button>
-              }
+              
       
               </div>
             </td>

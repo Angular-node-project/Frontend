@@ -8,6 +8,7 @@ import { CashierService } from '../_services/cashier.service';
 import { ProductService } from 'src/app/admin/_services/products.services';
 import { CommonModule, ViewportScroller } from '@angular/common';
 export declare const bootstrap: any;
+import { ProductsBranchService } from '../_services/products-branch.service';
 
 
 @Component({
@@ -57,14 +58,16 @@ export class CahierComponent {
     private viewPortScroller: ViewportScroller,
     private route: ActivatedRoute,
     private cahierService: CashierService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private productBranchService: ProductsBranchService
+
   ) { }
 
   ngOnInit() {
     this.sub = this.route.paramMap.subscribe(params => {
       this.currentPage = +params.get('page')!;
       console.log(this.currentPage);
-      this.loadProducts(this.currentPage);
+      this.loadProducts2(this.currentPage);
       this.getCashierCart();
       this.cashierProducts.forEach(p => {
         this.TotalAmount += (p.qty * p.price)
@@ -84,29 +87,50 @@ export class CahierComponent {
 
 
 
-  loadProducts(page: number): void {
-    this.productservice.getAllProducts(page, this.selectedSort, this.selectedCategory, "active", this.search).subscribe({
-      next: (response) => {
-        console.log(response)
-        this.products = response.data.products;
-        this.products.forEach(p => {
-          p.stock = p.qty
-          p.qty = 1;
-        })
-        this.totalPages = response.data.totalPages;
-        this.totalResults = response.data.totalProductsCount;
-        this.scrollToTop();
-        this.isLoading = false;
-      },
-      error: () => {
-        console.log('Error loading products');
-        this.isLoading = true;
-      },
-      complete: () => {
-        this.isLoading = false;
+  loadProducts2(page: number): void {
+     this.productBranchService.getAllPaginatedProducts(page, '', this.search).subscribe({
+      next: (res) => {
+        console.log("********************************************")
+        console.log(res);
+        if (res.status == 201) {
+          this.products = res.data.products;
+          this.products.forEach(p => {
+            p.mainStock = p.qty
+            p.qty = 1;
+          })
+          this.totalPages = res.data.totalPages;
+          this.totalResults = res.data.totalProductsCount;
+          console.log(res.data);
+        }
+      }, error: (err) => {
+        console.log(err);
+        this.toastr.error("something went wrong");
       }
-    });
+    })
   }
+  // loadProducts(page: number): void {
+  //   this.productservice.getAllProducts(page, this.selectedSort, this.selectedCategory, "active", this.search).subscribe({
+  //     next: (response) => {
+  //       console.log(response)
+  //       this.products = response.data.products;
+  //       this.products.forEach(p => {
+  //         p.branch_qty = p.qty
+  //         p.qty = 1;
+  //       })
+  //       this.totalPages = response.data.totalPages;
+  //       this.totalResults = response.data.totalProductsCount;
+  //       this.scrollToTop();
+  //       this.isLoading = false;
+  //     },
+  //     error: () => {
+  //       console.log('Error loading products');
+  //       this.isLoading = true;
+  //     },
+  //     complete: () => {
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
 
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
@@ -119,7 +143,7 @@ export class CahierComponent {
   changeSearch(name: string): void {
     this.search = name;
     this.currentPage = 1;
-    this.loadProducts(this.currentPage)
+    this.loadProducts2(this.currentPage)
   }
 
 
@@ -164,14 +188,14 @@ export class CahierComponent {
     this.getCashierCart();
     this.cashierProducts.find(p => {
       if (p.product_id == productid) {
-        if (!(p.stock < (p.qty + qty)) && !((p.qty + qty) == 0))
+        if (!(p.branch_qty < (p.qty + qty)) && !((p.qty + qty) == 0))
           p.qty += qty
       }
     })
     this.products.find(p => {
       if (p.product_id == productid) {
-        if (p.stock < (p.qty + qty))
-          this.toastr.error(`Sorry but Product:${p.name} has only ${p.stock} Available in our Stocks`)
+        if (p.branch_qty < (p.qty + qty))
+          this.toastr.error(`Sorry but Product:${p.name} has only ${p.branch_qty} Available in our Stocks`)
         else if (!((p.qty + qty) == 0))
           p.qty += qty
       }
@@ -208,7 +232,7 @@ export class CahierComponent {
     let product = this.cashierProducts.map(p => {
       return {
         product_id: p.product_id,
-        seller_id: p.seller?.seller_id || p.seller_id,
+        seller_id:  p.seller_id,
         name: p.name,
         qty: p.qty,
         price: p.price,
@@ -218,14 +242,13 @@ export class CahierComponent {
     this.receipt = product
     let cashier_id = "1"
     let totalPrice = this.TotalAmount
-    console.log(product)
     this.cahierService.addCashierOrder({ address, zipcode, phone_number, governorate, product, additional_data, totalPrice })
       .subscribe({
         next: (e) => {
           if (e.data.success) {
             this.RemoveCashierCart()
             console.log(e)
-            this.loadProducts(this.currentPage)
+            this.loadProducts2(this.currentPage)
             this.form.reset()
             this.TotalAmount = 0;
             this.toastr.success(e.message)
@@ -234,7 +257,7 @@ export class CahierComponent {
             this.getCashierCart();
             console.log("*********************************")
             console.log(e.data.data.product)
-            this.loadProducts(this.currentPage)
+            this.loadProducts2(this.currentPage)
             this.toastr.error(e.data.ErrorMsg)
             //  this.cashierProducts=e.data.data.product
             this.Productres = e.data.data.product
@@ -242,9 +265,9 @@ export class CahierComponent {
               this.Productres.forEach(pr => {
                 if (pr.product_id == p.product_id) {
                   p.price = pr.price;
-                  p.stock = pr.qty;
-                  if (p.qty > p.stock)
-                    p.qty = p.stock
+                  p.branch_qty = pr.qty;
+                  if (p.qty > p.branch_qty)
+                    p.qty = p.branch_qty
                 }
               })
             });

@@ -1,6 +1,7 @@
-import { AfterViewInit, Component,OnInit, ViewChild } from '@angular/core';
-import {FormsModule} from '@angular/forms'
-import {ApexAxisChartSeries, ApexNonAxisChartSeries,ApexResponsive,ApexChart,ApexXAxis,ApexDataLabels,ApexTitleSubtitle,ChartComponent, NgApexchartsModule,ApexPlotOptions, ApexYAxis,ApexFill} from 'ng-apexcharts'
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms'
+import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexResponsive, ApexChart, ApexXAxis, ApexDataLabels, ApexTitleSubtitle, ChartComponent, NgApexchartsModule, ApexPlotOptions, ApexYAxis, ApexFill } from 'ng-apexcharts'
+import { AnalysisService } from '../_services/analysis.service';
 
 export type ChartOptions1 = {
   series: ApexAxisChartSeries;
@@ -30,24 +31,32 @@ export type ChartOptions3 = {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  imports:[
+  imports: [
     NgApexchartsModule,
     FormsModule
   ],
   styleUrls: ['./dashboard.component.css']
 })
 
-export class DashboardComponent  {
+export class DashboardComponent implements OnInit {
   @ViewChild('chart') chart!: ChartComponent;
-  public chartOptions1: ChartOptions1;
-  public chartOptions2: ChartOptions2;
-  public chartOptions3: ChartOptions3;
-  constructor() {
-    this.chartOptions1 = {
+  public LineChart: ChartOptions1;
+  public DonutChart: ChartOptions2;
+  public ColumnChart: ChartOptions3;
+
+  DonutChartData: any[] = []
+  DonutChartLabels: any[] = ["Female","Male"]
+  LineChartData: any[] = []
+  LineChartLabels: any[] = []
+  ColumnChartData: any[] = []
+  ColumnChartLabels: any[] = []
+
+  constructor(private adminAnalysisService: AnalysisService) {
+    this.LineChart = {
       series: [
         {
           name: "Desktops",
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+          data: this.LineChartData
         }
       ],
       chart: {
@@ -88,142 +97,261 @@ export class DashboardComponent  {
       }
     };
 
-      this.chartOptions2 = {
-        series: [44, 55, 13, 43, 22],
-        chart: {
-          width: "50%",
-          type: "pie"
-        },
-        labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: "100%"
-              },
-              legend: {
-                position: "bottom"
-              }
+    this.DonutChart = {
+      series: this.DonutChartData,
+      chart: {
+        width: "50%",
+        type: "pie"
+      },
+      labels: this.DonutChartLabels,
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: "100%"
+            },
+            legend: {
+              position: "right"
             }
-          }
-        ]
-      };
-      this.chartOptions3 = {
-        series: [
-          {
-            name: "Inflation",
-            data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-          }
-        ],
-        chart: {
-          width:"50%",
-          height: 300,
-          type: "bar"
-        },
-        plotOptions: {
-          bar: {
-            dataLabels: {
-              position: "top" // top, center, bottom
-            }
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function(val) {
-            return val + "%";
-          },
-          offsetY: -20,
-          style: {
-            fontSize: "12px",
-            colors: ["#304758"]
-          }
-        },
-
-        xaxis: {
-          categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ],
-          position: "top",
-          labels: {
-            offsetY: -18
-          },
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: "gradient",
-              gradient: {
-                colorFrom: "#D8E3F0",
-                colorTo: "#BED1E6",
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-            offsetY: -35
-          }
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shade: "light",
-            type: "horizontal",
-            shadeIntensity: 0.25,
-            gradientToColors: undefined,
-            inverseColors: true,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [50, 0, 100, 100]
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          labels: {
-            show: false,
-            formatter: function(val) {
-              return val + "%";
-            }
-          }
-        },
-        title: {
-          text: "Monthly Inflation in Argentina, 2002",
-          offsetY: 320,
-          align: "center",
-          style: {
-            color: "#444"
           }
         }
-      };
-    }
+      ]
+    };
+    this.ColumnChart = {
+      series: [
+        {
+          name: "Registeration",
+          data: this.ColumnChartData
+        }
+      ],
+      chart: {
+        width: "50%",
+        height: 300,
+        type: "bar"
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            position: "top" // top, center, bottom
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val) {
+          return val + " ";
+        },
+        offsetY: -20,
+        style: {
+          fontSize: "12px",
+          colors: ["#304758"]
+        }
+      },
 
-
-
-
+      xaxis: {
+        categories: [
+          "Sat",
+          "Sun",
+          "Mon",
+          "Tue",
+          "Wen",
+          "Thr",
+          "Fri",
+        ],
+        position: "top",
+        labels: {
+          offsetY: -18
+        },
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        crosshairs: {
+          fill: {
+            type: "gradient",
+            gradient: {
+              colorFrom: "#D8E3F0",
+              colorTo: "#BED1E6",
+              stops: [0, 100],
+              opacityFrom: 0.4,
+              opacityTo: 0.5
+            }
+          }
+        },
+        tooltip: {
+          enabled: true,
+          offsetY: -35
+        }
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shade: "light",
+          type: "horizontal",
+          shadeIntensity: 0.25,
+          gradientToColors: undefined,
+          inverseColors: true,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [50, 0, 100, 100]
+        }
+      },
+      yaxis: {
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false,
+          formatter: function (val) {
+            return val + "";
+          }
+        }
+      },
+      title: {
+        text: "Monthly Inflation in Argentina, 2002",
+        offsetY: 320,
+        align: "center",
+        style: {
+          color: "#444"
+        }
+      }
+    };
   }
+  ngOnInit(): void {
+    //* gender count
+    this.callGetGenderCount()
+    //* # registeration over Month
+    this.callNumOfRegistrationOverMonth()
+    //* # registeration over Days of Week
+    this.callNumOfRegistrationOverDayOfWeeks()
+  }
+
+  test(selectionVal: string) {
+    console.log(selectionVal)
+    switch (selectionVal) {
+      case "Customers":
+        //* gender count
+        this.callGetGenderCount()
+        //* # registeration over Month
+        this.callNumOfRegistrationOverMonth()
+        //* # registeration over Days of Week
+        this.callNumOfRegistrationOverDayOfWeeks()
+        break;
+      case "Orders":
+        this.callGetOrdersByDayOfWeek()
+        this.callGetOrdersByMonth()
+        this.callGetOrderCountsByStatus()
+        break;
+
+    }
+  }
+
+  //* Customers
+  callGetGenderCount() {
+    this.adminAnalysisService.getGenderCount().subscribe({
+      next: (e) => {
+        this.DonutChartData=[]
+        this.DonutChartLabels=[]
+        console.log(e.data)
+        e.data.map(p => {
+          this.DonutChartData.push(+p.count)
+        })
+        this.DonutChartLabels=["Female","Male"]
+        this.DonutChart.series=this.DonutChartData
+        this.DonutChart.labels=this.DonutChartLabels
+      }
+    })
+  }
+  callNumOfRegistrationOverMonth() {
+    this.adminAnalysisService.numOfRegistrationOverMonth().subscribe({
+      next: (e) => {
+        this.LineChartData=[]
+        console.log(e.data)
+        e.data.forEach(p => {
+          this.LineChartData.push(+p)
+        })
+        this.LineChart.series=[
+          {
+            name: "#Registeration",
+            data: this.LineChartData
+          }
+        ]
+      }
+    })
+  }
+  callNumOfRegistrationOverDayOfWeeks() {
+    this.adminAnalysisService.numOfRegistrationOverDayOfWeeks().subscribe({
+      next: (e) => {
+        this.ColumnChartData=[]
+        console.log(e.data)
+        e.data.forEach(p => {
+          this.ColumnChartData.push(+p)
+        })
+        this.ColumnChart.series=[
+          {
+            name: "#Registeration",
+            data: this.ColumnChartData
+          }
+        ]
+      }
+    })
+  }
+//* Orders
+callGetOrdersByDayOfWeek(){
+  this.adminAnalysisService.getOrdersByDayOfWeek().subscribe({
+    next: (e) => {
+      this.ColumnChartData=[]
+      console.log("callGetOrdersByDayOfWeek")
+      console.log(e.data)
+      e.data.forEach(p => {
+        this.ColumnChartData.push(+p)
+      })
+      this.ColumnChart.series=[
+        {
+          name: "#Orders",
+          data: this.ColumnChartData
+        }
+      ]
+    }
+  })
+}
+callGetOrdersByMonth(){
+  this.adminAnalysisService.getOrdersByMonth().subscribe({
+    next: (e) => {
+      this.LineChartData=[]
+      console.log(e.data)
+      e.data.forEach(p => {
+        this.LineChartData.push(+p)
+      })
+      this.LineChart.series=[
+        {
+          name: "#Orders",
+          data: this.LineChartData
+        }
+      ]
+    }
+  })
+}
+callGetOrderCountsByStatus(){
+  this.adminAnalysisService.getOrderCountsByStatus().subscribe({
+    next: (e) => {
+      this.DonutChartData=[]
+      this.DonutChartLabels=[]
+      this.DonutChartData=e.data.values
+      this.DonutChartLabels=e.data.labels
+      this.DonutChart.series=this.DonutChartData
+      this.DonutChart.labels=this.DonutChartLabels
+    }
+  })
+}
+
+}
 
 
 

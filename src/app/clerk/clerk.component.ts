@@ -8,8 +8,8 @@ import { SideBarComponent } from './side-bar/side-bar.component';
   selector: 'app-clerk',
   imports: [
         CommonModule,
-        RouterModule, 
-        HeaderComponent, 
+        RouterModule,
+        HeaderComponent,
         SideBarComponent,
   ],
   templateUrl: './clerk.component.html',

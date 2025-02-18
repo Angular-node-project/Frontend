@@ -7,6 +7,8 @@ import { QtyRequest } from 'src/app/_models/QtyRequests';
 import { Subscription } from 'rxjs';
 import { UpdateQtyRequestsService } from '../_services/UpdateQtyRequest.service';
 import { ToastrService } from 'ngx-toastr';
+import { Branch } from 'src/app/_models/branch';
+import { BranchService } from '../_services/branch.service';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-quantity-update-requests',
@@ -27,15 +29,31 @@ export class QuantityUpdateRequestsComponent implements OnInit {
     totalResults: number = 0;
     pageSize: number = 6;
     sub!: Subscription;
+    sub1!: Subscription;
     status:string='';
     search:string='';
     approvalQty: number = 1; 
     selectedRequestId: string = ''; 
+     branchSearch: string = '';
+        textSearch: string = '';
+    branches:Branch[]=[];
   
      @Input() isSidebarOpen = false;
-    constructor(private updateQty:UpdateQtyRequestsService,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
+    constructor(private updateQty:UpdateQtyRequestsService,private branchservice:BranchService
+      ,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
 
     }
+    loadBranches(){
+      this.branchservice.getAllActiveBranches().subscribe({
+        next:(response)=>{
+          this.branches=response.data;
+        
+        },
+        error:()=>{
+            console.log("error loading branches");
+        }
+      })
+        }
     loadRequests(page:number){
       this.updateQty.getAllRequests(page, this.selectedSort,this.status, this.search).subscribe({
         next:(response)=>{
@@ -57,6 +75,7 @@ export class QuantityUpdateRequestsComponent implements OnInit {
       console.log(this.currentPage);
    this.loadRequests(this.currentPage);
   });
+  this.sub1 = this.route.paramMap.subscribe(() => this.loadBranches());
    import('bootstrap').then(bootstrap => {
     const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
     dropdownElementList.forEach(dropdownToggle => {

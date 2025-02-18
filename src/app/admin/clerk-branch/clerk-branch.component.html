@@ -3,9 +3,26 @@
 
     <div class="header-actions">
       <button class="btn btn-success rounded-0"  (click)="openAddModal()">New Branch Clerk</button>
+      <div class="filter-box">
+        <select class="form-select rounded-0" [(ngModel)]="branchSearch" (change)="changeSearch(branchSearch)">
+          <option value="">Select Branch</option>
+          <option *ngFor="let branch of branches" >
+              {{ branch.name }}
+          </option>
+      </select>
+      
+      
+  
+        <select class="form-select rounded-0"  [(ngModel)]="roleSearch" (change)="changeSearch(roleSearch)">
+          <option value="">Select Role</option>
+          <option value="Manager"> Manager</option>
+          <option value="StoreKeeper"> Store Keeper</option>
+          <option value="Cashier"> Cashier </option>
+        </select>
+      </div>
       <div class="search-box"  >
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search Branch Clerks..."  [(ngModel)]="search" (input)="changeSearch(search)"/>
+        <input type="text" placeholder="Search Branch Clerks..."  [(ngModel)]="textSearch" (input)="changeSearch(textSearch)"/>
       </div>
     </div>
    

@@ -2,9 +2,17 @@
     <div class="header-actions">
       <div class="search-box">
         <i class="fas fa-search"></i>
-        <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search Products and Branches...">
+        <input type="text" [(ngModel)]="textSearch" (input)="changeSearch(textSearch)" placeholder="Search Products and Branches...">
   
   
+      </div>
+      <div class="filter-box">
+        <select class="form-select rounded-0" [(ngModel)]="branchSearch" (change)="changeSearch(branchSearch)">
+          <option value="">Select Branch</option>
+          <option *ngFor="let branch of branches" >
+              {{ branch.name }}
+          </option>
+      </select>
       </div>
     </div>
   

@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ClerkBranch } from 'src/app/_models/clerkBranch';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { AddUpdateComponent } from "./add-update/add-update.component";
+import { Branch } from 'src/app/_models/branch';
+import { BranchService } from '../_services/branch.service';
 export declare const bootstrap: any;
 
 @Component({
@@ -19,8 +21,8 @@ export declare const bootstrap: any;
 export class ClerkBranchComponent  implements OnInit{
   @ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
 constructor(
-    private clerkbranchservice: ClerkBranchService, private activeRoute: ActivatedRoute,private toastr:ToastrService
-  ) { }
+    private clerkbranchservice: ClerkBranchService, private route: ActivatedRoute,private toastr:ToastrService
+  ,private branchservice:BranchService) { }
  isEditMode: boolean = false;
  
   isLoading: boolean = true;
@@ -31,9 +33,14 @@ constructor(
     totalResults: number = 0;
     pageSize: number = 6;
     sub!: Subscription;
+    sub1!: Subscription;
     status:string='';
     search:string='';
     sort:string='';
+    roleSearch: string = '';
+    branchSearch: string = '';
+    textSearch: string = '';
+branches:Branch[]=[];
     selectedBranchClerk!:ClerkBranch;
     BranchclerkToDelete:string|null=null;
 
@@ -41,14 +48,24 @@ constructor(
   
   ngOnInit(): void {
 
-    this.sub = this.activeRoute.paramMap.subscribe(params => {
+    this.sub = this.route.paramMap.subscribe(params => {
       this.currentPage= +params.get('page')!;
      this.loadbranchClerks(this.currentPage);
     })
-
+    this.sub1 = this.route.paramMap.subscribe(() => this.loadBranches());
    
   }
-
+  loadBranches(){
+    this.branchservice.getAllActiveBranches().subscribe({
+      next:(response)=>{
+        this.branches=response.data;
+      
+      },
+      error:()=>{
+          console.log("error loading branches");
+      }
+    })
+      }
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }

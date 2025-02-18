@@ -33,6 +33,9 @@ export class ProductsService {
   updateProduct(sellerId: string, productId: any, productData: any): Observable<Response<Product>> {
     return this.http.patch<Response<Product>>(`${this.baseUrl}/${sellerId}/${productId}`, productData);
   }
+  updatePendingProduct(productData: any, productId: any): Observable<Response<Product>> {
+    return this.http.patch<Response<Product>>(`${this.baseUrl}/${productId}`, productData);
+  }
 
   deleteProduct(sellerId: string, productId: string): Observable<Response<Product>> {
     return this.http.delete<Response<Product>>(`${this.baseUrl}/${sellerId}/${productId}`);

@@ -31,6 +31,7 @@ export class OrdersComponent implements OnInit {
   status: string = '';
   governorate: string = '';
   selectedOrder!: Order;
+ 
   @Input() isSidebarOpen = false;
 
   constructor(private orderService: OrderService, private route: ActivatedRoute, private viewPortScroller: ViewportScroller, private toastr: ToastrService) {
@@ -54,7 +55,6 @@ export class OrdersComponent implements OnInit {
   ngOnInit(): void {
     this.sub = this.route.paramMap.subscribe(params => {
       this.currentPage = +params.get('page')!;
-      console.log(this.currentPage);
       this.loadOrders(this.currentPage);
     });
     import('bootstrap').then(bootstrap => {
@@ -132,7 +132,7 @@ export class OrdersComponent implements OnInit {
   scrollToTop(): void {
     this.viewPortScroller.scrollToPosition([0, 0])
   }
-  
+
   onSaveQty(event: any) {
     const modalElement = document.getElementById('orderProcessModal');
     if (modalElement) {
@@ -143,6 +143,7 @@ export class OrdersComponent implements OnInit {
       this.loadOrders(this.currentPage);
     }
   }
+  
   process(order: Order) {
     this.selectedOrder=order;
     const modalElement = document.getElementById('orderProcessModal');
@@ -151,4 +152,19 @@ export class OrdersComponent implements OnInit {
       modal.show();
     }
   }
+  openEditModal(order: Order) {
+    this.selectedOrder = order;
+    console.log("Opening modal for order:", this.selectedOrder);
+
+    const modalElement = document.getElementById('orderDetailsModal');
+    if (!modalElement) {
+      console.error('Modal element not found!');
+      return;
+    }
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  
 }

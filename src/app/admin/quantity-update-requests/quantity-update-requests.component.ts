@@ -1,22 +1,24 @@
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { Component, Input, input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { QtyRequest } from 'src/app/_models/QtyRequests';
 import { Subscription } from 'rxjs';
+import { UpdateQtyRequestsService } from '../_services/UpdateQtyRequest.service';
 import { ToastrService } from 'ngx-toastr';
-import { UpdateRequestsService } from '../_services/UpdateRequests.service';
-import { UpdateRequests } from 'src/app/_models/UpdateRequests';
+import { Branch } from 'src/app/_models/branch';
+import { BranchService } from '../_services/branch.service';
 export declare const bootstrap: any;
 @Component({
-  selector: 'app-update-requests',
+  selector: 'app-quantity-update-requests',
   imports: [FormsModule,CommonModule,RouterLink],
-  templateUrl: './update-requests.component.html',
-  styleUrl: './update-requests.component.css'
+  templateUrl: './quantity-update-requests.component.html',
+  styleUrl: './quantity-update-requests.component.css'
 })
-export class UpdateRequestsComponent implements OnInit {
+export class QuantityUpdateRequestsComponent implements OnInit {
 @ViewChild(SideBarComponent) sidebarComponent!: SideBarComponent;
-  UpdateRequests:UpdateRequests[]=[];
+  UpdateQtyRequests:QtyRequest[]=[];
   isEditMode: boolean = false;
  RequestrToDelete: string | null = null;
   isLoading: boolean = true;
@@ -27,18 +29,35 @@ export class UpdateRequestsComponent implements OnInit {
     totalResults: number = 0;
     pageSize: number = 6;
     sub!: Subscription;
+    sub1!: Subscription;
     status:string='';
     search:string='';
-    seller_id:string='';
-    selectedCategory: string = '';
+    approvalQty: number = 1; 
+    selectedRequestId: string = ''; 
+     branchSearch: string = '';
+        textSearch: string = '';
+    branches:Branch[]=[];
+  
      @Input() isSidebarOpen = false;
-    constructor(private updaterequest:UpdateRequestsService,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
+    constructor(private updateQty:UpdateQtyRequestsService,private branchservice:BranchService
+      ,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
 
     }
-    loadRequests(page:number){
-      this.updaterequest.getAllRequests(page, this.selectedSort,this.selectedCategory,this.status,this.seller_id, this.search).subscribe({
+    loadBranches(){
+      this.branchservice.getAllActiveBranches().subscribe({
         next:(response)=>{
-          this.UpdateRequests=response.data.products;
+          this.branches=response.data;
+        
+        },
+        error:()=>{
+            console.log("error loading branches");
+        }
+      })
+        }
+    loadRequests(page:number){
+      this.updateQty.getAllRequests(page, this.selectedSort,this.status, this.search).subscribe({
+        next:(response)=>{
+          this.UpdateQtyRequests=response.data.Qtyrequests;
           this.totalPages = response.data.totalPages;
           this.totalResults = response.data.totalProductsCount;
           this.generatePageNumbers();
@@ -56,6 +75,7 @@ export class UpdateRequestsComponent implements OnInit {
       console.log(this.currentPage);
    this.loadRequests(this.currentPage);
   });
+  this.sub1 = this.route.paramMap.subscribe(() => this.loadBranches());
    import('bootstrap').then(bootstrap => {
     const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
     dropdownElementList.forEach(dropdownToggle => {
@@ -66,8 +86,8 @@ export class UpdateRequestsComponent implements OnInit {
 
 
  
-  changeSearch(name:string){
-    this.search=name;
+  changeSearch(search:string){
+    this.search=search;
     this.currentPage = 1; 
     this.loadRequests(this.currentPage)
   }
@@ -87,8 +107,8 @@ export class UpdateRequestsComponent implements OnInit {
       this.pageNumbers.push(i);
     }
   }
- changeStatus(id:string,status:string){
-    this.updaterequest.changeStatus(id,status).subscribe({
+ changeStatus(id:string,status:string,qty:number){
+    this.updateQty.changeStatus(id,status,qty).subscribe({
   next:(response)=>{
     this.loadRequests(this.currentPage);
     this.toastr.success("Status Changed Successfully");
@@ -102,7 +122,7 @@ export class UpdateRequestsComponent implements OnInit {
  
  confirmDelete() {
      if (this.RequestrToDelete) {
-       this.changeStatus(this.RequestrToDelete,'disapproved');
+       this.changeStatus(this.RequestrToDelete,'disapproved',0);
        const modalElement = document.getElementById('deleteModal');
        if (modalElement) {
          const modal = bootstrap.Modal.getInstance(modalElement);
@@ -131,4 +151,22 @@ export class UpdateRequestsComponent implements OnInit {
     scrollToTop(): void {
       this.viewPortScroller.scrollToPosition([0, 0])
     }
+  
+  openPartialApprovalModal(requestId: string) {
+    this.selectedRequestId = requestId; 
+    this.approvalQty = 1; 
+    let modalElement = document.getElementById('partialApprovalModal');
+    let modalInstance = new bootstrap.Modal(modalElement);
+    modalInstance.show();
+  }
+  confirmPartialApproval() {
+    if (this.approvalQty <= 0) {
+      this.toastr.error("Please Enter Valid Quantity");
+      return;
+    }
+    this.changeStatus(this.selectedRequestId, 'partiallyApproved', this.approvalQty);
+    let modalElement = document.getElementById('partialApprovalModal');
+    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+    modalInstance.hide(); 
+  }
 }

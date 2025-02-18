@@ -1,0 +1,145 @@
+<div class="products-container" [class.sidebar-open]="isSidebarOpen">
+    <div class="header-actions">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" [(ngModel)]="textSearch" (input)="changeSearch(textSearch)" placeholder="Search Products and Branches...">
+  
+  
+      </div>
+      <div class="filter-box">
+        <select class="form-select rounded-0" [(ngModel)]="branchSearch" (change)="changeSearch(branchSearch)">
+          <option value="">Select Branch</option>
+          <option *ngFor="let branch of branches" >
+              {{ branch.name }}
+          </option>
+      </select>
+      </div>
+    </div>
+  
+    <div class="table-wrapper">
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+          
+            <th>Product Name</th>
+            <th>Required Quantity</th>
+            <th>Branch Name</th>
+            <th>Clerk Name</th>
+            <th>Status</th>       
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let requests of UpdateQtyRequests; let i = index">
+            <td>{{requests.product_name}}</td>
+            <td>{{requests.requiredQty}}</td>
+            <td>{{requests.branch.name}}</td>
+            <td>{{requests.requesterClerk.name}}</td>
+            <td>{{requests.status}}</td>
+            
+    
+
+            <td class="actions">
+                <div class="btn-group">
+             
+              
+                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(requests.request_id)"[disabled]="requests.status !== 'pending'">
+                  <i class="fa-solid fa-cancel"></i>
+                </button>
+              
+                <div class="dropdown d-inline">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                <ul class="dropdown-menu">
+                    @if (requests.status=='pending'||requests.status=='disapproved') {
+                        <li><button class="dropdown-item" type="button"
+                            (click)="changeStatus(requests.request_id,'allApproved',0)">Approve All</button></li>
+                        }
+                    @if(requests.status=='pending'||requests.request_id=='disapproved')
+                    {
+                        <li>
+                            <button class="dropdown-item" type="button" (click)="openPartialApprovalModal(requests.request_id)">
+                              Partially Approve
+                            </button>
+                          </li>
+                          
+                    }
+                    
+                  </ul>
+              
+              
+              </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!UpdateQtyRequests || UpdateQtyRequests.length === 0" class="text-center text-muted py-4">
+        <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+        <p class="mt-2">No Update Quantity Requests found.</p>
+       </div>
+    </div>
+  
+    <div class="pagination-wrapper">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link rounded-0" [routerLink]="['/admin/UpdateQty',currentPage-1]" >
+              <i class="fas fa-chevron-left"></i>
+            </a>
+          </li>
+          
+          <li class="page-item" *ngFor="let page of getPages()" 
+              [class.active]="page === currentPage">
+            <a class="page-link rounded-0"  [routerLink]="['/admin/UpdateQty',page]">{{page}}</a>
+          </li>
+    
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link rounded-0" (click)="changePage(currentPage + 1)">
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+ 
+  
+  <!-- Delete Confirmation Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Disapprove</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to Disapprove this Request?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Disapprove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Partial Approval Modal -->
+<div class="modal fade" id="partialApprovalModal" tabindex="-1" #partialApprovalModal>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Quantity Approve Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <label for="qty">Enter Quantity to Approve:</label>
+          <input type="number" class="form-control" [(ngModel)]="approvalQty" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger rounded-0" (click)="confirmPartialApproval()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

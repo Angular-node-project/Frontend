@@ -40,6 +40,8 @@ import { ClerkComponent as clerkBranchComponent } from './clerk/clerk.component'
 import { LoginComponent as clerkBranchLoginComponent } from './clerk/login/login.component';
 import { ProductsBranchComponent } from './clerk/products-branch/products-branch.component';
 import { authClerkBranchGuard } from './clerk/auth-clerk-branch.guard';
+import { UpdateQtyRequestsService } from './admin/_services/UpdateQtyRequest.service';
+import { QuantityUpdateRequestsComponent } from './admin/quantity-update-requests/quantity-update-requests.component';
 import { CahierComponent as cashierComponent } from './clerk/cashier/cashier.component';
 
 
@@ -96,7 +98,7 @@ export const routes: Routes = [
                     { path: 'seller/:page', component: SellersComponent },
                     { path: 'UpdateRequests', redirectTo: '/UpdateRequests/1', pathMatch: 'full' },
                     { path: 'UpdateRequests/:page', component: UpdateRequestsComponent },
-                    { path: 'roles/:page', component: RoleComponent },
+                    { path: 'roles/:page', component: RoleComponent,title:"Admin-Roles" },
                     {path:'roles',redirectTo:"roles/1",pathMatch:'full'},
                     { path: 'order', redirectTo: '/order/1', pathMatch: 'full' },
                     { path: 'order/:page', component: OrdersComponent },
@@ -108,6 +110,8 @@ export const routes: Routes = [
                     { path: 'branch/:page', component: BranchesComponent },
                     { path: 'clerkBranch', redirectTo: '/branch/1', pathMatch: 'full' },
                     { path: 'clerkBranch/:page', component: ClerkBranchComponent },
+                    { path: 'UpdateQty', redirectTo: '/UpdateQty/1', pathMatch: 'full' },
+                    { path: 'UpdateQty/:page', component: QuantityUpdateRequestsComponent },
 
                 ]
             }

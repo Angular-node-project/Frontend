@@ -1,1 +1,31 @@
 @import url("../products/products.component.css");
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  
+  .filter-box {
+    display: flex;
+    gap: 10px; 
+  }
+  
+  .filter-box select {
+    width: 200px; 
+  }
+  
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+  
+  .search-box input {
+    width: 250px; 
+  }
+  
+  button {
+    margin-left: 10px; 
+  }
+  

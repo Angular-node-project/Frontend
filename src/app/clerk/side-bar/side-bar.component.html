@@ -3,13 +3,16 @@
     <a routerLink="/seller/dashboard" routerLinkActive="active">
        <i class="fa-solid fa-chart-line"></i> Dashboard
     </a>
- 
+
     <a routerLink="/clerk/products/1"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }"  (click)="onLinkClick()">
        <i class="fa-solid fa-box"></i> Products
     </a>
- 
+
     <a routerLink="/seller/orders" routerLinkActive="active">
        <i class="fa-solid fa-shopping-bag"></i> Orders
     </a>
- 
+    <a routerLink="/clerk/cashier/order/1" routerLinkActive="active">
+       <i class="fa-solid fa-shopping-bag"></i> Cashier
+    </a>
+
  </div>

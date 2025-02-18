@@ -21,6 +21,7 @@ export class CheckoutComponent {
   city: string = '';
   zipCode: string = '';
   PhoneNumber: string = '';
+  isCash=true
 
   form: FormGroup = new FormGroup({
     Address: new FormControl('', [Validators.required]),
@@ -61,26 +62,40 @@ export class CheckoutComponent {
       this.toastr.error("Please Complete your Billing details")
     }else{
       console.log("Entered")
-      this.cartSer
-      .addOrder({ address, zipcode, phone_number, governorate, product,customer_id,additional_data, totalPrice })
-      .subscribe({
-        next:(e)=> {
-          if(e.data.success){
-            console.log(e)
-            toast.success(e.message)
-            route.navigate(['/']);
-          }else{
-            console.log(e)
-            toast.error(e.data.ErrorMsg)
-            this.data!.product=e.data.data.product
-            this.data!.Total=0;
-            this.data!.product.forEach(p=>{
-              this.data!.Total+=(p.price*p.qty)
-            })
+      if(this.isCash){
+        this.cartSer
+        .addOrder({ address, zipcode, phone_number, governorate, product,customer_id,additional_data, totalPrice })
+        .subscribe({
+          next:(e)=> {
+            if(e.data.success){
+              console.log(e)
+              toast.success(e.message)
+              route.navigate(['/']);
+            }else{
+              console.log(e)
+              toast.error(e.data.ErrorMsg)
+              this.data!.product=e.data.data.product
+              this.data!.Total=0;
+              this.data!.product.forEach(p=>{
+                this.data!.Total+=(p.price*p.qty)
+              })
 
+            }
+          },
+        });
+      }else{
+        this.cartSer.OnlinePayment({ address, zipcode, phone_number, governorate, product,customer_id,additional_data, totalPrice }).subscribe({
+          next:(e)=>{
+            console.log(e.data)
+            // window.location.href = `${e.data.url}`;
           }
-        },
-      });
+        })
+      }
     }
   }
+
+
+
+
+
 }

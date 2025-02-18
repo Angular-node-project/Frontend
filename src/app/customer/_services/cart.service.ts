@@ -62,6 +62,9 @@ export class CartService {
   addOrder(data: any) {
     return this.http.post<{ status: number, message: string, data: { ErrorMsg: string, success: boolean, data: any } }>(`${this.orderUrl}`, data)
   }
+  OnlinePayment(data: any) {
+    return this.http.post<{ status: number, message: string, data: any }>(`${this.orderUrl}/online`, data)
+  }
 
   getOrder(){
     return this.http.get<{ status: number, message: string, data:  Order[]  }>

@@ -5,8 +5,14 @@
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="governorate" (input)="changeSearch(governorate)" placeholder="Search Orders...">
   
-  
       </div>
+      <select class="form-select w-25 rounded-0" [(ngModel)]="type" (change)="changeType(type)">
+
+        <option value="">Select Status</option>
+        <option value="Online">Online</option>
+        <option value="Offline">Offline</option>
+      </select>
+      
     </div>
   
     <div class="table-wrapper">
@@ -23,8 +29,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let order of orders; let i = index">
-            <td>{{order.customer?.name||"no customer"}}</td>
-            <td>{{order.cashier?.name||"no cashier"}}</td>
+            <td>{{order.customer?.name}}</td>
+            <td>{{order.cashier?.name}}</td>
             <td>{{order.governorate}}</td>
            
             <td>{{order.totalPrice}}</td>  
@@ -32,8 +38,8 @@
 
             <td class="actions">
               <div class="btn-group">
-                <button class="btn btn-warning btn-sm rounded-0" (click)="openEditModal(order)">
-                  <i class="fa-solid fa-edit"></i>
+                <button class="btn btn-success btn-sm rounded-0" (click)="openEditModal(order)">
+                  <i class="fa-solid fa-eye"></i>
                 </button>
                 <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(order.order_id)"[disabled]="order.status === 'delivered'||order.status === 'cancelled'">
                   <i class="fa-solid fa-cancel"></i>

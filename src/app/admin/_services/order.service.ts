@@ -11,8 +11,8 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  getAllOrders(page: number,sort:string,status:string,search:String): Observable<Response<any>> {
-    var result = this.http.get<any>(`${this.baseUrl}?page=${page}&sort=${sort}&status=${status}&governorate=${search}`);
+  getAllOrders(page: number,sort:string,status:string,search:String,type:string): Observable<Response<any>> {
+    var result = this.http.get<any>(`${this.baseUrl}?page=${page}&sort=${sort}&status=${status}&governorate=${search}&type=${type}`);
     return result;
   }
   changeStatus(id:string,status:string)

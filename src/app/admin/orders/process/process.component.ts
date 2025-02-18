@@ -130,6 +130,7 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
         const product = this.productsOrder.find((p: any) => p.product_id === product_id);
 
         return this.productAssignedBranches[product_id].map(branchData => ({
+          order_id:this.selectedOrder.order_id,
           product: {
             product_id: product?.product_id || product_id,
             name: product?.name || "Unknown Product"
@@ -142,6 +143,7 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
         }));
       })
     };
+    console.log(expandedOrders);
 
     this.sub2 = this.orderService.assignBranches(expandedOrders).subscribe({
       next: (res) => {

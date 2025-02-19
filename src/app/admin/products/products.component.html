@@ -1,6 +1,6 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
   <div class="header-actions">
-    <button class="btn btn-success rounded-0" (click)="addNewProduct()">New Product</button>
+    <button class="btn btn-success rounded-0" title="New Product" (click)="addNewProduct()">New Product</button>
     <div class="search-box">
       <i class="fas fa-search"></i>
       <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search products...">
@@ -42,17 +42,17 @@
           <td class="actions">
             <div class="btn-group">
            
-              <button class="btn btn-success btn-sm rounded-0 " (click)="onUpdate(product)" >
+              <button class="btn btn-success btn-sm rounded-0 " title="Update Product" (click)="onUpdate(product)" >
                 <i class="fa-solid fa-edit"></i>
               </button>
          
               
-              <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(product.product_id)" [disabled]="product.status === 'deleted'">
-                <i class="fa-solid fa-trash"></i>
+              <button class="btn btn-danger btn-sm rounded-0" title="Inactive Product" (click)="onDelete(product.product_id)" [disabled]="product.status === 'deleted'">
+                <i class="fa-solid fa-cancel"></i>
               </button>
             
               <div class="dropdown d-inline">
-                <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
+                <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" title="Change Status" type="button" [id]="'dropdownMenuButton' + i"
                   data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>

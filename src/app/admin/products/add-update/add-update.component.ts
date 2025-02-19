@@ -32,6 +32,7 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
   imagePreviews: any[] = [];
   fileInputs: HTMLInputElement[] = [];
   subBranches!:Subscription;
+  selectedProductStatus:string='';
 
 
   selectedBranches: { branch_id: string, qty: number }[] = []
@@ -54,6 +55,8 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
   }
 
   ngOnInit(): void {
+    this.selectedProductStatus=this.selectedProduct.status;
+
     this.selectedCategories = Array.isArray(this.selectedProduct.categories)
       ? this.selectedProduct.categories.map((category: any) => ({
         category_id: category.category_id,
@@ -101,6 +104,7 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.selectedProductStatus=this.selectedProduct.status;
 
     if (this.form && changes['selectedProduct']?.currentValue) {
       const product = changes['selectedProduct'].currentValue;
@@ -139,6 +143,12 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
           })
         );
       });
+      if(this.selectedProductStatus!="pending"){
+        this.branchesArray.controls.forEach(control => {
+          control.get('branch_id')?.disable();
+          control.get('qty')?.disable();
+        });
+      }
 
       if (branchesFormArray.length == 0) {
         this.addBranchRow();

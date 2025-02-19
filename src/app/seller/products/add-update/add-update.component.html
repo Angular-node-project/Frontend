@@ -1,71 +1,72 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <div class="row">
-      <div class="col-md-12 mb-2">
-        <label for="productName" class="form-label">Product Name</label>
-        <input type="text" id="productName" class="form-control rounded-0" formControlName="name" />
-        <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
-          Name must contain only letters and be at least 6 characters long.
-        </div>
-      </div>
-  
-      <div class="col-md-12 mb-2">
-        <label for="productCategories" class="form-label">Categories</label>
-        <ng-select [items]="categories" bindLabel="name" [formControlName]="'categories'" [multiple]="true"
-          name="categories" [closeOnSelect]="false" [addTag]="true" required>
-          <ng-template ng-option-tmp let-category="item">
-            <div class="d-flex align-items-center rounded-0">
-              <input type="checkbox" [checked]="isSelected(category)" (change)="toggleSelect(category)" class="me-2" />
-              {{ category.name }}
-            </div>
-          </ng-template>
-        </ng-select>
+  <div class="row">
+    <div class="col-md-12 mb-2">
+      <label for="productName" class="form-label">Product Name</label>
+      <input type="text" id="productName" class="form-control rounded-0" formControlName="name" />
+      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+        Name must contain only letters and be at least 6 characters long.
       </div>
     </div>
-  
-    <div class="row">
-      <div class="col-md-6 mt-2">
-        <label for="productPrice" class="form-label">Price</label>
-        <input type="number" id="productPrice" class="form-control rounded-0" formControlName="price" />
-        <div *ngIf="form.get('price')?.invalid && form.get('price')?.touched" class="text-danger">
-          Price must be a positive number.
-        </div>
-  
+
+    <div class="col-md-12 mb-2">
+      <label for="productCategories" class="form-label">Categories</label>
+      <ng-select [items]="categories" bindLabel="name" [formControlName]="'categories'" [multiple]="true"
+        name="categories" [closeOnSelect]="false" [addTag]="true" required>
+        <ng-template ng-option-tmp let-category="item">
+          <div class="d-flex align-items-center rounded-0">
+            <input type="checkbox" [checked]="isSelected(category)" (change)="toggleSelect(category)" class="me-2" />
+            {{ category.name }}
+          </div>
+        </ng-template>
+      </ng-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mt-2">
+      <label for="productPrice" class="form-label">Price</label>
+      <input type="number" id="productPrice" class="form-control rounded-0" formControlName="price" />
+      <div *ngIf="form.get('price')?.invalid && form.get('price')?.touched" class="text-danger">
+        Price must be a positive number.
       </div>
-      <div class="col-md-6 mt-2">
-        <label for="productQuantity" class="form-label">Quantity</label>
-        <input type="number" id="productQuantity" class="form-control rounded-0" formControlName="qty" />
-        <div *ngIf="form.get('qty')?.invalid && form.get('qty')?.touched" class="text-danger">
-          Quantity must be a positive integer.
-        </div>
+
+    </div>
+    <div class="col-md-4 mt-2">
+      <label for="productQuantity" class="form-label">Quantity</label>
+      <input [attr.disabled]="(isEditMode &&selectedProduct.status!='pending')? true : null"  type="number" id="productQuantity" class="form-control rounded-0" formControlName="qty" />
+      <div *ngIf="form.get('qty')?.invalid && form.get('qty')?.touched" class="text-danger">
+        Quantity must be a positive integer.
       </div>
-  
     </div>
     <div class="col-md-4 mt-2">
       <label for="productQuantity" class="form-label">show</label>
       <select class="form-select rounded-0" formControlName="show">
-         <option value="online">online</option>
-         <option value="offline" >offline</option>
-         <option value="all">both</option>
+        <option value="online">online</option>
+        <option value="offline">offline</option>
+        <option value="all">both</option>
       </select>
       <div *ngIf="form.get('show')?.invalid && form.get('show')?.touched" class="text-danger">
         Show is required.
       </div>
     </div>
-  
-   
-  
-    <div class="row">
-      <div class="col-md-12 mt-2">
-        <label for="productDescription" class="form-label">Description</label>
-        <textarea id="productDescription" class="form-control rounded-0" formControlName="description"></textarea>
-        <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
-         please Enter description
-        </div>
+
+  </div>
+
+
+
+
+  <div class="row">
+    <div class="col-md-12 mt-2">
+      <label for="productDescription" class="form-label">Description</label>
+      <textarea id="productDescription" class="form-control rounded-0" formControlName="description"></textarea>
+      <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
+        please Enter description
       </div>
     </div>
-  
-    <!-- <div class="row">
+  </div>
+
+  <!-- <div class="row">
       <div class="col-md-6 mt-3">
         <button type="button" class="btn btn-primary rounded-0" (click)="fileInput.click()">add image +</button>
         <input #fileInput type="file" class="d-none" (change)="onFileChange($event)" accept="image/*">
@@ -83,33 +84,33 @@
       </div>
     </div> -->
   <br>
-    <div class="row">
-      <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-secondary rounded-0" (click)="fileInput.click()">Add Image +</button>
-        <input #fileInput type="file" class="d-none" (change)="onFileChange($event)" accept="image/*">
-      </div>
-  
-      <div class="col-12 mt-3">
-        <div class="d-flex flex-wrap gap-2">
-          <div *ngFor="let image of imagePreviews; let i = index" class="position-relative img-container">
-            <img [src]="image" class="img-thumbnail">
-            <button type="button" class="btn btn-danger btn-sm delete-btn" (click)="removeImage(i)">
-              ×
-            </button>
-          </div>
+  <div class="row">
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-secondary rounded-0" (click)="fileInput.click()">Add Image +</button>
+      <input #fileInput type="file" class="d-none" (change)="onFileChange($event)" accept="image/*">
+    </div>
+
+    <div class="col-12 mt-3">
+      <div class="d-flex flex-wrap gap-2">
+        <div *ngFor="let image of imagePreviews; let i = index" class="position-relative img-container">
+          <img [src]="image" class="img-thumbnail">
+          <button type="button" class="btn btn-danger btn-sm delete-btn" (click)="removeImage(i)">
+            ×
+          </button>
         </div>
       </div>
     </div>
-  
-  
-   
-    <!-- Submit Button -->
-    <div class="row mt-5">
-      <div class="col-md-6">
-        <button type="submit" class="btn btn-success rounded-0" >
-          {{ isEditMode ? 'Update' : 'Save' }}
-        </button>
-      </div>
-  
+  </div>
+
+
+
+  <!-- Submit Button -->
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <button type="submit" class="btn btn-success rounded-0">
+        {{ isEditMode ? 'Update' : 'Save' }}
+      </button>
     </div>
-  </form>
+
+  </div>
+</form>

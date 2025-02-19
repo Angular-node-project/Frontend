@@ -8,7 +8,33 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
   }
+
+  .sidebar {
+    scroll-behavior: smooth;
+    scrollbar-width: thin; 
+    scrollbar-color: #b2c8ba #3a6351; 
+}
+
+
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #3a6351; 
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #b2c8ba; 
+    border-radius: 4px; 
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #98b9a7; 
+}
+
   
   .sidebar h4 {
     margin-bottom: 20px;

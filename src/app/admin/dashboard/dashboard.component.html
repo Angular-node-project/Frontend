@@ -23,8 +23,18 @@
         <p>Happy Customers</p>
       </div>
     </div>
-  </div>
 
+    <div>
+
+      <select name="" id="" #selection (change)="test(selection.value)">
+        <option value="Customers">Customers</option>
+        <option value="Orders">Orders</option>
+        <option value="Products">Products</option>
+        <option value="Branches">Branches</option>
+      </select>
+
+
+    </div>
 
 
 
@@ -34,10 +44,10 @@
     <div class="col-md-6">
       <div id="chart2" class="chart-container">
         <apx-chart
-          [series]="chartOptions2.series"
-          [chart]="chartOptions2.chart"
-          [labels]="chartOptions2.labels"
-          [responsive]="chartOptions2.responsive"
+          [series]="DonutChart.series"
+          [chart]="DonutChart.chart"
+          [labels]="DonutChart.labels"
+          [responsive]="DonutChart.responsive"
         ></apx-chart>
       </div>
     </div>
@@ -46,14 +56,14 @@
     <div class="col-md-6">
       <div id="chart3" class="chart-container">
         <apx-chart
-          [series]="chartOptions3.series"
-          [chart]="chartOptions3.chart"
-          [dataLabels]="chartOptions3.dataLabels"
-          [plotOptions]="chartOptions3.plotOptions"
-          [yaxis]="chartOptions3.yaxis"
-          [xaxis]="chartOptions3.xaxis"
-          [fill]="chartOptions3.fill"
-          [title]="chartOptions3.title"
+          [series]="ColumnChart.series"
+          [chart]="ColumnChart.chart"
+          [dataLabels]="ColumnChart.dataLabels"
+          [plotOptions]="ColumnChart.plotOptions"
+          [yaxis]="ColumnChart.yaxis"
+          [xaxis]="ColumnChart.xaxis"
+          [fill]="ColumnChart.fill"
+          [title]="ColumnChart.title"
         ></apx-chart>
       </div>
     </div>
@@ -64,12 +74,12 @@
     <div class="col-md-12">
       <div id="chart1" class="chart-container">
         <apx-chart
-          [series]="chartOptions1.series"
-          [chart]="chartOptions1.chart"
-          [xaxis]="chartOptions1.xaxis"
-          [dataLabels]="chartOptions1.dataLabels"
-          [grid]="chartOptions1.grid"
-          [title]="chartOptions1.title"
+          [series]="LineChart.series"
+          [chart]="LineChart.chart"
+          [xaxis]="LineChart.xaxis"
+          [dataLabels]="LineChart.dataLabels"
+          [grid]="LineChart.grid"
+          [title]="LineChart.title"
         ></apx-chart>
       </div>
     </div>

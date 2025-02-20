@@ -87,7 +87,7 @@ export class CheckoutComponent {
         this.cartSer.OnlinePayment({ address, zipcode, phone_number, governorate, product,customer_id,additional_data, totalPrice }).subscribe({
           next:(e)=>{
             console.log(e.data)
-            // window.location.href = `${e.data.url}`;
+             window.location.href = `${e.data.url}`;
           }
         })
       }

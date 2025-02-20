@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let product of products; let i = index">
-          @if (product.stock>0) {
+          @if (product.mainStock>0) {
             <td>
               <input #refCheck class="form-check-input btn-lg" type="checkbox" [checked]="isChecked(product.product_id)"
                 id="flexCheckDefault"
@@ -51,9 +51,9 @@
               </div>
             </div>
           </td>
-          <td>{{product.stock}}</td>
+          <td>{{product.branch_qty}}</td>
           <td>${{product.price}}</td>
-          <td class="d-none d-md-table-cell">{{product.seller.name}}</td>
+          <td class="d-none d-md-table-cell">{{product.seller_name}}</td>
           @if(product.status=='active'){
           <td class="text-success">{{product.status}}</td>
           }@else {

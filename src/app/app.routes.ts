@@ -43,6 +43,7 @@ import { authClerkBranchGuard } from './clerk/auth-clerk-branch.guard';
 import { UpdateQtyRequestsService } from './admin/_services/UpdateQtyRequest.service';
 import { QuantityUpdateRequestsComponent } from './admin/quantity-update-requests/quantity-update-requests.component';
 import { CahierComponent as cashierComponent } from './clerk/cashier/cashier.component';
+import { BranchOrdersComponent } from './clerk/branch-orders/branch-orders.component';
 
 
 
@@ -125,7 +126,9 @@ export const routes: Routes = [
             children:[
                 {path:'products',redirectTo:"/products/1",pathMatch:'full'},
                 {path:'products/:page',component:ProductsBranchComponent},
-                {path:'cashier/order/:page',component:cashierComponent}
+                {path:'cashier/order/:page',component:cashierComponent},
+                {path:'orders',redirectTo:"/orders/1",pathMatch:'full'},
+                {path:'orders/:page',component:BranchOrdersComponent},
             ]
         },
 

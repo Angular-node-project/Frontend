@@ -32,6 +32,7 @@ export class BranchOrdersComponent implements OnInit {
   search: string = '';
   branch_id:string='';
   selectedBranchOrder!:branchorders;
+  selectedType: string = "";
 
   @Input() isSidebarOpen = false;
 
@@ -122,4 +123,16 @@ export class BranchOrdersComponent implements OnInit {
       modal.show();
     }
   }
+   
+filteredBranchOrders() {
+  if (!this.selectedType) {
+    return this.branchorders; 
+  }
+  
+  return this.branchorders.filter(order => 
+    (this.selectedType === "Online" && order.customer_name) ||
+    (this.selectedType === "Offline" && !order.customer_name)
+  );
+}
+
 }

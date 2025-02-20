@@ -1,9 +1,11 @@
 
 <div class="products-container" [class.sidebar-open]="isSidebarOpen" >
     <div class="header-actions">
-    
-      
-      
+      <select [(ngModel)]="selectedType" class="form-select w-25">
+        <option value="">All</option>
+        <option value="Online">Online</option>
+        <option value="Offline">Offline</option>
+      </select>
     </div>
   
     <div class="table-wrapper">
@@ -11,22 +13,29 @@
         <thead class="table-dark">
           <tr>
             <th>Order ID</th>
-            <th>Branch Name</th>
+           
+            <th>Name</th>
+            <th>Total</th>
+            <th>Type</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let branchorder of branchorders">
+          <tr *ngFor="let branchorder of filteredBranchOrders()">
             <td>{{branchorder.order_id}}</td>
-            <td>{{branchorder.branch.name}}</td>
+        
+
+            <td>{{ branchorder?.cashier_name }} {{ branchorder?.customer_name }}</td>
+
+            <td>{{branchorder.totalPrice}}</td>
+            <td>
+              {{ branchorder.customer_id && branchorder.customer_id.length > 0 ? 'Online' : 'Offline' }}
+            </td>
+            
             <td>{{branchorder.status}}</td>
        
         
-          
-            
-          
-         
 
             <td class="actions">
               <div class="btn-group">

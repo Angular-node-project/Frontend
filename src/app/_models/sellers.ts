@@ -5,6 +5,7 @@ export class Seller{
         ,public status:string
         ,public national_id:string
         ,public phone_number:String
+        ,public registeration_number:string
     ){}
 }
 export class SellerLogin{

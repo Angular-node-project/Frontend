@@ -116,12 +116,13 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
       var data = this.productAssignedBranches[product.product_id];
       if (!data) {
         this.toastr.error("all products must assign to branches");
-        break;
+        return;
+      //  break;
       }
       var totalQtyAssigned = data.reduce((prev, current) => { return parseInt(prev.toString()) + parseInt(current.qty.toString()) }, 0);
       if (product.qty != totalQtyAssigned) {
         this.toastr.error("all product ordered qty must assign to branches");
-        break;
+        return;
       }
     }
     const expandedOrders = {

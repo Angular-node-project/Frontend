@@ -1,7 +1,9 @@
 <div class="products-container">
   <div class="header-actions">
-    <button class="btn btn-success rounded-0" (click)="show()">Make Order</button>
-    <button (click)="testRecept()">print</button>
+    <div>
+      <button class="btn btn-success rounded-0 " (click)="show()">Make Order</button>
+      <button class="btn btn-success rounded-0 mx-5" (click)="testRecept()">print</button>
+    </div>
     <div class="search-box">
       <i class="fas fa-search"></i>
       <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search products...">
@@ -28,7 +30,7 @@
         <tr *ngFor="let product of products; let i = index">
           @if (product.mainStock>0) {
             <td>
-              <input #refCheck class="form-check-input btn-lg" type="checkbox" [checked]="isChecked(product.product_id)"
+              <input #refCheck class="form-check-input form-check-xl mx-3 rounded-0" style="width: 25px; height: 25px; border: 1px solid black;" type="checkbox" [checked]="isChecked(product.product_id)"
                 id="flexCheckDefault"
                 (change)="refCheck.checked? AddproductTocart(product,+product.qty):RemoveProductFromCart(product.product_id)">
             </td>
@@ -45,9 +47,9 @@
           <td>
             <div class="col-md-3">
               <div class="d-flex align-items-center gap-2">
-                <button class="quantity-btn" (click)="IncreaseDecrease(product.product_id,-1)">-</button>
-                <input disabled #t1 type="number" class="quantity-input" value="{{product.qty}}" min="1">
-                <button class="quantity-btn" (click)="IncreaseDecrease(product.product_id,1)">+</button>
+                <button class="quantity-btn btn btn-success btn-sm rounded-0" (click)="IncreaseDecrease(product.product_id,-1)">-</button>
+                <input disabled #t1 type="number" class="quantity-input " value="{{product.qty}}" min="1">
+                <button class="quantity-btn quantity-btn btn btn-success btn-sm rounded-0" (click)="IncreaseDecrease(product.product_id,1)">+</button>
               </div>
             </div>
           </td>

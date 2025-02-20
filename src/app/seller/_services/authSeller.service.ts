@@ -23,21 +23,30 @@ export class AuthSellerService {
     var res = this.http.post<Response<string>>(`${this.baseUrl}/login`, new SellerLogin(email, password));
     return res;
   }
-   isLoggedIn(): boolean {
-     return this.authGeneralService.isLoggedIn('seller');
-   }
-   getLoggedInName(): string {
-     return this.authGeneralService.getLoggedInName('seller');
-   }
-   getLoggedInEmail(): string {
+  updateProfile(profile:Seller):Observable<Response<any>>{
+    var data={data:profile};
+    var res = this.http.post<Response<any>>(`${this.baseUrl}/profile`,data );
+    return res; 
+  }
+  isLoggedIn(): boolean {
+    return this.authGeneralService.isLoggedIn('seller');
+  }
+  getLoggedInName(): string {
+    return this.authGeneralService.getLoggedInName('seller');
+  }
+  getLoggedInEmail(): string {
     return this.authGeneralService.getLoggedInEmail('seller');
   }
-   getLoggedInId(): string {
+  getLoggedInId(): string {
     return this.authGeneralService.getLoggedInId('seller');
   }
-  logout(){
+  getLoggedInData(): Seller {
+    var data = this.authGeneralService.getLoggedInData('seller');
+    return new Seller(data.seller_id, data.name, data.email, '', data.national_id, data.phone_number, data.registeration_number);
+  }
+  logout() {
     return this.authGeneralService.logout('seller');
   }
- 
+
 
 }

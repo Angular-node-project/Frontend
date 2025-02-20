@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
         curve: "straight"
       },
       title: {
-        text: "Product Trends by Month",
+        text: "",
         align: "left"
       },
       grid: {
@@ -248,6 +248,11 @@ export class DashboardComponent implements OnInit {
         this.callGetOrdersByMonth()
         this.callGetOrderCountsByStatus()
         break;
+      case "Sellers":
+        this.getSellerRegistrationsPerWeek()
+        this.getSellerRegistrationMonth()
+        this.SellersCountsBystatus()
+        break;
 
     }
   }
@@ -302,6 +307,7 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
+
 //* Orders
 callGetOrdersByDayOfWeek(){
   this.adminAnalysisService.getOrdersByDayOfWeek().subscribe({
@@ -350,6 +356,57 @@ callGetOrderCountsByStatus(){
     }
   })
 }
+//* Sellers
+getSellerRegistrationsPerWeek(){
+  this.adminAnalysisService.getSellerRegistrationsPerWeek().subscribe({
+    next: (e) => {
+      this.ColumnChartData=[]
+      console.log("getSellerRegistrationsPerWeek")
+      console.log(e.data)
+      e.data.forEach(p => {
+        this.ColumnChartData.push(+p)
+      })
+      this.ColumnChart.series=[
+        {
+          name: "#SellersRegisteration",
+          data: this.ColumnChartData
+        }
+      ]
+    }
+  })
+}
+getSellerRegistrationMonth(){
+  this.adminAnalysisService.getSellerRegistrationMonth().subscribe({
+    next: (e) => {
+      this.LineChartData=[]
+      console.log(e.data)
+      e.data.forEach(p => {
+        this.LineChartData.push(+p)
+      })
+      this.LineChart.series=[
+        {
+          name: "#SellersRegisteration",
+          data: this.LineChartData
+        }
+      ]
+    }
+  })
+}
+SellersCountsBystatus(){
+  this.adminAnalysisService.SellersCountsBystatus().subscribe({
+    next: (e) => {
+      this.DonutChartData=[]
+      this.DonutChartLabels=[]
+      this.DonutChartData=e.data.values
+      this.DonutChartLabels=e.data.labels
+      this.DonutChart.series=this.DonutChartData
+      this.DonutChart.labels=this.DonutChartLabels
+    }
+  })
+}
+
+
+
 
 }
 

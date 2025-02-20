@@ -39,5 +39,18 @@ getOrderCountsByStatus(){
   return this.http.get<{ status: number, message: string, data:  {values:[],labels:[]}  }>
   (`${this.baseUrl}/getOrderCountsByStatus`)
 }
+//* Sellers
+getSellerRegistrationsPerWeek(){
+  return this.http.get<{ status: number, message: string, data:  []  }>
+  (`${this.baseUrl}/getSellerRegistrationsPerWeek`)
+}
 
+getSellerRegistrationMonth(){
+  return this.http.get<{ status: number, message: string, data:  []  }>
+  (`${this.baseUrl}/getSellerRegistrationMonth`)
+}
+SellersCountsBystatus(){
+  return this.http.get<{ status: number, message: string, data:  {values:[],labels:[]}  }>
+  (`${this.baseUrl}/SellersCountsBystatus`)
+}
 }

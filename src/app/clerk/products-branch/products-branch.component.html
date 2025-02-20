@@ -1,45 +1,45 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
-    <div class="header-actions">
-      <button class="btn btn-success rounded-0" (click)="requestQty();">+ Request Qty From Main Stock</button>
-      <div class="search-box">
-        <i class="fas fa-search"></i>
-        <input type="text" [(ngModel)]="searchedInput" (change)="onsearchChange();"  placeholder="Search products...">
-  
-  
-      </div>
+  <div class="header-actions">
+    <button class="btn btn-success rounded-0" (click)="requestQty();">+ Request Qty From Main Stock</button>
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" [(ngModel)]="searchedInput" (change)="onsearchChange();" placeholder="Search products...">
+
+
     </div>
-  
-    <div class="table-wrapper">
-      <table class="table table-hover">
-        <thead class="table-dark">
-          <tr>
-  
-            <th>Name</th>
-            <th>Pic</th>
-            <th>Branch_Qty</th>
-            <th>Price</th>
-            <th class="d-none d-md-table-cell">Seller</th>
-            <th>Status</th>
-            <!-- <th>Action</th> -->
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let product of allProducts; let i = index">
-            <td>{{product.name}}</td>
-             <td>
-              <img [src]="product.pics[0]" alt="Product Image" width="70" height="70">
-            </td>
-  
-            <td>{{product.branch_qty}}</td>
-            <td>{{product.price}}</td>
-            <td class="d-none d-md-table-cell">{{product.seller_name}}</td>
-            @if(product.status=='active'){
-              <td class="text-success">{{product.status}}</td>
-            }@else {
-              <td class="text-danger">{{product.status}}</td>
-            }
-  
-            <!-- <td class="actions">
+  </div>
+
+  <div class="table-wrapper">
+    <table class="table table-hover">
+      <thead class="table-dark">
+        <tr>
+
+          <th>Name</th>
+          <th>Pic</th>
+          <th>Branch_Qty</th>
+          <th>Price</th>
+          <th class="d-none d-md-table-cell">Seller</th>
+          <th>Status</th>
+          <!-- <th>Action</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of allProducts; let i = index">
+          <td>{{product.name}}</td>
+          <td>
+            <img [src]="product.pics[0]" alt="Product Image" width="70" height="70">
+          </td>
+
+          <td>{{product.branch_qty}}</td>
+          <td>{{product.price}}</td>
+          <td class="d-none d-md-table-cell">{{product.seller_name}}</td>
+          @if(product.status=='active'){
+          <td class="text-success">{{product.status}}</td>
+          }@else {
+          <td class="text-danger">{{product.status}}</td>
+          }
+
+          <!-- <td class="actions">
               <div class="btn-group">
              
                 <button class="btn btn-success btn-sm rounded-0 " (click)="onUpdate(product)" >
@@ -71,51 +71,50 @@
                 </div>
               </div>
             </td> -->
-          </tr>
-        </tbody>
-      </table>
-      <div *ngIf="!allProducts || allProducts.length === 0" class="text-center text-muted py-4">
-        <i class="fa-solid fa-exclamation-circle fa-2x"></i>
-        <p class="mt-2">No Products found.</p>
-       </div>
-    </div>
-  
-    <div class="pagination-wrapper">
-      <ul class="pagination">
-        <li class="page-item" [class.disabled]="CurrentPage === 1">
-          <a class="page-link rounded-0"   [routerLink]="['/clerk/products',CurrentPage-1]">
-            <i class="fas fa-chevron-left"></i>
-          </a>
-        </li>
-  
-        <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === CurrentPage">
-          <a class="page-link rounded-0"  [routerLink]="['/clerk/products',page]"  >{{page}}</a>
-        </li>
-  
-        <li class="page-item" [class.disabled]="CurrentPage === totalPages">
-          <a class="page-link rounded-0"   [routerLink]="['/clerk/products',CurrentPage+1]" >
-            <i class="fas fa-chevron-right"></i>
-          </a>
-        </li>
-      </ul>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="!allProducts || allProducts.length === 0" class="text-center text-muted py-4">
+      <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+      <p class="mt-2">No Products found.</p>
+       
     </div>
   </div>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="RequestQtyModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content rounded-0">
-        <div class="modal-header">
-          <h5 class="modal-title"> Request Qty</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <app-request-qty 
-            (saveRequests)="onSaveRequests($event)">
-          </app-request-qty>
-  
-        </div>
+
+  <div class="pagination-wrapper">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="CurrentPage === 1">
+        <a class="page-link rounded-0" [routerLink]="['/clerk/products',CurrentPage-1]">
+          <i class="fas fa-chevron-left"></i>
+        </a>
+      </li>
+
+      <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === CurrentPage">
+        <a class="page-link rounded-0" [routerLink]="['/clerk/products',page]">{{page}}</a>
+      </li>
+
+      <li class="page-item" [class.disabled]="CurrentPage === totalPages">
+        <a class="page-link rounded-0" [routerLink]="['/clerk/products',CurrentPage+1]">
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="RequestQtyModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-0">
+      <div class="modal-header">
+        <h5 class="modal-title"> Request Qty</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <app-request-qty (saveRequests)="onSaveRequests($event)">
+        </app-request-qty>
+
       </div>
     </div>
   </div>
- 
+</div>

@@ -214,4 +214,11 @@
   .admin-layout.sidebar-open .pagination-wrapper {
     left: 270px;
   }
+
+  .form-check-input {
+    transform: scale(1.5); /* Increases size */
+    width: 25px;
+    height: 25px;
+  }
+
 }

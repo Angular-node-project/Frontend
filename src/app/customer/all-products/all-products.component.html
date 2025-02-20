@@ -34,7 +34,11 @@
 
                 <div class="products-items">
                     <app-customer-loader *ngIf="isLoading"></app-customer-loader>
-                       
+                    <div *ngIf="!products || products.length === 0" class="text-center text-muted py-4">
+                        <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+                        <p class="mt-2">No Products found.</p>
+                         
+                      </div>   
                     <div class="row">
                         <app-customer-product-item *ngFor="let product of products" [product]="product"
                             class="col-lg-4"></app-customer-product-item>

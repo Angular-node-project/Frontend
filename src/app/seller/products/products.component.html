@@ -73,6 +73,10 @@
           </tr>
         </tbody>
       </table>
+      <div *ngIf="!products || products.length === 0" class="text-center text-muted py-4">
+        <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+        <p class="mt-2">No Products found.</p>
+       </div>
     </div>
   
     <div class="pagination-wrapper">

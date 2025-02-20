@@ -43,21 +43,21 @@
                 <div class="btn-group">
              
               
-                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(requests.request_id)"[disabled]="requests.status !== 'pending'">
+                <button class="btn btn-danger btn-sm rounded-0" title="Disapprove Request" (click)="onDelete(requests.request_id)"[disabled]="requests.status !== 'pending'">
                   <i class="fa-solid fa-cancel"></i>
                 </button>
               
-                <div class="dropdown d-inline">
+                <div class="dropdown d-inline" >
                     <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
-                      data-bs-toggle="dropdown" aria-expanded="false">
+                      data-bs-toggle="dropdown" aria-expanded="false" [disabled]="requests.status !== 'pending'" title="Change Status">
                       <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
                 <ul class="dropdown-menu">
-                    @if (requests.status=='pending'||requests.status=='disapproved') {
+                    @if (requests.status=='pending') {
                         <li><button class="dropdown-item" type="button"
                             (click)="changeStatus(requests.request_id,'allApproved',0)">Approve All</button></li>
                         }
-                    @if(requests.status=='pending'||requests.request_id=='disapproved')
+                    @if(requests.status=='pending')
                     {
                         <li>
                             <button class="dropdown-item" type="button" (click)="openPartialApprovalModal(requests.request_id)">

@@ -1,6 +1,6 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
-      <button class="btn btn-success rounded-0" *ngIf="!isAddingCategory" (click)="showAddCategory()">
+      <button class="btn btn-success rounded-0" title="Add Category" *ngIf="!isAddingCategory" (click)="showAddCategory()">
         Add Category
       </button>
       <div *ngIf="isAddingCategory" class="add-category-box">
@@ -34,16 +34,16 @@
             <td class="actions">
               <div class="btn-group">
               
-                <button class="btn btn-success btn-sm rounded-0" (click)="changeStatus(category.category_id,'active')" [disabled]="category.status === 'active'">
+                <button class="btn btn-success btn-sm rounded-0" title="Accept Category" (click)="changeStatus(category.category_id,'active')" [disabled]="category.status === 'active'">
                   <i class="fa-solid fa-check"></i>
                 </button>
               
-                <button class="btn btn-warning btn-sm rounded-0"  (click)="FillCategoryToEdit(category)">
+                <button class="btn btn-warning btn-sm rounded-0"  title="Update Category" (click)="FillCategoryToEdit(category)">
                   <i class="fa-solid fa-edit"></i>
                 </button>
               
-                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(category.category_id)" [disabled]="category.status === 'inactive'">
-                  <i class="fa-solid fa-lock"></i>
+                <button class="btn btn-danger btn-sm rounded-0" title="Inactive Category" (click)="onDelete(category.category_id)" [disabled]="category.status === 'inactive'">
+                  <i class="fa-solid fa-cancel"></i>
                 </button>
               
       

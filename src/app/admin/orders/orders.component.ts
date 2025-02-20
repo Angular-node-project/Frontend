@@ -31,14 +31,14 @@ export class OrdersComponent implements OnInit {
   status: string = '';
   governorate: string = '';
   selectedOrder!: Order;
- 
+type:string='';
   @Input() isSidebarOpen = false;
 
   constructor(private orderService: OrderService, private route: ActivatedRoute, private viewPortScroller: ViewportScroller, private toastr: ToastrService) {
 
   }
   loadOrders(page: number) {
-    this.orderService.getAllOrders(page, this.selectedSort, this.status, this.governorate).subscribe({
+    this.orderService.getAllOrders(page, this.selectedSort, this.status, this.governorate,this.type).subscribe({
       next: (response) => {
         this.orders = response.data.orders;
         this.totalPages = response.data.totalPages;
@@ -46,6 +46,7 @@ export class OrdersComponent implements OnInit {
         this.generatePageNumbers();
         this.scrollToTop();
         this.isLoading = false;
+  
       },
       error: () => {
         console.log("error loading orders");
@@ -72,6 +73,14 @@ export class OrdersComponent implements OnInit {
     this.currentPage = 1;
     this.loadOrders(this.currentPage)
   }
+  
+    changeType(type: string) {
+    this.type=type;
+      this.currentPage = 1;
+      this.loadOrders(this.currentPage)
+    }
+    
+  
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;

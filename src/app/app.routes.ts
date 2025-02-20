@@ -44,6 +44,7 @@ import { UpdateQtyRequestsService } from './admin/_services/UpdateQtyRequest.ser
 import { QuantityUpdateRequestsComponent } from './admin/quantity-update-requests/quantity-update-requests.component';
 import { CahierComponent as cashierComponent } from './clerk/cashier/cashier.component';
 import { BranchOrdersComponent } from './clerk/branch-orders/branch-orders.component';
+import { ProfileComponent as ClerkPofileComponent } from './clerk/profile/profile.component';
 
 import { SuccessComponent } from './customer/payment/success/success.component';
 import { FailedComponent } from './customer/payment/failed/failed.component';
@@ -133,6 +134,7 @@ export const routes: Routes = [
                 {path:'cashier/order/:page',component:cashierComponent},
                 {path:'orders',redirectTo:"/orders/1",pathMatch:'full'},
                 {path:'orders/:page',component:BranchOrdersComponent},
+                {path:'profile',component:ClerkPofileComponent},
             ]
         },
 

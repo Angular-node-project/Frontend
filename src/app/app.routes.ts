@@ -45,6 +45,8 @@ import { QuantityUpdateRequestsComponent } from './admin/quantity-update-request
 import { CahierComponent as cashierComponent } from './clerk/cashier/cashier.component';
 import { BranchOrdersComponent } from './clerk/branch-orders/branch-orders.component';
 
+import { SuccessComponent } from './customer/payment/success/success.component';
+import { FailedComponent } from './customer/payment/failed/failed.component';
 
 
 export const routes: Routes = [
@@ -79,6 +81,8 @@ export const routes: Routes = [
         {path:"about",component:AboutComponent},
         {path:"contact-us",component:ContactUsComponent},
         {path:"cart",component:CartComponent},
+        {path:"sucess",component:SuccessComponent},
+        {path:"failed",component:FailedComponent},
         {path:"checkout",component:CheckoutComponent,canActivate:[authCustomerGuard]}
        // {path:"**",component:PageNotFoundComponent}
 

@@ -12,12 +12,14 @@ export class AnalysisService {
 
   constructor(private http: HttpClient) { }
 
-  countSellerProducts(sellerId: string): Observable<{ status: number, message: string, data: { count: number } }> {
-    return this.http.get<{ status: number, message: string, data: { count: number } }>(`${this.baseUrl}/countSellerProducts/${sellerId}`);
+  countSellerProducts(sellerId: string): Observable<Response<any>> {
+    return this.http.get<Response<any>>(`${this.baseUrl}/countSellerProducts/${sellerId}`);
   }
-
-  countOrdersForSeller(sellerId: string, status: string): Observable<{ status: number, message: string, data: { count: number } }> {
-    return this.http.get<{ status: number, message: string, data: { count: number } }>(`${this.baseUrl}/countOrdersForSeller/${sellerId}/${status}`);
+/*getProductsBySeller(sellerId: string, page: number, sort: string, category: string, status: string, search: string): Observable<Response<any[]>> {
+    return this.http.get<Response<any[]>>(`${this.baseUrl}/${sellerId}?page=${page}&sort=${sort}&category=${category}&status=${status}&search=${search}`);
+  } */
+  countOrdersForSeller(sellerId: string, status: string): Observable<any> {
+    return this.http.get<Response<any>>(`${this.baseUrl}/countOrdersForSeller/${sellerId}/${status}`);
   }
 
 }

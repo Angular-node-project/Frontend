@@ -20,7 +20,8 @@
           <th>Name</th>
           <th>Pic</th>
           <th>Qty</th>
-          <th>Stock</th>
+          <th>MainStock</th>
+          <th>BranchStock</th>
           <th>Price</th>
           <th class="d-none d-md-table-cell">Seller</th>
           <th>Status</th>
@@ -53,6 +54,7 @@
               </div>
             </div>
           </td>
+          <td>{{product.mainStock}}</td>
           <td>{{product.branch_qty}}</td>
           <td>${{product.price}}</td>
           <td class="d-none d-md-table-cell">{{product.seller_name}}</td>

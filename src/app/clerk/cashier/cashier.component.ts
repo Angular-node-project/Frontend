@@ -92,6 +92,10 @@ export class CahierComponent {
       next: (res) => {
         console.log("********************************************")
         console.log(res);
+        console.log("********************************************")
+        console.log(res.data);
+        console.log("********************************************")
+
         if (res.status == 201) {
           this.products = res.data.products;
           this.products.forEach(p => {
@@ -192,10 +196,11 @@ export class CahierComponent {
           p.qty += qty
       }
     })
+    console.log(this.products)
     this.products.find(p => {
       if (p.product_id == productid) {
-        if (p.branch_qty < (p.qty + qty))
-          this.toastr.error(`Sorry but Product:${p.name} has only ${p.branch_qty} Available in our Stocks`)
+        if (p.branch_qty < (p.qty + qty)||p.mainStock < (p.qty + qty) )
+          this.toastr.error(`Sorry but Product:${p.name} has only ${p.branch_qty<p.mainStock?p.branch_qty:p.mainStock} Available in our Stocks`)
         else if (!((p.qty + qty) == 0))
           p.qty += qty
       }

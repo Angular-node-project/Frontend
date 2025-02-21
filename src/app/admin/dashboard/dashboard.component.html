@@ -1,4 +1,6 @@
-<div class="row">
+
+<div class="products-container">
+  <div class="row">
     <div class="col-md-3">
       <div class="card rounded-0">
         <h5><i class="fa-solid fa-seedling"></i> 120</h5>
@@ -41,46 +43,43 @@
 
   <div class="row">
     <!-- First Chart -->
-    <div class="col-md-6">
-      <div id="chart2" class="chart-container">
-        <apx-chart
-          [series]="DonutChart.series"
-          [chart]="DonutChart.chart"
-          [labels]="DonutChart.labels"
-          [responsive]="DonutChart.responsive"
-        ></apx-chart>
+    <div class="col-md-6 mt-3">
+      <div class="card rounded-0" style="height: 336px;">
+        <select name="" class="w-50" id="" #selection (change)="test(selection.value)">
+          <option value="Customers">Customers</option>
+          <option value="Orders">Orders</option>
+          <option value="Products">Products</option>
+          <option value="Branches">Branches</option>
+        </select>
+        <div id="chart" class="chart-container">
+          <apx-chart [series]="DonutChart.series" [chart]="DonutChart.chart" [labels]="DonutChart.labels"
+            [responsive]="DonutChart.responsive"></apx-chart>
+        </div>
       </div>
     </div>
 
-    <!-- Second Chart -->
-    <div class="col-md-6">
-      <div id="chart3" class="chart-container">
-        <apx-chart
-          [series]="ColumnChart.series"
-          [chart]="ColumnChart.chart"
-          [dataLabels]="ColumnChart.dataLabels"
-          [plotOptions]="ColumnChart.plotOptions"
-          [yaxis]="ColumnChart.yaxis"
-          [xaxis]="ColumnChart.xaxis"
-          [fill]="ColumnChart.fill"
-          [title]="ColumnChart.title"
-        ></apx-chart>
+    <div class="col-md-6 mt-3">
+      <div class="card rounded-0">
+        <div id="chart3" class="chart-container">
+          <apx-chart [series]="ColumnChart.series" [chart]="ColumnChart.chart" [dataLabels]="ColumnChart.dataLabels"
+            [plotOptions]="ColumnChart.plotOptions" [yaxis]="ColumnChart.yaxis" [xaxis]="ColumnChart.xaxis"
+            [fill]="ColumnChart.fill" [title]="ColumnChart.title"></apx-chart>
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- Line Chart -->
   <div class="row">
-    <div class="col-md-12">
-      <div id="chart1" class="chart-container">
-        <apx-chart
-          [series]="LineChart.series"
-          [chart]="LineChart.chart"
-          [xaxis]="LineChart.xaxis"
-          [dataLabels]="LineChart.dataLabels"
-          [grid]="LineChart.grid"
-          [title]="LineChart.title"
-        ></apx-chart>
+    <div class="col-md-12 mt-3">
+      <div class="card rounded-0">
+        <div id="chart1" class="chart-container">
+          <apx-chart [series]="LineChart.series" [chart]="LineChart.chart" [xaxis]="LineChart.xaxis"
+            [dataLabels]="LineChart.dataLabels" [grid]="LineChart.grid" [title]="LineChart.title"></apx-chart>
+        </div>
       </div>
     </div>
+
   </div>
+</div>

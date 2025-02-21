@@ -3,7 +3,7 @@
     <div class="text-center text">
         <h6>Welcome to green store</h6>
         <h1>Let’s Bring the Spring <br> to Your Home</h1>
-        <a class="btn btn-primary main-btn" href="#">shop now</a>
+        <a class="btn btn-primary main-btn" routerLink="/products">shop now</a>
     </div>
 
 </div>
@@ -13,35 +13,18 @@
         <div class="col-sm-12 col-lg-6 text-lg-start text-center">
             <h3>new plants</h3>
         </div>
-        <div class="col-sm-12 col-lg-6 text-lg-end text-center"><button class="btn btn-success shop-btn">shop
-                now</button></div>
+        <div class="col-sm-12 col-lg-6 text-lg-end text-center"><a class="btn btn-success shop-btn" routerLink="/products">shop
+                now</a></div>
     </div>
-    <!-- <div class="row pt-3">
+    <div class="row pt-3">
+                
+        <app-customer-product-item  *ngFor="let product of products" [product]="product" class="col-lg-4"></app-customer-product-item>
+       
 
-        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-
-    </div> -->
+    </div>
 
 </div>
 
-
-<div class="new-plants container pt-5 pb-5 ">
-    <div class="row px-4">
-        <div class="col-sm-12 col-lg-6 text-lg-start text-center">
-            <h3>new plants</h3>
-        </div>
-        <div class="col-sm-12 col-lg-6 text-lg-end text-center"><button class="btn btn-primary shop-btn">shop
-                now</button></div>
-    </div>
-    <!-- <div class="row pt-3">
-        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-        <app-customer-product-item class="col-lg-4"></app-customer-product-item>
-    </div> -->
-
-</div>
 
 <div class="container-fluid pt-5 story-div">
     <div class="row">

@@ -95,7 +95,7 @@ export class CartService {
     if (!existingProduct && type == 'one') {
       allCartProducts.push(data);
     }else if(existingProduct && type=='more'){
-      existingProduct.qty=data.qty;
+      existingProduct.qty+=data.qty;
     }else if(!existingProduct &&type=='more') {
       allCartProducts.push(data);
     }

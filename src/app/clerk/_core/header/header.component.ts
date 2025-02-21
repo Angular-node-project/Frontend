@@ -19,10 +19,12 @@ export class HeaderComponent implements OnInit{
   @Input() isSidebarOpen = false;
   email: string = ""
   role: string = "";
+  branchName:string="";
 
   ngOnInit(): void {
     this.email=this.authClerkBranchService.getLoggedInData().email;
     this.role=this.authClerkBranchService.getLoggedInData().role;
+    this.branchName=this.authClerkBranchService.getLoggedInData().branch.name;
   }
   notifications = [
     {

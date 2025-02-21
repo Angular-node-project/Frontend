@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexResponsive, ApexChart, ApexXAxis, ApexDataLabels, ApexTitleSubtitle, ChartComponent, NgApexchartsModule, ApexPlotOptions, ApexYAxis, ApexFill } from 'ng-apexcharts'
 import { AnalysisService } from '../_services/analysis.service';
+import { Subscription } from 'rxjs';
 
 export type ChartOptions1 = {
   series: ApexAxisChartSeries;
@@ -38,7 +39,7 @@ export type ChartOptions3 = {
   styleUrls: ['./dashboard.component.css']
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit,OnDestroy {
   @ViewChild('chart') chart!: ChartComponent;
   public LineChart: ChartOptions1;
   public DonutChart: ChartOptions2;
@@ -50,6 +51,25 @@ export class DashboardComponent implements OnInit {
   LineChartLabels: any[] = []
   ColumnChartData: any[] = []
   ColumnChartLabels: any[] = []
+
+  NumofOrders=0
+  NumofProducts=0
+  NumofBranches=0
+  TotalSales=0
+
+  sub1!:Subscription
+  sub2!:Subscription
+  sub3!:Subscription
+  sub4!:Subscription
+  sub5!:Subscription
+  sub6!:Subscription
+  sub7!:Subscription
+  sub8!:Subscription
+  sub9!:Subscription
+  sub10!:Subscription
+  sub11!:Subscription
+  sub12!:Subscription
+  sub13!:Subscription
 
   constructor(private adminAnalysisService: AnalysisService) {
     this.LineChart = {
@@ -73,7 +93,7 @@ export class DashboardComponent implements OnInit {
         curve: "straight"
       },
       title: {
-        text: "Product Trends by Month",
+        text: "",
         align: "left"
       },
       grid: {
@@ -230,6 +250,8 @@ export class DashboardComponent implements OnInit {
     this.callNumOfRegistrationOverMonth()
     //* # registeration over Days of Week
     this.callNumOfRegistrationOverDayOfWeeks()
+    //* Cards
+    this.Cards()
   }
 
   test(selectionVal: string) {
@@ -248,13 +270,18 @@ export class DashboardComponent implements OnInit {
         this.callGetOrdersByMonth()
         this.callGetOrderCountsByStatus()
         break;
+      case "Sellers":
+        this.getSellerRegistrationsPerWeek()
+        this.getSellerRegistrationMonth()
+        this.SellersCountsBystatus()
+        break;
 
     }
   }
 
   //* Customers
   callGetGenderCount() {
-    this.adminAnalysisService.getGenderCount().subscribe({
+    this.sub1=this.adminAnalysisService.getGenderCount().subscribe({
       next: (e) => {
         this.DonutChartData=[]
         this.DonutChartLabels=[]
@@ -269,7 +296,7 @@ export class DashboardComponent implements OnInit {
     })
   }
   callNumOfRegistrationOverMonth() {
-    this.adminAnalysisService.numOfRegistrationOverMonth().subscribe({
+    this.sub2=this.adminAnalysisService.numOfRegistrationOverMonth().subscribe({
       next: (e) => {
         this.LineChartData=[]
         console.log(e.data)
@@ -286,7 +313,7 @@ export class DashboardComponent implements OnInit {
     })
   }
   callNumOfRegistrationOverDayOfWeeks() {
-    this.adminAnalysisService.numOfRegistrationOverDayOfWeeks().subscribe({
+    this.sub3=this.adminAnalysisService.numOfRegistrationOverDayOfWeeks().subscribe({
       next: (e) => {
         this.ColumnChartData=[]
         console.log(e.data)
@@ -302,9 +329,10 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
+
 //* Orders
 callGetOrdersByDayOfWeek(){
-  this.adminAnalysisService.getOrdersByDayOfWeek().subscribe({
+  this.sub4=this.adminAnalysisService.getOrdersByDayOfWeek().subscribe({
     next: (e) => {
       this.ColumnChartData=[]
       console.log("callGetOrdersByDayOfWeek")
@@ -322,7 +350,7 @@ callGetOrdersByDayOfWeek(){
   })
 }
 callGetOrdersByMonth(){
-  this.adminAnalysisService.getOrdersByMonth().subscribe({
+  this.sub5=this.adminAnalysisService.getOrdersByMonth().subscribe({
     next: (e) => {
       this.LineChartData=[]
       console.log(e.data)
@@ -339,7 +367,7 @@ callGetOrdersByMonth(){
   })
 }
 callGetOrderCountsByStatus(){
-  this.adminAnalysisService.getOrderCountsByStatus().subscribe({
+  this.sub6=this.adminAnalysisService.getOrderCountsByStatus().subscribe({
     next: (e) => {
       this.DonutChartData=[]
       this.DonutChartLabels=[]
@@ -350,49 +378,121 @@ callGetOrderCountsByStatus(){
     }
   })
 }
+//* Sellers
+getSellerRegistrationsPerWeek(){
+  this.sub7=this.adminAnalysisService.getSellerRegistrationsPerWeek().subscribe({
+    next: (e) => {
+      this.ColumnChartData=[]
+      console.log("getSellerRegistrationsPerWeek")
+      console.log(e.data)
+      e.data.forEach(p => {
+        this.ColumnChartData.push(+p)
+      })
+      this.ColumnChart.series=[
+        {
+          name: "#SellersRegisteration",
+          data: this.ColumnChartData
+        }
+      ]
+    }
+  })
+}
+getSellerRegistrationMonth(){
+  this.sub8=this.adminAnalysisService.getSellerRegistrationMonth().subscribe({
+    next: (e) => {
+      this.LineChartData=[]
+      console.log(e.data)
+      e.data.forEach(p => {
+        this.LineChartData.push(+p)
+      })
+      this.LineChart.series=[
+        {
+          name: "#SellersRegisteration",
+          data: this.LineChartData
+        }
+      ]
+    }
+  })
+}
+SellersCountsBystatus(){
+  this.sub9=this.adminAnalysisService.SellersCountsBystatus().subscribe({
+    next: (e) => {
+      this.DonutChartData=[]
+      this.DonutChartLabels=[]
+      this.DonutChartData=e.data.values
+      this.DonutChartLabels=e.data.labels
+      this.DonutChart.series=this.DonutChartData
+      this.DonutChart.labels=this.DonutChartLabels
+    }
+  })
+}
+//* Cards
+Cards(){
+  this.sub10=this.adminAnalysisService.getNumofProducts().subscribe({
+    next: (e) => {
+      this.NumofProducts=e.data
+    }
+  })
+  this.sub11=this.adminAnalysisService.getNumofOrders().subscribe({
+    next: (e) => {
+      this.NumofOrders=e.data
+    }
+  })
+  this.sub12=this.adminAnalysisService.getNumofBranches().subscribe({
+    next: (e) => {
+      this.NumofBranches=e.data
+    }
+  })
+  this.sub13=this.adminAnalysisService.getTotalSales().subscribe({
+    next: (e) => {
+      this.TotalSales=e.data
+    }
+  })
+}
+ngOnDestroy(): void {
+  if(this.sub1){
+    this.sub1.unsubscribe()
+  }
+  if(this.sub2){
+    this.sub2.unsubscribe()
+  }
+  if(this.sub3){
+    this.sub3.unsubscribe()
+  }
+  if(this.sub4){
+    this.sub4.unsubscribe()
+  }
+  if(this.sub5){
+    this.sub5.unsubscribe()
+  }
+  if(this.sub6){
+    this.sub6.unsubscribe()
+  }
+  if(this.sub7){
+    this.sub7.unsubscribe()
+  }
+  if(this.sub8){
+    this.sub8.unsubscribe()
+  }
+  if(this.sub9){
+    this.sub9.unsubscribe()
+  }
+  if(this.sub10){
+    this.sub10.unsubscribe()
+  }
+  if(this.sub11){
+    this.sub11.unsubscribe()
+  }
+  if(this.sub12){
+    this.sub12.unsubscribe()
+  }
+  if(this.sub13){
+    this.sub13.unsubscribe()
+  }
+}
+
 
 }
 
 
 
-
-// export class DashboardComponent implements OnInit {
-//   @ViewChild("chart") chart!: ChartComponent;
-//   public chartOptions: Partial<ChartOptions>;
-
-//   constructor() {
-//     this.chartOptions = {
-//       series: [
-//         {
-//           name: "Sales",
-//           data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-//         }
-//       ],
-//       chart: {
-//         height: 350,
-//         type: "line",
-//         zoom: { enabled: true }
-//       },
-//       title: {
-//         text: "Product Trends by Month"
-//       },
-//       xaxis: {
-//         categories: [
-//           "Jan",
-//           "Feb",
-//           "Mar",
-//           "Apr",
-//           "May",
-//           "Jun",
-//           "Jul",
-//           "Aug",
-//           "Sep"
-//         ]
-//       }
-//     };
-//   }
-
-//   ngOnInit(): void {
-//     // Initialization logic here
-//   }
-// }

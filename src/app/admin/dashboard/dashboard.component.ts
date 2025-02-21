@@ -52,6 +52,11 @@ export class DashboardComponent implements OnInit,OnDestroy {
   ColumnChartData: any[] = []
   ColumnChartLabels: any[] = []
 
+  NumofOrders=0
+  NumofProducts=0
+  NumofBranches=0
+  TotalSales=0
+
   sub1!:Subscription
   sub2!:Subscription
   sub3!:Subscription
@@ -61,6 +66,10 @@ export class DashboardComponent implements OnInit,OnDestroy {
   sub7!:Subscription
   sub8!:Subscription
   sub9!:Subscription
+  sub10!:Subscription
+  sub11!:Subscription
+  sub12!:Subscription
+  sub13!:Subscription
 
   constructor(private adminAnalysisService: AnalysisService) {
     this.LineChart = {
@@ -241,6 +250,8 @@ export class DashboardComponent implements OnInit,OnDestroy {
     this.callNumOfRegistrationOverMonth()
     //* # registeration over Days of Week
     this.callNumOfRegistrationOverDayOfWeeks()
+    //* Cards
+    this.Cards()
   }
 
   test(selectionVal: string) {
@@ -415,7 +426,29 @@ SellersCountsBystatus(){
     }
   })
 }
-
+//* Cards
+Cards(){
+  this.sub10=this.adminAnalysisService.getNumofProducts().subscribe({
+    next: (e) => {
+      this.NumofProducts=e.data
+    }
+  })
+  this.sub11=this.adminAnalysisService.getNumofOrders().subscribe({
+    next: (e) => {
+      this.NumofOrders=e.data
+    }
+  })
+  this.sub12=this.adminAnalysisService.getNumofBranches().subscribe({
+    next: (e) => {
+      this.NumofBranches=e.data
+    }
+  })
+  this.sub13=this.adminAnalysisService.getTotalSales().subscribe({
+    next: (e) => {
+      this.TotalSales=e.data
+    }
+  })
+}
 ngOnDestroy(): void {
   if(this.sub1){
     this.sub1.unsubscribe()
@@ -443,6 +476,18 @@ ngOnDestroy(): void {
   }
   if(this.sub9){
     this.sub9.unsubscribe()
+  }
+  if(this.sub10){
+    this.sub10.unsubscribe()
+  }
+  if(this.sub11){
+    this.sub11.unsubscribe()
+  }
+  if(this.sub12){
+    this.sub12.unsubscribe()
+  }
+  if(this.sub13){
+    this.sub13.unsubscribe()
   }
 }
 

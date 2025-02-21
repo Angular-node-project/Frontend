@@ -3,26 +3,26 @@
   <div class="row">
     <div class="col-md-3">
       <div class="card rounded-0">
-        <h5><i class="fa-solid fa-seedling"></i> 120</h5>
-        <p>Products Available</p>
+        <h5 class="text-danger"><i class="fa-solid fa-boxes-stacked"></i> {{NumofProducts}}</h5>
+        <p  class="text-danger  fw-bold">#Products</p>
       </div>
     </div>
     <div class="col-md-3">
       <div class="card rounded-0">
-        <h5><i class="fa-solid fa-truck"></i> 45</h5>
-        <p>Pending Orders</p>
+        <h5 class="text-warning"><i class="fa-solid fa-truck"></i> {{NumofOrders}}</h5>
+        <p class="text-warning  fw-bold">#Orders</p>
       </div>
     </div>
     <div class="col-md-3">
       <div class="card rounded-0">
-        <h5><i class="fa-solid fa-users"></i> 350</h5>
-        <p>Happy Customers</p>
+        <h5 class="text-primary"><i class="fa-solid fa-store"></i> {{NumofBranches}}</h5>
+        <p class="text-primary  fw-bold" >#Branches</p>
       </div>
     </div>
     <div class="col-md-3">
       <div class="card rounded-0">
-        <h5><i class="fa-solid fa-users"></i> 350</h5>
-        <p>Happy Customers</p>
+        <h5 class="text-success"><i class="fa-solid fa-coins"></i> ${{TotalSales}}</h5>
+        <p class="text-success fw-bold" >Total Sales</p>
       </div>
     </div>
 
@@ -44,7 +44,6 @@
           <option value="Customers">Customers</option>
           <option value="Orders">Orders</option>
           <option value="Sellers">Sellers</option>
-          <option value="Branches">Branches</option>
         </select>
         <div id="chart" class="chart-container">
           <apx-chart [series]="DonutChart.series" [chart]="DonutChart.chart" [labels]="DonutChart.labels"

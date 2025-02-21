@@ -53,4 +53,21 @@ SellersCountsBystatus(){
   return this.http.get<{ status: number, message: string, data:  {values:[],labels:[]}  }>
   (`${this.baseUrl}/SellersCountsBystatus`)
 }
+//* Cards
+getNumofProducts(){
+  return this.http.get<{ status: number, message: string, data:  number  }>
+  (`${this.baseUrl}/NumofProducts`)
+}
+getNumofBranches(){
+  return this.http.get<{ status: number, message: string, data:  number  }>
+  (`${this.baseUrl}/NumofBranches`)
+}
+getNumofOrders(){
+  return this.http.get<{ status: number, message: string, data:  number  }>
+  (`${this.baseUrl}/NumofOrders`)
+}
+getTotalSales(){
+  return this.http.get<{ status: number, message: string, data:  number  }>
+  (`${this.baseUrl}/TotalSales`)
+}
 }

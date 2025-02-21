@@ -3,7 +3,7 @@
     <div class="header-actions">
       <div class="search-box">
         <i class="fas fa-search"></i>
-        <input type="text" [(ngModel)]="governorate" (input)="changeSearch(governorate)" placeholder="Search Orders...">
+        <input type="text" [(ngModel)]="governorate" (input)="changeSearch(governorate)" placeholder="Search Orders by governorate...">
   
   
       </div>
@@ -16,9 +16,10 @@
             <th>Customer Name</th>
             <th>Cashier Name</th>
             <th>Governorate</th>
-            <th>Order </th>
-            <th>Total</th>     
+            <!-- <th>Order </th> -->
+            <!-- <th>Total</th>      -->
             <th>Status</th>
+            <th>Action</th>
             
           </tr>
         </thead>
@@ -27,7 +28,7 @@
             <td>{{order.customer?.name||"no customer"}}</td>
             <td>{{order.cashier?.name||"no cashier"}}</td>
             <td>{{order.governorate}}</td>
-            <td>
+            <!-- <td>
                 @for (item of order.product; track $index) {
                     <tr>
                         Name:    {{item.name}}
@@ -39,10 +40,16 @@
                    Price: {{item.price}}
                </tr>
                 }
-            </td>  
-            <td>{{order.totalPrice}}</td>  
+            </td>   -->
+            <!-- <td>{{order.totalPrice}}</td>   -->
             <td>{{order.status}}</td>
-
+            <td class="actions">
+              <div class="btn-group">
+            <button class="btn btn-success btn-sm rounded-0" (click)="openEditModal(order)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+            </td>
         
           </tr>
         </tbody>
@@ -75,4 +82,38 @@
     </div>
   </div>
   
- 
+  <div class="modal fade" id="orderDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>Product Name</th>
+                      <th>Picture</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let order of selectedOrder?.product">
+                      <td>{{ order.name }}</td>
+                      <td>
+                        <img [src]="order.pic_path[0]" alt="Product Image" width="70" height="70">
+                      </td>
+                      <td>{{ order.qty }}</td>
+                      <td>{{ order.price }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back to Orders</button>
+            </div>
+        </div>
+    </div>
+  </div>

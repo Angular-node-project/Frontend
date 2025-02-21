@@ -8,7 +8,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { AuthSellerService } from '../_services/authSeller.service';
-
+export declare const bootstrap: any;
 @Component({
   selector: 'app-seller-orders',
   imports: [FormsModule, CommonModule, RouterLink],
@@ -29,6 +29,7 @@ export class SellerOrdersComponent implements OnInit {
   pageSize: number = 6;
   sub!: Subscription;
   status: string = '';
+  selectedOrder!: Order;
   governorate: string = '';
   @Input() isSidebarOpen = false;
 
@@ -42,7 +43,7 @@ export class SellerOrdersComponent implements OnInit {
 
   loadOrders(page: number) {
     const sellerId = this.AuthSellerService.getLoggedInId();
-    this.ordersService.getOrdersBySellerId(sellerId, page, this.pageSize).subscribe({
+    this.ordersService.getOrdersBySellerId(sellerId, page, this.pageSize,this.governorate).subscribe({
       next: (response) => {
         this.orders = response.data.orders;
         this.totalPages = response.data.totalPages;
@@ -106,4 +107,20 @@ export class SellerOrdersComponent implements OnInit {
   scrollToTop(): void {
     this.viewPortScroller.scrollToPosition([0, 0]);
   }
+
+openEditModal(order: Order) {
+    this.selectedOrder = order;
+    console.log("Opening modal for order:", this.selectedOrder);
+
+    const modalElement = document.getElementById('orderDetailsModal');
+    if (!modalElement) {
+      console.error('Modal element not found!');
+      return;
+    }
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
 }

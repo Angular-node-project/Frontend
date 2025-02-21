@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
@@ -9,6 +9,7 @@ import { CartService } from '../_services/cart.service';
 import { Order } from 'src/app/_models/order';
 import { formatDate } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -17,12 +18,15 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit,OnDestroy {
 
   isName=true;
   isAddress=true;
   isphone=true;
 
+  sub1!:Subscription
+  sub2!:Subscription
+  sub3!:Subscription
 
 
   validateName(){
@@ -53,7 +57,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private customerService: AuthCustomerService, private toastr: ToastrService, private cartService: CartService) { }
   ngOnInit(): void {
-    this.customerService.getProfileInfo().subscribe(
+    this.sub1=this.customerService.getProfileInfo().subscribe(
       {
         next: (e) => {
           this.adminProfile.name = e.data.name
@@ -65,7 +69,7 @@ export class ProfileComponent implements OnInit {
       }
     )
 
-    this.cartService.getOrder().subscribe({
+    this.sub2=this.cartService.getOrder().subscribe({
       next: (e) => {
         this.orders = e.data
         this.orders.forEach(o=>{
@@ -94,7 +98,7 @@ export class ProfileComponent implements OnInit {
           currentPassword: currentPassword,
           newPassword: newPassword
         }
-        this.customerService.updateProfileInfoWithPassword(updatedprofile).subscribe({
+        this.sub3=this.customerService.updateProfileInfoWithPassword(updatedprofile).subscribe({
           next: (e) => {
             console.log(e);
             if (e.status != 201) {
@@ -152,6 +156,22 @@ export class ProfileComponent implements OnInit {
         return 'question-circle';
     }
   }
+
+  ngOnDestroy(): void {
+    if(this.sub1){
+      this.sub1.unsubscribe()
+    }
+    if(this.sub2){
+      this.sub2.unsubscribe()
+    }
+    if(this.sub3){
+      this.sub3.unsubscribe()
+    }
+  }
+
+
+
+
 }
 
 

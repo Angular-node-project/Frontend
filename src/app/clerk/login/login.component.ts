@@ -38,7 +38,7 @@ showPassword = false;
 
       },
       error:(error)=>{
-        this.toastr.error("something went wrong");
+        this.toastr.error(error.error.message);
       }
     })
   }

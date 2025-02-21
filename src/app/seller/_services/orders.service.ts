@@ -12,8 +12,8 @@ export class OrdersService {
 
   constructor(private http: HttpClient) { }
 
-  getOrdersBySellerId(sellerId: string, page: number, limit: number): Observable<Response<any>> {
-    const result = this.http.get<any>(`${this.baseUrl}/${sellerId}?page=${page}&limit=${limit}`);
+  getOrdersBySellerId(sellerId: string, page: number, limit: number,search:string): Observable<Response<any>> {
+    const result = this.http.get<any>(`${this.baseUrl}/${sellerId}?page=${page}&limit=${limit}&governorate=${search}`);
     return result;
   }
 }

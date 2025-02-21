@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { Cart } from 'src/app/_models/cart';
@@ -9,32 +9,38 @@ import { CartProduct } from 'src/app/_models/cart-product';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AuthCustomerService } from '../_services/authCustomer.service';
 import { ToastrService } from 'ngx-toastr';
-import { DecimalPipe,CommonModule } from '@angular/common';
+import { DecimalPipe, CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 
 
 
 @Component({
   selector: 'app-cart',
-  imports: [RouterOutlet, DecimalPipe,CommonModule, RouterLink],
+  imports: [RouterOutlet, DecimalPipe, CommonModule, RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
 
   data: Cart | null = null
   test: any
   newQty: number = 0;
   productMaxQty: { [productId: string]: number } = {};
-  customer_id=""
+  customer_id = ""
+  sub1!: Subscription
+  sub2!: Subscription
+  sub3!: Subscription
+  sub4!: Subscription
+  sub5!: Subscription
 
 
-  constructor(public cartSer: CartService ,private toastr:ToastrService, private authCustomerService: AuthCustomerService,private route:Router ) { }
+  constructor(public cartSer: CartService, private toastr: ToastrService, private authCustomerService: AuthCustomerService, private route: Router) { }
 
   ngOnInit(): void {
-    this.customer_id=this.authCustomerService.getLoggedInId();
+    this.customer_id = this.authCustomerService.getLoggedInId();
     if (this.authCustomerService.isLoggedIn()) {
-      this.cartSer.getCart().subscribe(e => {
+      this.sub1 = this.cartSer.getCart().subscribe(e => {
         this.data = e
         this.data.Total = 0
         e.product.forEach(p => {
@@ -44,9 +50,9 @@ export class CartComponent implements OnInit {
       })
     } else {
 
-      this.cartSer.getCartGuest().subscribe(guestCart => {
+      this.sub2 = this.cartSer.getCartGuest().subscribe(guestCart => {
         if (guestCart.length > 0) {
-          this.data = new Cart('', '', [], '', new Date(), new Date(), 0,[]);
+          this.data = new Cart('', '', [], '', new Date(), new Date(), 0, []);
           guestCart.forEach(item => {
             const updatedQty = item.productDetails.qty > item.qty ? item.qty : item.productDetails.qty;
             if (updatedQty > 0) {
@@ -78,14 +84,14 @@ export class CartComponent implements OnInit {
 
 
     if (this.authCustomerService.isLoggedIn()) {
-      this.cartSer.UpdateQty({ CustomerId, ProductId, NewQuantity }).subscribe({
-        next:(e)=> {
+      this.sub3 = this.cartSer.UpdateQty({ CustomerId, ProductId, NewQuantity }).subscribe({
+        next: (e) => {
           if (e.data.success) {
             data.qty = e.data.newQty;
-            if(num==-1)
-              this.data!.Total-=data.price
+            if (num == -1)
+              this.data!.Total -= data.price
             else
-            this.data!.Total+=data.price
+              this.data!.Total += data.price
 
           } else {
             data.qty = data.qty
@@ -117,7 +123,7 @@ export class CartComponent implements OnInit {
     let CustomerId = "1";
     let ProductId = data.product_id;
     let NewQuantity = this.newQty;
-    this.cartSer.UpdateQty({ CustomerId, ProductId, NewQuantity }).subscribe({
+    this.sub4 = this.cartSer.UpdateQty({ CustomerId, ProductId, NewQuantity }).subscribe({
       next(e) {
         if (e.data.success) {
           data.qty = e.data.newQty
@@ -134,18 +140,18 @@ export class CartComponent implements OnInit {
     })
   }
 
-  removeFromCart(product_id: string,price:number,qty:number) {
+  removeFromCart(product_id: string, price: number, qty: number) {
 
     if (this.authCustomerService.isLoggedIn()) {
       let CustomerId = this.authCustomerService.getLoggedInId()
-      this.cartSer.deleteProductFromCart({productID:product_id,CustomerId}).subscribe({
-        next:(e)=>{
-          if(e.data.success){
-            this.data!.product=this.data!.product.filter(p=>p.product_id!=product_id)
-            this.data!.Total-=(price*qty)
-            this.toastr.success("Product Deleted") ;
+      this.sub5 = this.cartSer.deleteProductFromCart({ productID: product_id, CustomerId }).subscribe({
+        next: (e) => {
+          if (e.data.success) {
+            this.data!.product = this.data!.product.filter(p => p.product_id != product_id)
+            this.data!.Total -= (price * qty)
+            this.toastr.success("Product Deleted");
             this.cartSer.updateCartRegisterdCustomerProductNum();
-          }else{
+          } else {
             this.toastr.error(e.data.ErrorMsg)
           }
         }
@@ -155,7 +161,7 @@ export class CartComponent implements OnInit {
       this.cartSer.removeProductFromCartGuest(product_id);
       if (this.data) {
         this.data.product = this.data?.product.filter(p => p.product_id != product_id);
-        this.data!.Total-=(price*qty)
+        this.data!.Total -= (price * qty)
         console.log(this.data.Total);
       }
       this.cartSer.updateCartRegisterdCustomerProductNum();
@@ -164,16 +170,32 @@ export class CartComponent implements OnInit {
 
   }
 
-  porceedToCheckout(){
-    if(!this.authCustomerService.isLoggedIn()){
-      let cartGuest=this.data?.product;
-      localStorage.setItem('processedCart',JSON.stringify(cartGuest));
+  porceedToCheckout() {
+    if (!this.authCustomerService.isLoggedIn()) {
+      let cartGuest = this.data?.product;
+      localStorage.setItem('processedCart', JSON.stringify(cartGuest));
     }
 
-      this.route.navigate(['checkout']);
-    
+    this.route.navigate(['checkout']);
+
   }
 
-
+  ngOnDestroy(): void {
+    if (this.sub1) {
+      this.sub1.unsubscribe()
+    }
+    if (this.sub2) {
+      this.sub2.unsubscribe()
+    }
+    if (this.sub3) {
+      this.sub3.unsubscribe()
+    }
+    if (this.sub4) {
+      this.sub4.unsubscribe()
+    }
+    if (this.sub5) {
+      this.sub5.unsubscribe()
+    }
+  }
 
 }

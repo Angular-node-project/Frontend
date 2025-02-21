@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +17,7 @@ import { ProductsBranchService } from '../_services/products-branch.service';
   templateUrl: './cashier.component.html',
   styleUrl: './cashier.component.css'
 })
-export class CahierComponent {
+export class CahierComponent implements OnDestroy {
 
   selectedProduct: any = null;
   products: CashierProduct[] = [];
@@ -29,6 +29,8 @@ export class CahierComponent {
   status: string = ''
   search: string = ''
   sub!: Subscription;
+  sub1!: Subscription;
+  sub2!: Subscription;
   currentPage = 1;
   cashierProducts: CashierProduct[] = [];
   TotalAmount = 0;
@@ -63,6 +65,7 @@ export class CahierComponent {
 
   ) { }
 
+
   ngOnInit() {
     this.sub = this.route.paramMap.subscribe(params => {
       this.currentPage = +params.get('page')!;
@@ -88,10 +91,14 @@ export class CahierComponent {
 
 
   loadProducts2(page: number): void {
-     this.productBranchService.getAllPaginatedProducts(page, '', this.search).subscribe({
+     this.sub1=this.productBranchService.getAllPaginatedProducts(page, '', this.search).subscribe({
       next: (res) => {
         console.log("********************************************")
         console.log(res);
+        console.log("********************************************")
+        console.log(res.data);
+        console.log("********************************************")
+
         if (res.status == 201) {
           this.products = res.data.products;
           this.products.forEach(p => {
@@ -192,10 +199,11 @@ export class CahierComponent {
           p.qty += qty
       }
     })
+    console.log(this.products)
     this.products.find(p => {
       if (p.product_id == productid) {
-        if (p.branch_qty < (p.qty + qty))
-          this.toastr.error(`Sorry but Product:${p.name} has only ${p.branch_qty} Available in our Stocks`)
+        if (p.branch_qty < (p.qty + qty)||p.mainStock < (p.qty + qty) )
+          this.toastr.error(`Sorry but Product:${p.name} has only ${p.branch_qty<p.mainStock?p.branch_qty:p.mainStock} Available in our Stocks`)
         else if (!((p.qty + qty) == 0))
           p.qty += qty
       }
@@ -242,7 +250,7 @@ export class CahierComponent {
     this.receipt = product
     let cashier_id = "1"
     let totalPrice = this.TotalAmount
-    this.cahierService.addCashierOrder({ address, zipcode, phone_number, governorate, product, additional_data, totalPrice })
+    this.sub2=this.cahierService.addCashierOrder({ address, zipcode, phone_number, governorate, product, additional_data, totalPrice })
       .subscribe({
         next: (e) => {
           if (e.data.success) {
@@ -282,4 +290,20 @@ export class CahierComponent {
   printPage() {
     window.open("admin/cashier/p/print", "")
   }
+
+  ngOnDestroy(): void {
+    if(this.sub){
+      this.sub.unsubscribe();
+    }
+    if(this.sub1){
+      this.sub1.unsubscribe();
+    }
+    if(this.sub2){
+      this.sub2.unsubscribe();
+    }
+  }
+
+
+
+
 }

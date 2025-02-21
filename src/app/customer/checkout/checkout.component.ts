@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CartService } from '../_services/cart.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { BillingDetails, Cart } from 'src/app/_models/cart';
@@ -7,6 +7,7 @@ import { Toast } from 'bootstrap';
 import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css',
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnDestroy {
   data: Cart | null = null;
   address: string = '';
   city: string = '';
@@ -23,6 +24,9 @@ export class CheckoutComponent {
   PhoneNumber: string = '';
   isCash = true
   BillingDetails: BillingDetails | null = null
+  sub1!:Subscription
+  sub2!:Subscription
+  sub3!:Subscription
 
 
   form: FormGroup = new FormGroup({
@@ -35,8 +39,9 @@ export class CheckoutComponent {
 
 
   constructor(public cartSer: CartService, private auth: AuthService, private toastr: ToastrService, private route: Router) { }
+
   ngOnInit(): void {
-    this.cartSer.getCart().subscribe((e) => {
+    this.sub1=this.cartSer.getCart().subscribe((e) => {
       console.log(e.product);
 
       this.data = e;
@@ -65,7 +70,7 @@ export class CheckoutComponent {
     } else {
       console.log("Entered")
       if (this.isCash) {
-        this.cartSer
+        this.sub2=this.cartSer
           .addOrder({ address, zipcode, phone_number, governorate, product, customer_id, additional_data, totalPrice })
           .subscribe({
             next: (e) => {
@@ -87,7 +92,7 @@ export class CheckoutComponent {
           });
       } else {
         this.saveBillingDetails(address, zipcode, phone_number, governorate,additional_data)
-        this.cartSer.OnlinePayment({ address, zipcode, phone_number, governorate, product, customer_id, additional_data, totalPrice }).subscribe({
+        this.sub3=this.cartSer.OnlinePayment({ address, zipcode, phone_number, governorate, product, customer_id, additional_data, totalPrice }).subscribe({
           next: (e) => {
             console.log(e.data)
             console.log(this.BillingDetails)
@@ -110,6 +115,16 @@ export class CheckoutComponent {
     localStorage.setItem("BillingDetails",JSON.stringify(this.BillingDetails))
   }
 
-
+  ngOnDestroy(): void {
+    if(this.sub1){
+      this.sub1.unsubscribe()
+    }
+    if(this.sub2){
+      this.sub2.unsubscribe()
+    }
+    if(this.sub3){
+      this.sub3.unsubscribe()
+    }
+  }
 
 }

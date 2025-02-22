@@ -48,6 +48,7 @@ import { ProfileComponent as ClerkPofileComponent } from './clerk/profile/profil
 
 import { SuccessComponent } from './customer/payment/success/success.component';
 import { FailedComponent } from './customer/payment/failed/failed.component';
+import { ReceiptComponent } from './clerk/cashier/receipt/receipt.component';
 
 
 export const routes: Routes = [
@@ -132,6 +133,7 @@ export const routes: Routes = [
                 {path:'products',redirectTo:"/products/1",pathMatch:'full'},
                 {path:'products/:page',component:ProductsBranchComponent},
                 {path:'cashier/order/:page',component:cashierComponent},
+                {path:'cashier/order/receipt/print',component:ReceiptComponent},
                 {path:'orders',redirectTo:"/orders/1",pathMatch:'full'},
                 {path:'orders/:page',component:BranchOrdersComponent},
                 {path:'profile',component:ClerkPofileComponent},

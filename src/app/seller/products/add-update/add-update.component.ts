@@ -71,7 +71,7 @@ export class AddUpdateComponent implements OnInit, OnChanges {
       ]),
       show: new FormControl(this.selectedProduct.show, [Validators.required]),
       status: new FormControl('active'),
-      seller_id: new FormControl(this.selectedProduct.seller_id, [Validators.required]),
+      seller_id: new FormControl(this.selectedProduct.seller_id),
       categories: new FormControl(this.selectedCategories, [Validators.required]),
     });
     this.loadCategories();

@@ -138,13 +138,19 @@ branches:Branch[]=[];
     showAddBranch()
     {
       this.isAddingBranch = true;  
+      this.isEditMode = false;
+      this.NewBranchLocation = '';
+      this.NewBranchName = '';
+    
+    
+      this.openEditModal();
 
     } saveBranch()
     {
-      if (!(this.NewBranchName.trim()||this.NewBranchLocation.trim())) {  
-        this.toastr.error("branch name or location cannot be empty!");  
+      if (!(this.NewBranchName.trim() && this.NewBranchLocation.trim())) {  
+        this.toastr.error("Branch name or location cannot be empty!");  
         return;  
-      }  
+    }  
     
       this.branchservice.addBranch({
   name: this.NewBranchName,
@@ -152,10 +158,12 @@ branches:Branch[]=[];
       } ).subscribe({  
         next: (response) => {  
           this.toastr.success("branch added successfully!");  
+          this.loadBranches(this.currentPage);  
+          this.closeModal();
           this.isAddingBranch = false;  
           this.NewBranchName = '';  
           this.NewBranchLocation='';
-          this.loadBranches(this.currentPage);  
+         
         },  
         error: () => {  
           this.toastr.error("Failed to add branch.");  
@@ -168,14 +176,18 @@ branches:Branch[]=[];
       this.NewBranchName = branch.name;  
       this.NewBranchLocation = branch.location;  
       this.selectedBranchId = branch.branch_id;  
+      this.openEditModal();
     }
     UpdateBranch()
     {
       
-      if (!(this.NewBranchName.trim()||this.NewBranchLocation.trim())) {  
-        this.toastr.error("branch name or location cannot be empty!");  
+      if (!(this.NewBranchName.trim() && this.NewBranchLocation.trim())) {  
+        this.toastr.error("Branch name or location cannot be empty!");  
         return;  
-      }  
+    }  
+    
+    
+    
     this.isEditMode=true;
       this.branchservice.updateBranch(this.selectedBranchId,{
   name: this.NewBranchName,
@@ -183,11 +195,13 @@ branches:Branch[]=[];
       } ).subscribe({  
         next: (response) => {  
           this.toastr.success("Branch Updated Successfully!");  
+          this.loadBranches(this.currentPage);  
+          this.closeModal();
           this.isAddingBranch = false;  
           this.isEditMode=false;
           this.NewBranchName = '';  
           this.NewBranchLocation='';
-          this.loadBranches(this.currentPage);  
+       
         },  
         error: () => {  
           this.toastr.error("Failed to add branch.");  
@@ -202,5 +216,25 @@ branches:Branch[]=[];
   this.NewBranchLocation = '';  
   this.selectedBranchId = '';
 
+     }
+     openEditModal() {
+       const modalElement = document.getElementById('branchModal');
+       if (!modalElement) {
+         console.error('Modal element not found!');
+         return;
+       }
+       if (modalElement) {
+         const modal = new bootstrap.Modal(modalElement);
+         modal.show();
+       }
+     }
+     closeModal() {
+       let modal = document.getElementById('branchModal');
+       if (modal) {
+         let modalInstance = bootstrap.Modal.getInstance(modal);
+         if (modalInstance) {
+           modalInstance.hide();
+         }
+       }
      }
 }

@@ -133,13 +133,16 @@ categories:Category[]=[];
     scrollToTop(): void {
       this.viewPortScroller.scrollToPosition([0, 0])
     }
-     FillCategoryToEdit(category: Category) {
-          this.isAddingCategory = true;  
-          this.isEditMode = true;  
-          this.NewCategoryName = category.name;  
-          
-          this.selectedCategoryId = category.category_id;  
-        }
+    FillCategoryToEdit(category: Category) {
+      this.isAddingCategory = true;
+      this.isEditMode = true;
+      this.NewCategoryName = category.name;
+      this.selectedCategoryId = category.category_id;
+    
+   
+      this.openEditModal();
+    }
+    
         UpdateCategory()
     {
       
@@ -154,11 +157,15 @@ categories:Category[]=[];
       } ).subscribe({  
         next: (response) => {  
           this.toastr.success("category Updated Successfully!");  
+          this.closeModal();
+          this.loadCategories(this.currentPage);   
           this.isAddingCategory = false;  
           this.isEditMode=false;
           this.NewCategoryName = '';  
     
-          this.loadCategories(this.currentPage);  
+         
+         
+
         },  
         error: () => {  
           this.toastr.error("Failed to add category.");  
@@ -167,8 +174,15 @@ categories:Category[]=[];
     }
     showAddCategory()
     {
-      this.isAddingCategory = true;  
-
+    
+        this.isAddingCategory = true;
+        this.isEditMode = false;
+        this.NewCategoryName = '';
+      
+      
+        this.openEditModal();
+      
+      
     } saveCategory()
     {
       if (!this.NewCategoryName.trim()) {  
@@ -179,9 +193,12 @@ categories:Category[]=[];
       this.categoryservice.addCategory(this.NewCategoryName ).subscribe({  
         next: (response) => {  
           this.toastr.success("Category added successfully!");  
+          this.loadCategories(this.currentPage);  
+          this.closeModal(); 
           this.isAddingCategory = false;  
           this.NewCategoryName = '';  
-          this.loadCategories(this.currentPage);  
+          
+
         },  
         error: () => {  
           this.toastr.error("Failed to add category.");  
@@ -197,4 +214,27 @@ categories:Category[]=[];
   
   this.selectedCategoryId = '';
      }
+      
+
+openEditModal() {
+  const modalElement = document.getElementById('categoryModal');
+  if (!modalElement) {
+    console.error('Modal element not found!');
+    return;
+  }
+  if (modalElement) {
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+}
+closeModal() {
+  let modal = document.getElementById('categoryModal');
+  if (modal) {
+    let modalInstance = bootstrap.Modal.getInstance(modal);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  }
+}
+
 }

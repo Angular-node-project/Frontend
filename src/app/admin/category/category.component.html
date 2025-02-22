@@ -1,15 +1,9 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
-      <button class="btn btn-success rounded-0" title="Add Category" *ngIf="!isAddingCategory" (click)="showAddCategory()">
+      <button class="btn btn-success rounded-0" title="Add Category" (click)="showAddCategory()">
         Add Category
       </button>
-      <div *ngIf="isAddingCategory" class="add-category-box">
-        <input type="text" [(ngModel)]="NewCategoryName" placeholder="Enter category name" class="form-control">
-        <button class="btn btn-success rounded-0" (click)="isEditMode ? UpdateCategory() : saveCategory()">
-          {{ isEditMode ? 'Update' : 'Save' }}
-        </button>
-        <button class="btn btn-secondary  rounded-0" (click)="cancelAddCategory()">Cancel</button>
-      </div>
+      
       <div class="search-box">
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search Categories">
@@ -100,3 +94,23 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content rounded-0">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ isEditMode ? 'Edit Category' : 'Add Category' }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" [(ngModel)]="NewCategoryName" placeholder="Enter category name" class="form-control">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success rounded-0" (click)="isEditMode ? UpdateCategory() : saveCategory()">
+            {{ isEditMode ? 'Update' : 'Save' }}
+          </button>
+          <button class="btn btn-secondary rounded-0" data-bs-dismiss="modal" (click)="cancelAddCategory()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

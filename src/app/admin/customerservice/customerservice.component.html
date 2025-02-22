@@ -28,16 +28,12 @@
           
             <td class="actions">
               <div class="btn-group">
-              
-                <button class="btn btn-success btn-sm rounded-0"  title="Send Email" *ngIf="!isSendingEmail" (click)="showSendEmail()" 
-                [disabled]="message.status === 'resolved'" >
-                  <i class="fa-solid fa-comment"></i>
-                </button>
-                <div *ngIf="isSendingEmail" class="add-category-box">
-                    <input type="text" [(ngModel)]="NewEmail" placeholder="Enter Your Message" class="form-control">
-                    <button class="btn btn-success rounded-0 " (click)="saveEmail(message.email)">Send</button>
-                    <button class="btn btn-secondary  rounded-0" (click)="cancelSend()">Cancel</button>
-                  </div>
+                <button class="btn btn-success btn-sm rounded-0" title="Send Email"
+                (click)="showSendEmail(message.email)" [disabled]="message.status === 'resolved'"
+                data-bs-toggle="modal" data-bs-target="#sendEmailModal">
+          <i class="fa-solid fa-comment"></i>
+        </button>
+        
              
               
             
@@ -76,4 +72,21 @@
   </div>
   
  
-  
+ 
+<div class="modal fade" id="sendEmailModal" tabindex="-1" aria-labelledby="sendEmailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sendEmailModalLabel">Send Email</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" [(ngModel)]="NewEmail" placeholder="Enter Your Message" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" (click)="saveEmail(selectedEmail)">Send</button>
+      </div>
+    </div>
+  </div>
+</div>

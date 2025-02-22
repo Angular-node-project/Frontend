@@ -32,6 +32,10 @@ export class ProductService {
     return result;
 
    }
+   getTopNewThreeProducts():Observable<Response<Product[]>>{
+    var result= this.http.get<Response<Product[]>>(`${this.baseUrl}/top/new`);
+    return result;
+   } 
 
    
 }

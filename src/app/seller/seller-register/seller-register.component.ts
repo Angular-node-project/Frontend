@@ -26,13 +26,17 @@ export class SellerRegisterComponent implements OnDestroy {
   sub!: Subscription;
   form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$')]),
     national_id: new FormControl('', [
       Validators.required,
       // Validators.pattern(/^\d{15}$/) 
     ]),
     registeration_number: new FormControl(''),
-    phone_number: new FormControl('', [Validators.required]),
+    phone_number: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]{11,}$')
+    ])
+    
   });
 
 

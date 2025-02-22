@@ -39,7 +39,7 @@ branches:Branch[]=[]
       
       this.clerkBranchForm = this.fb.group({
         name: [this.clerkBranchData.name || '',[Validators.required, Validators.minLength(3)]],
-        email: [this.clerkBranchData.email || '',[Validators.required,Validators.email]],
+        email: [this.clerkBranchData.email || '',[Validators.required ,Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$')]],
         role: [this.clerkBranchData.role || '',[Validators.required]],
         branch: [this.branches.find(b => b.branch_id === this.clerkBranchData.branch?.branch_id) || null,[Validators.required]]
       });
@@ -64,7 +64,8 @@ branches:Branch[]=[]
       
         this.clerkBranchForm = this.fb.group({
           name: ['', [Validators.required, Validators.minLength(3)]],
-          email: ['', [Validators.required, Validators.email]],
+          email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$')]],
+
           role: ['', Validators.required],
           branch: [null, Validators.required] 
         });

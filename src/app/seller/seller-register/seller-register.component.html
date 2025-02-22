@@ -17,8 +17,8 @@
                 <div>
                     <label>Phone</label>
                     <input type="text" placeholder="phone" formControlName="phone_number">
-                    <div *ngIf="form.get('phone_number')?.touched && form.get('phone_number')?.invalid" class="error-message">
-                        <div *ngIf="form.get('phone_number')?.errors?.['required']">phone_number is required</div>
+                    <div *ngIf="form.get('phone_number')?.touched && form.get('phone_number')?.invalid" class="error-message">        
+                            Enter a valid Number.
                     </div>
                 </div>
 
@@ -30,8 +30,11 @@
                     <label>Email</label>
                     <input type="email" placeholder="admin@gmail.com" formControlName="email">
                     <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="error-message">
-                        <div *ngIf="form.get('email')?.errors?.['required']">email is required</div>
-                        <div *ngIf="form.get('email')?.errors?.['email']">please enter valid email</div>
+                    <!--    <div *ngIf="form.get('email')?.errors?.['required']">email is required</div>
+                        <div *ngIf="form.get('email')?.errors?.['email']">please enter valid email</div> -->
+                        <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="error-message">
+                            Enter a valid email.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,7 +42,7 @@
                 <label>National ID</label>
                 <input type="text" placeholder="29810051201313" formControlName="national_id">
                 <div *ngIf="form.get('national_id')?.touched && form.get('national_id')?.invalid" class="error-message">
-                    <div *ngIf="form.get('national_id')?.errors?.['required']">nationa_id is required</div>
+                    <div *ngIf="form.get('national_id')?.errors?.['required']">Nationa Id is required</div>
                     <!-- <div *ngIf="form.get('national_id')?.errors?.['pattern']">nationa_id must be more than 15 num</div> -->
                 </div>
 

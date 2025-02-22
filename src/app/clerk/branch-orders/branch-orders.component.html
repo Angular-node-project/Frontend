@@ -12,7 +12,7 @@
       <table class="table table-hover">
         <thead class="table-dark">
           <tr>
-            <th>Order ID</th>
+           
            
             <th>Name</th>
             <th>Total</th>
@@ -23,8 +23,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let branchorder of filteredBranchOrders()">
-            <td>{{branchorder.order_id}}</td>
-        
+           
 
             <td>{{ branchorder?.cashier_name }} {{ branchorder?.customer_name }}</td>
 

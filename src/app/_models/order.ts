@@ -1,8 +1,8 @@
 export class Order {
   constructor(
     public order_id:  string,
-    public customer_id:string,
-    public cashier_id: string,
+    public customer_id:string|null,
+    public cashier_id: string|null,
     public address: string,
     public governorate: string,
     public zipcode: number,

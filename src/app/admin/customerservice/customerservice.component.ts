@@ -29,6 +29,7 @@ export class CustomerserviceComponent implements OnInit {
     sub!: Subscription;
     status:string='';
     search:string='';
+    selectedEmail:string='';
     isSendingEmail: boolean = false
     NewEmail:string=''
      @Input() isSidebarOpen = false;
@@ -100,34 +101,38 @@ export class CustomerserviceComponent implements OnInit {
     scrollToTop(): void {
       this.viewPortScroller.scrollToPosition([0, 0])
     }
-    showSendEmail()
-    {
-      this.isSendingEmail = true;  
-
-    } 
-    saveEmail(email:string)
-    {
-      if (!this.NewEmail.trim()) {  
-        this.toastr.error("message name cannot be empty!");  
-        return;  
-      }  
-    
-      this.customerservice.SendMessaege(email,this.NewEmail ).subscribe({  
-        next: (response) => {  
-          this.toastr.success("Email Send successfully!");  
-          this.isSendingEmail = false;  
-          this.NewEmail = '';  
-          this.loadCategories(this.currentPage);  
-        },  
-        error: () => {  
-          this.toastr.error("Failed to Send Email.");  
-        }  
-      });  
+    showSendEmail(email: string) {
+      this.selectedEmail = email;
+      this.NewEmail = ''; 
     }
+    saveEmail(email: string) {
+      if (!this.NewEmail.trim()) {
+        this.toastr.error("Message cannot be empty!");
+        return;
+      }
+    
+      this.customerservice.SendMessaege(email, this.NewEmail).subscribe({
+        next: () => {
+          this.toastr.success("Email sent successfully!");
+          this.NewEmail = '';
+          this.loadCategories(this.currentPage);
+          
+          const modal = bootstrap.Modal.getInstance(document.getElementById('sendEmailModal'));
+          if (modal) modal.hide();
+        },
+        error: () => {
+          this.toastr.error("Failed to send email.");
+        }
+      });
+    }
+    
      cancelSend()
      {
       this.isSendingEmail = false;  
       this.NewEmail = '';  
 
      }
+    
+
+
 }

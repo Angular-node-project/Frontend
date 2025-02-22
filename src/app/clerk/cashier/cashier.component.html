@@ -2,7 +2,7 @@
   <div class="header-actions">
     <div>
       <button class="btn btn-success rounded-0 " (click)="show()">Make Order</button>
-      <button class="btn btn-success rounded-0 mx-5" (click)="testRecept()">print</button>
+      <button class="btn btn-success rounded-0 m-3" (click)="RemoveCashierCart()">Reset Cart</button>
     </div>
     <div class="search-box">
       <i class="fas fa-search"></i>
@@ -29,7 +29,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let product of products; let i = index">
-          @if (product.mainStock>0) {
+          @if (product.mainStock>0 && product.branch_qty>0) {
             <td>
               <input #refCheck class="form-check-input form-check-xl mx-3 rounded-0" style="width: 25px; height: 25px; border: 1px solid black;" type="checkbox" [checked]="isChecked(product.product_id)"
                 id="flexCheckDefault"
@@ -97,6 +97,7 @@
     <div class="modal-content rounded-0">
       <div class="modal-header">
         <h5 class="modal-title"> Order</h5>
+
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
@@ -109,7 +110,7 @@
               type="checkbox"
               value=""
               id=""
-              checked
+              #print
             />
             <label class="form-check-label " for=""> Print </label>
           </div>
@@ -128,7 +129,7 @@
 
           <div class="d-flex justify-content-between mb-3">
             <span class="text-muted">Total</span>
-            <span>${{TotalAmount}}</span>
+            <span>${{(TotalAmount).toFixed(2)}}</span>
           </div>
 
 
@@ -224,7 +225,7 @@
           </form>
 
           <div class="d-grid gap-2">
-            <button type="button" name="" id="" class="btn btn-success form-control" (click)="createOrder(form.value,addinfo.value)">
+            <button type="button" name="" id="" class="btn btn-success form-control" [disabled]="cashierProducts.length==0?true:false" (click)="createOrder(form.value,addinfo.value,print.checked)">
               Order
             </button>
           </div>
@@ -236,4 +237,3 @@
 
   <!-- <app-print-receipt [receipt]="receipt" #printReceipt></app-print-receipt> -->
   <!-- <button (click)="">Print Receipt</button> -->
-<app-receipt [test]="5"  ></app-receipt>

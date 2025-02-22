@@ -149,6 +149,11 @@ export class CahierComponent implements OnDestroy {
     }
   }
 
+  saveReceipt(data:any){
+    let products = JSON.stringify(data)
+    localStorage.setItem('Receipt', products)
+  }
+
   save() {
     this.TotalAmount = 0
     this.cashierProducts.forEach(p => {
@@ -173,6 +178,7 @@ export class CahierComponent implements OnDestroy {
   }
   RemoveCashierCart() {
     localStorage.removeItem("CashierCart")
+    this.TotalAmount=0
   }
 
   IncreaseDecrease(productid: string, qty: number) {
@@ -218,7 +224,7 @@ export class CahierComponent implements OnDestroy {
     }}
 
   //* Making orders
-  createOrder(data: any, addInfo: string) {
+  createOrder(data: any, addInfo: string,isprint:boolean) {
 
     this.getCashierCart();
     console.log(this.cashierProducts)
@@ -227,6 +233,8 @@ export class CahierComponent implements OnDestroy {
     let zipcode = data.zipCode
     let phone_number = data.phone_number||" "
     let additional_data = addInfo||" ";
+    let isPrint=isprint
+    console.log(isPrint)
     //     public product:{,name:string,qty:number,price:number,_id:string,pic_path:[string]}[],
     let product = this.cashierProducts.map(p => {
       return {
@@ -245,14 +253,18 @@ export class CahierComponent implements OnDestroy {
       .subscribe({
         next: (e) => {
           if (e.data.success) {
+            if(isPrint){
+              this.saveReceipt({ address, zipcode, phone_number, governorate, product, additional_data, totalPrice })
+            }
             this.RemoveCashierCart()
-            console.log(e)
+            console.log(e.data)
             this.loadProducts2(this.currentPage)
             this.form.reset()
             this.TotalAmount = 0;
             this.toastr.success(e.message)
             this.closeModal()
-            // window.print()
+            if(isPrint)
+             window.open("clerk/cashier/order/receipt/print")
           } else {
             this.getCashierCart();
             console.log("*********************************")

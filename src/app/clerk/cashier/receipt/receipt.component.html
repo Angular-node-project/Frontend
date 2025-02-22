@@ -1,3 +1,62 @@
-<p>receipt works!</p>
-<h1>{{data}}</h1>
-<h1>555</h1>
+  <div class="invoice-container">
+      <div class="header">
+          <div class="company-name">Invoice </div>
+          <div>{{clerkBranchData?.branch?.name}}</div>
+      </div>
+
+      <div class="invoice-info">
+          <div class="billing-details">
+              <h3>Billed To:</h3>
+              <p>
+              Add:{{Receipt?.address}}<br>
+              Gov:{{Receipt?.governorate}} , {{Receipt?.zipcode}}<br>
+              Ph:{{Receipt?.phone_number}}</p>
+          </div>
+
+          <div>
+              <h3>Invoice Details</h3>
+              Date: {{ currentTimestamp | date:'medium' }}<br>
+              cashier: {{ clerkBranchData?.name }}<br>
+          </div>
+      </div>
+
+      <table class="items-table">
+          <thead>
+              <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+              </tr>
+          </thead>
+          <tbody>
+            @for (item of Receipt?.product; track item.product_id) {
+              <tr>
+                <td>{{item.name}}</td>
+                <td>${{(item.price).toFixed(2)}}</td>
+                <td>{{item.qty}}</td>
+                <td>${{item.qty*item.price}}</td>
+            </tr>
+            }
+
+
+          </tbody>
+      </table>
+
+      <div class="total-section">
+
+          <div class="total-line grand-total">
+              Grand Total: <span class="highlight">${{Receipt?.totalPrice}}</span>
+          </div>
+      </div>
+
+      <div>
+        <p> Notes</p>
+        <p>{{Receipt?.additional_data}}</p>
+      </div>
+      <div class="footer">
+          <p>Thank you for your purchase!<br>
+          Payment due within 30 days<br>
+          Make checks payable to E-Plant LLC</p>
+      </div>
+  </div>

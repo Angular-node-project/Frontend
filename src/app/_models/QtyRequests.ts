@@ -11,3 +11,10 @@ export class QtyRequest{
       
     ){}
 }
+export class QtyRequestClerk{
+    constructor(
+        public product_id:string,
+        public  product_name:string,
+        public requiredQty:number
+    ){}
+}

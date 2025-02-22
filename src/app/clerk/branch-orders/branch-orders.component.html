@@ -27,7 +27,7 @@
 
             <td>{{ branchorder?.cashier_name }} {{ branchorder?.customer_name }}</td>
 
-            <td>{{branchorder.totalPrice}}</td>
+            <td>{{branchorder.totalPrice|currency }}</td>
             <td>
               {{ branchorder.customer_id && branchorder.customer_id.length > 0 ? 'Online' : 'Offline' }}
             </td>

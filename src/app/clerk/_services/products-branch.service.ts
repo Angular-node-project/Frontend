@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment'
 import { Observable } from 'rxjs';
 import { Product } from 'src/app/_models/product';
-import { QtyRequest } from 'src/app/_models/QtyRequests';
+import { QtyRequest, QtyRequestClerk } from 'src/app/_models/QtyRequests';
 import { Response } from 'src/app/_models/response';
 
 @Injectable({
@@ -23,9 +23,14 @@ export class ProductsBranchService {
       return result;
     }
 
-    addQtyRequests(qtyRequests:QtyRequest[]):Observable<Response<any>>{
+    addQtyRequests(qtyRequests:QtyRequestClerk[]):Observable<Response<any>>{
       var result=this.http.post<Response<any>>(`${this.baseUrl}/qty/request`,qtyRequests);
       return result;
+    }
+    getProductBranchQty(product_id:string):Observable<Response<number>>{
+      var result=this.http.get<Response<number>>(`${this.baseUrl}/qty?product_id=${product_id}`);
+        return result;
+      
     }
 
 }

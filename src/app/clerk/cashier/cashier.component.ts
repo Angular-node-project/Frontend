@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { CashierProduct, ProductResponse } from 'src/app/_models/product';
@@ -9,11 +9,13 @@ import { ProductService } from 'src/app/admin/_services/products.services';
 import { CommonModule, ViewportScroller } from '@angular/common';
 export declare const bootstrap: any;
 import { ProductsBranchService } from '../_services/products-branch.service';
+import { ReceiptComponent } from "./receipt/receipt.component";
+import { Modal } from 'bootstrap';
 
 
 @Component({
   selector: 'app-cahier',
-  imports: [FormsModule, CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, RouterLink, ReactiveFormsModule, ReceiptComponent],
   templateUrl: './cashier.component.html',
   styleUrl: './cashier.component.css'
 })
@@ -42,16 +44,20 @@ export class CahierComponent implements OnDestroy {
   testRecept() {
 
     // console.log(this.receipt)
-    this.receipt = { name: "s" }
-    window.open("admin/cashier/p/print", "")
+    this.cahierService.testing={name:"Ali"}
+    this.cahierService.setData(5)
+    // window.open("clerk/cashier/order/receipt/print", "_blank")
+
+     this.router.navigate(['clerk/cashier/order/receipt/print'])
+
   }
 
   form: FormGroup = new FormGroup({
-    Address: new FormControl('', [Validators.required]),
+    Address: new FormControl('', []),
     AdditionalInfo: new FormControl('', []),
-    city: new FormControl('', [Validators.required]),
-    zipCode: new FormControl('', [Validators.required, Validators.minLength(5), Validators.pattern(/^\d{5,}$/)]),
-    phone_number: new FormControl('', [Validators.required, Validators.pattern(/^(011|012|010|015)\d{8}$/)]),
+    city: new FormControl('', []),
+    zipCode: new FormControl('', []),
+    phone_number: new FormControl('', []),
 
   });
 
@@ -61,7 +67,8 @@ export class CahierComponent implements OnDestroy {
     private route: ActivatedRoute,
     private cahierService: CashierService,
     private toastr: ToastrService,
-    private productBranchService: ProductsBranchService
+    private productBranchService: ProductsBranchService,
+    private router: Router
 
   ) { }
 
@@ -115,29 +122,6 @@ export class CahierComponent implements OnDestroy {
       }
     })
   }
-  // loadProducts(page: number): void {
-  //   this.productservice.getAllProducts(page, this.selectedSort, this.selectedCategory, "active", this.search).subscribe({
-  //     next: (response) => {
-  //       console.log(response)
-  //       this.products = response.data.products;
-  //       this.products.forEach(p => {
-  //         p.branch_qty = p.qty
-  //         p.qty = 1;
-  //       })
-  //       this.totalPages = response.data.totalPages;
-  //       this.totalResults = response.data.totalProductsCount;
-  //       this.scrollToTop();
-  //       this.isLoading = false;
-  //     },
-  //     error: () => {
-  //       console.log('Error loading products');
-  //       this.isLoading = true;
-  //     },
-  //     complete: () => {
-  //       this.isLoading = false;
-  //     }
-  //   });
-  // }
 
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
@@ -226,16 +210,23 @@ export class CahierComponent implements OnDestroy {
     }
   }
 
+  closeModal() {
+    const modalElement = document.getElementById('productModal');
+    if (modalElement) {
+      const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+      modal.hide();
+    }}
+
   //* Making orders
   createOrder(data: any, addInfo: string) {
 
     this.getCashierCart();
     console.log(this.cashierProducts)
-    let address = data.Address
-    let governorate = data.city
+    let address = data.Address ||" "
+    let governorate = data.city ||" "
     let zipcode = data.zipCode
-    let phone_number = data.phone_number
-    let additional_data = addInfo;
+    let phone_number = data.phone_number||" "
+    let additional_data = addInfo||" ";
     //     public product:{,name:string,qty:number,price:number,_id:string,pic_path:[string]}[],
     let product = this.cashierProducts.map(p => {
       return {
@@ -260,6 +251,7 @@ export class CahierComponent implements OnDestroy {
             this.form.reset()
             this.TotalAmount = 0;
             this.toastr.success(e.message)
+            this.closeModal()
             // window.print()
           } else {
             this.getCashierCart();

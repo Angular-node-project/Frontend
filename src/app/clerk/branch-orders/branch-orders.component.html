@@ -42,7 +42,7 @@
                 <i class="fa-solid fa-eye"></i>
               </button>
 
-              <button class="btn btn-warning btn-sm rounded-0" (click)="changeStatus(branchorder.order_id,orderstatuses[branchorder.status])" [title]="orderstatusesTitels[branchorder.status]">
+              <button class="btn btn-warning btn-sm rounded-0" [disabled]="branchorder.status=='delivered'?true:false" (click)="changeStatus(branchorder.order_id,orderstatuses[branchorder.status])" [title]="orderstatusesTitels[branchorder.status]">
                 <i class="fa-solid fa-check"></i>
               </button>
 

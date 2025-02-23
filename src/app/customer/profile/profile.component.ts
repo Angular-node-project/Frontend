@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { CustomerProfileInfo, UpdatedCustomerProfileInfo } from 'src/app/_models/customer';
@@ -18,26 +18,27 @@ import { Subscription } from 'rxjs';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit,OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
 
-  isName=true;
-  isAddress=true;
-  isphone=true;
+  isName = true;
+  isAddress = true;
+  isphone = true;
 
-  sub1!:Subscription
-  sub2!:Subscription
-  sub3!:Subscription
+  sub1!: Subscription
+  sub2!: Subscription
+  sub3!: Subscription
+  sub4!: Subscription
 
 
-  validateName(){
-    this.isName= this.adminProfile.name.trim().length>=6
+  validateName() {
+    this.isName = this.adminProfile.name.trim().length >= 6
   }
-  validateAddress(){
-    this.isAddress= this.adminProfile.address.trim().length>=6
+  validateAddress() {
+    this.isAddress = this.adminProfile.address.trim().length >= 6
   }
-  validatePhone(){
+  validatePhone() {
     const pattern = /^(011|012|010|015)\d{8}$/;
-    this.isphone= pattern.test(this.adminProfile.phone.trim())
+    this.isphone = pattern.test(this.adminProfile.phone.trim())
   }
 
 
@@ -55,9 +56,9 @@ export class ProfileComponent implements OnInit,OnDestroy {
   selectedTab: string = 'profile'; // Default tab
 
 
-  constructor(private customerService: AuthCustomerService, private toastr: ToastrService, private cartService: CartService) { }
+  constructor(private customerService: AuthCustomerService,private viewPortScroller:ViewportScroller, private toastr: ToastrService, private cartService: CartService) { }
   ngOnInit(): void {
-    this.sub1=this.customerService.getProfileInfo().subscribe(
+    this.sub1 = this.customerService.getProfileInfo().subscribe(
       {
         next: (e) => {
           this.adminProfile.name = e.data.name
@@ -69,15 +70,19 @@ export class ProfileComponent implements OnInit,OnDestroy {
       }
     )
 
-    this.sub2=this.cartService.getOrder().subscribe({
+  this.loadCustomerOrder();
+
+  }
+
+  loadCustomerOrder(){
+    this.sub2 = this.cartService.getOrder().subscribe({
       next: (e) => {
         this.orders = e.data
-        this.orders.forEach(o=>{
-          o.createdAt=formatDate(o.createdAt, 'yyyy-MM-dd', 'en-US');
+        this.orders.forEach(o => {
+          o.createdAt = formatDate(o.createdAt, 'yyyy-MM-dd', 'en-US');
         })
       }
     })
-
   }
 
   selectTab(tab: string) {
@@ -86,7 +91,7 @@ export class ProfileComponent implements OnInit,OnDestroy {
 
   saveProfile(currentPassword: string, newPassword: string) {
 
-    if(this.isAddress && this.isName && this.isphone){
+    if (this.isAddress && this.isName && this.isphone) {
       if ((currentPassword.trim().length >= 6 && newPassword.trim().length >= 6) || (currentPassword.trim().length == 0 && newPassword.trim().length == 0)) {
         let updatedprofile: UpdatedCustomerProfileInfo = {
           // customer_id:"7a3f6369-37c9-4b00-b9a3-b6181a54eb0e",
@@ -98,14 +103,16 @@ export class ProfileComponent implements OnInit,OnDestroy {
           currentPassword: currentPassword,
           newPassword: newPassword
         }
-        this.sub3=this.customerService.updateProfileInfoWithPassword(updatedprofile).subscribe({
+        this.sub3 = this.customerService.updateProfileInfoWithPassword(updatedprofile).subscribe({
           next: (e) => {
             console.log(e);
             if (e.status != 201) {
               this.toastr.error(e.message)
             } else {
+              
               this.toastr.success(e.message)
             }
+            this.scrollToTop();
             this.adminProfile.name = e.data.name
             this.adminProfile.address = e.data.address
             this.adminProfile.phone = e.data.phone_number
@@ -157,20 +164,38 @@ export class ProfileComponent implements OnInit,OnDestroy {
     }
   }
 
+  cancelOrder(order_id: string) {
+    this.sub4 = this.customerService.cancelOrder(order_id).subscribe({
+      next: (value) => {
+        this.scrollToTop();
+        this.toastr.success("order  cancelled successfully");
+        this.loadCustomerOrder();
+      },
+      error: (err) => {
+        this.scrollToTop();
+        this.toastr.error(err.error.message);
+        this.loadCustomerOrder();
+      }
+    })
+  }
+
   ngOnDestroy(): void {
-    if(this.sub1){
+    if (this.sub1) {
       this.sub1.unsubscribe()
     }
-    if(this.sub2){
+    if (this.sub2) {
       this.sub2.unsubscribe()
     }
-    if(this.sub3){
+    if (this.sub3) {
       this.sub3.unsubscribe()
     }
   }
 
 
 
+  scrollToTop(): void {
+    this.viewPortScroller.scrollToPosition([0, 0]);
+  }
 
 }
 

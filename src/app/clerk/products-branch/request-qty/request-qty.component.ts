@@ -5,7 +5,7 @@ import { ProductsBranchService } from '../../_services/products-branch.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from 'src/app/_models/product';
-import { QtyRequest } from 'src/app/_models/QtyRequests';
+import { QtyRequest, QtyRequestClerk } from 'src/app/_models/QtyRequests';
 
 @Component({
   selector: 'app-request-qty',
@@ -21,12 +21,13 @@ export class RequestQtyComponent implements OnInit ,OnDestroy ,OnChanges{
 
   @Output() saveRequests =new EventEmitter<any>();
   sub!: Subscription;
-  addedItems: QtyRequest[] = [];
+  addedItems: QtyRequestClerk[] = [];
   products: Product[] = [];
   selectedProduct!: Product;
   selectedProductQty!: number;
   qty!: number;
   sub2!:Subscription;
+  sub3!:Subscription;
 
   ngOnInit(): void {
     this.sub = this.productBranchService.getAllActiveProducts().subscribe({
@@ -64,12 +65,7 @@ export class RequestQtyComponent implements OnInit ,OnDestroy ,OnChanges{
           this.addedItems.push({
             product_id: this.selectedProduct.product_id,
             product_name: this.selectedProduct.name,
-            requiredQty: this.qty,
-            status:"pending",
-            branch:{branch_id:'',name:''},
-             requesterClerk:{clerk_id:'',name:''},
-             request_id:'',
-            acceptedQty:this.qty,
+            requiredQty: this.qty
           });
         }
       }
@@ -84,7 +80,12 @@ export class RequestQtyComponent implements OnInit ,OnDestroy ,OnChanges{
     this.addedItems= this.addedItems.filter(b=>b.product_id!=id);
   }
   onselectProduct() {
-    this.selectedProductQty = this.selectedProduct.qty;
+    //this.selectedProductQty = this.selectedProduct.qty;
+    this.sub3=this.productBranchService.getProductBranchQty(this.selectedProduct.product_id).subscribe({
+      next:(res)=>{
+        this.selectedProductQty=res.data;
+      }
+    })
   }
 
   savaRequest(){

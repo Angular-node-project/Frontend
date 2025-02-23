@@ -23,6 +23,7 @@
             <th>Governorate</th>
             <th>Total</th>   
             <th>Type</th>  
+            <th>createdAt</th> 
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -37,6 +38,7 @@
             <td>
               {{ order.customer_id?'Online' : 'Offline' }}
             </td>
+            <td>{{order.createdAt|date}}</td>
             <td>{{order.status}}</td>
 
             <td class="actions">

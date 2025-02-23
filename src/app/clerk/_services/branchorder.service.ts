@@ -17,5 +17,14 @@ export class BranchOrderService {
     var result = this.http.get<any>(`${this.baseUrl}?page=${page}&status=${status}&search=${search}&branch_id=${branch_id}`);
     return result;
   }
+  changeStatus(order_id:string,status:string):Observable<Response<any>>{
+    var result = this.http.put<Response<any>>(`${this.baseUrl}/changestatus/${order_id}/${status}`,{});
+    return result;
+  }
+
+  cancelBranchOrder(order_id:string):Observable<Response<any>>{
+    var result = this.http.put<Response<any>>(`${this.baseUrl}/cancel/${order_id}/`,{});
+    return result;
+  }
   
 }

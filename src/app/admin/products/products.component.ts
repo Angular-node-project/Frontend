@@ -103,7 +103,7 @@ export class ProductsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error updating status:', err);
-        this.toastr.error("something went wrong");
+        this.toastr.error(err.error.message);
       }
     });
 

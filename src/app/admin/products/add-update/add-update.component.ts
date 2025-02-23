@@ -216,6 +216,10 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
       this.toastr.error("the qty added to branches must equal the total qty");
       return;
     }
+    if(this.imagePreviews.length<2){
+      this.toastr.error("product added should have atleast two pics");
+      return;
+    }
 
     var productData = {
       ...this.form.value,
@@ -250,7 +254,7 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
         },
         error: (error) => {
           console.error('Error adding product:', error);
-          this.toastr.success("something went wrong");
+          this.toastr.error("something went wrong");
         },
       });
     }

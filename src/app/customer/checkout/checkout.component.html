@@ -18,86 +18,91 @@
 
             <form [formGroup]="form" method="post">
 
-            <div class="row mx-2">
-              <div class="col-12 mb-4">
-                <div class="form-floating">
-                  <input required type="text" class="form-control" id="Address" #address placeholder="Address" formControlName="Address">
-                  <label for="Address">Address</label>
-                  <div *ngIf="form.get('Address')?.touched && form.get('Address')?.invalid" class="error-message">
-                    <div *ngIf="form.get('Address')?.errors?.['required']">Address is required</div>
+              <div class="row mx-2">
+                <div class="col-12 mb-4">
+                  <div class="form-floating">
+                    <input required type="text" class="form-control" id="Address" #address placeholder="Address"
+                      formControlName="Address">
+                    <label for="Address">Address</label>
+                    <div *ngIf="form.get('Address')?.touched && form.get('Address')?.invalid" class="error-message">
+                      <div *ngIf="form.get('Address')?.errors?.['required']">Address is required</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-6 mb-4">
-                <div class="form-floating">
-                  <select id="in-City" required class="form-select" #city  formControlName="city">
-                    <option value="">Select City</option>
-                    <option value="cairo">Cairo</option>
-                    <option value="alexandria">Alexandria</option>
-                    <option value="giza">Giza</option>
-                    <option value="qalyubia">Qalyubia</option>
-                    <option value="port_said">Port Said</option>
-                    <option value="suez">Suez</option>
-                    <option value="sharqia">Sharqia</option>
-                    <option value="dakahlia">Dakahlia</option>
-                    <option value="aswan">Aswan</option>
-                    <option value="asiyut">Asyut</option>
-                    <option value="beheira">Beheira</option>
-                    <option value="beni_suef">Beni Suef</option>
-                    <option value="fayoum">Fayoum</option>
-                    <option value="gharbia">Gharbia</option>
-                    <option value="ismailia">Ismailia</option>
-                    <option value="kafr_el_sheikh">Kafr El Sheikh</option>
-                    <option value="matruh">Matruh</option>
-                    <option value="minya">Minya</option>
-                    <option value="monufia">Monufia</option>
-                    <option value="new_valley">New Valley</option>
-                    <option value="north_sinai">North Sinai</option>
-                    <option value="qena">Qena</option>
-                    <option value="red_sea">Red Sea</option>
-                    <option value="sohag">Sohag</option>
-                    <option value="south_sinai">South Sinai</option>
-                    <option value="damietta">Damietta</option>
-                    <option value="luxor">Luxor</option>
-                  </select>
-                  <div *ngIf="form.get('city')?.touched && form.get('city')?.invalid" class="error-message">
-                    <div *ngIf="form.get('city')?.errors?.['required']">city is required</div>
-                  </div>
+                <div class="col-6 mb-4">
+                  <div class="form-floating">
+                    <select id="in-City" required class="form-select" #city formControlName="city">
+                      <option value="">Select City</option>
+                      <option value="cairo">Cairo</option>
+                      <option value="alexandria">Alexandria</option>
+                      <option value="giza">Giza</option>
+                      <option value="qalyubia">Qalyubia</option>
+                      <option value="port_said">Port Said</option>
+                      <option value="suez">Suez</option>
+                      <option value="sharqia">Sharqia</option>
+                      <option value="dakahlia">Dakahlia</option>
+                      <option value="aswan">Aswan</option>
+                      <option value="asiyut">Asyut</option>
+                      <option value="beheira">Beheira</option>
+                      <option value="beni_suef">Beni Suef</option>
+                      <option value="fayoum">Fayoum</option>
+                      <option value="gharbia">Gharbia</option>
+                      <option value="ismailia">Ismailia</option>
+                      <option value="kafr_el_sheikh">Kafr El Sheikh</option>
+                      <option value="matruh">Matruh</option>
+                      <option value="minya">Minya</option>
+                      <option value="monufia">Monufia</option>
+                      <option value="new_valley">New Valley</option>
+                      <option value="north_sinai">North Sinai</option>
+                      <option value="qena">Qena</option>
+                      <option value="red_sea">Red Sea</option>
+                      <option value="sohag">Sohag</option>
+                      <option value="south_sinai">South Sinai</option>
+                      <option value="damietta">Damietta</option>
+                      <option value="luxor">Luxor</option>
+                    </select>
+                    <div *ngIf="form.get('city')?.touched && form.get('city')?.invalid" class="error-message">
+                      <div *ngIf="form.get('city')?.errors?.['required']">city is required</div>
+                    </div>
 
-                  <!-- <label for="Governorate">Governorate</label> -->
-                </div>
-              </div>
-              <div class="col-6 mb-4">
-                <div class="form-floating">
-                  <input required type="text" class="form-control" id="ZipCode" placeholder="ZipCode" #zipCode  formControlName="zipCode">
-                  <label for="ZipCode">ZipCode</label>
-                </div>
-                <div *ngIf="form.get('zipCode')?.touched && form.get('zipCode')?.invalid" class="error-message">
-                  <div *ngIf="form.get('zipCode')?.errors?.['required']">zipCode is required</div>
-                  <div *ngIf="form.get('zipCode')?.errors?.['minlength']">zipCode min length is 5</div>
-                </div>
-              </div>
-              <div class="col-12 mb-4">
-                <div class="form-floating">
-                  <input required type="text" class="form-control" id="Phone Number" placeholder="Phone Number"
-                    #phoneNumber formControlName="phone_number">
-                  <label for="Phone Number">Phone Number</label>
-                  <div *ngIf="form.get('phone_number')?.touched && form.get('phone_number')?.invalid" class="error-message">
-                    <div *ngIf="form.get('phone_number')?.errors?.['required']">phone_number is required</div>
-                    <div *ngIf="form.get('phone_number')?.errors?.['pattern']">Phone Number Must Dtart with (010/011/012/015) followed by 8 digits</div>
+                    <!-- <label for="Governorate">Governorate</label> -->
                   </div>
                 </div>
-              </div>
-
-              <div class="col-12 mb-4">
-                <div class="form-floating ">
-                  <textarea #addinfo name="" id=""  rows="4" class="col-12 form-control"  placeholder="Additional Details"></textarea>
-                  <label for="Additional Details">Additional Details</label>
+                <div class="col-6 mb-4">
+                  <div class="form-floating">
+                    <input required type="text" class="form-control" id="ZipCode" placeholder="ZipCode" #zipCode
+                      formControlName="zipCode">
+                    <label for="ZipCode">ZipCode</label>
+                  </div>
+                  <div *ngIf="form.get('zipCode')?.touched && form.get('zipCode')?.invalid" class="error-message">
+                    <div *ngIf="form.get('zipCode')?.errors?.['required']">zipCode is required</div>
+                    <div *ngIf="form.get('zipCode')?.errors?.['minlength']">zipCode min length is 5</div>
+                  </div>
                 </div>
+                <div class="col-12 mb-4">
+                  <div class="form-floating">
+                    <input required type="text" class="form-control" id="Phone Number" placeholder="Phone Number"
+                      #phoneNumber formControlName="phone_number">
+                    <label for="Phone Number">Phone Number</label>
+                    <div *ngIf="form.get('phone_number')?.touched && form.get('phone_number')?.invalid"
+                      class="error-message">
+                      <div *ngIf="form.get('phone_number')?.errors?.['required']">phone_number is required</div>
+                      <div *ngIf="form.get('phone_number')?.errors?.['pattern']">Phone Number Must Dtart with
+                        (010/011/012/015) followed by 8 digits</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                  <div class="form-floating ">
+                    <textarea #addinfo name="" id="" class="col-12 form-control" placeholder="Additional Details"
+                      style="height: 120px;"></textarea>
+                    <label for="Additional Details">Additional Details</label>
+                  </div>
+                </div>
+
+
               </div>
-
-
-            </div>
 
             </form>
 
@@ -125,13 +130,15 @@
             <hr>
 
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="PaymentMethod" id="Online" value="Online" #online (change)="online.checked?isCash=false:isCash=true" >
+              <input class="form-check-input" type="radio" name="PaymentMethod" id="Online" value="Online" #online
+                (change)="online.checked?isCash=false:isCash=true">
               <label class="form-check-label" for="Online">
                 Online
               </label>
             </div>
             <div class="form-check ">
-              <input class="form-check-input" type="radio" #cash name="PaymentMethod" id="Cash" value="optionCash3" checked (change)="cash.checked?isCash=true:isCash=false">
+              <input class="form-check-input" type="radio" #cash name="PaymentMethod" id="Cash" value="optionCash3"
+                checked (change)="cash.checked?isCash=true:isCash=false">
               <label class="form-check-label" for="Cash">
                 Cash
               </label>

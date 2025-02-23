@@ -1,124 +1,127 @@
+<div class="products-container" [class.sidebar-open]="isSidebarOpen">
+  <div class="header-actions">
+    <select [(ngModel)]="selectedType" class="form-select w-25">
+      <option value="">All</option>
+      <option value="Online">Online</option>
+      <option value="Offline">Offline</option>
+    </select>
+  </div>
 
-<div class="products-container" [class.sidebar-open]="isSidebarOpen" >
-    <div class="header-actions">
-      <select [(ngModel)]="selectedType" class="form-select w-25">
-        <option value="">All</option>
-        <option value="Online">Online</option>
-        <option value="Offline">Offline</option>
-      </select>
-    </div>
-  
-    <div class="table-wrapper">
-      <table class="table table-hover">
-        <thead class="table-dark">
-          <tr>
-           
-           
-            <th>Name</th>
-            <th>Total</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let branchorder of filteredBranchOrders()">
-           
+  <div class="table-wrapper">
+    <table class="table table-hover">
+      <thead class="table-dark">
+        <tr>
 
-            <td>{{ branchorder?.cashier_name }} {{ branchorder?.customer_name }}</td>
 
-            <td>{{branchorder.totalPrice|currency }}</td>
-            <td>
-              {{ branchorder.customer_id && branchorder.customer_id.length > 0 ? 'Online' : 'Offline' }}
-            </td>
-            
-            <td>{{branchorder.status}}</td>
-       
-        
+          <th>Name</th>
+          <th>Total</th>
+          <th>Type</th>
+          <th>date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let branchorder of filteredBranchOrders()">
 
-            <td class="actions">
-              <div class="btn-group">
-                <button class="btn btn-success btn-sm rounded-0" (click)="openEditModal(branchorder)">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                
-                <button class="btn btn-danger btn-sm rounded-0">
-                  <i class="fa-solid fa-edit"></i>
-                </button>
-                
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-       <div *ngIf="!branchorders || branchorders.length === 0" class="text-center text-muted py-4">
-            <i class="fa-solid fa-exclamation-circle fa-2x"></i>
-            <p class="mt-2">No Branch Orders found.</p>
-           </div>
-    </div>
-  
-    <div class="pagination-wrapper">
-      <ul class="pagination">
-        <li class="page-item" [class.disabled]="currentPage === 1">
-          <a class="page-link rounded-0" [routerLink]="['/admin/order',currentPage-1]" >
-            <i class="fas fa-chevron-left"></i>
-          </a>
-        </li>
-        
-        <li class="page-item" *ngFor="let page of getPages()" 
-            [class.active]="page === currentPage">
-          <a class="page-link rounded-0"  [routerLink]="['/admin/order',page]">{{page}}</a>
-        </li>
-  
-        <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <a class="page-link rounded-0" (click)="changePage(currentPage + 1)">
-            <i class="fas fa-chevron-right"></i>
-          </a>
-        </li>
-      </ul>
+
+          <td>{{ branchorder?.cashier_name }} {{ branchorder?.customer_name }}</td>
+
+          <td>{{branchorder.totalPrice|currency }}</td>
+          <td>
+            {{ branchorder.customer_id && branchorder.customer_id.length > 0 ? 'Online' : 'Offline' }}
+          </td>
+
+          <td>{{branchorder.createdAt|date}}</td>
+          <td>{{branchorder.status}}</td>
+
+
+          <td class="actions">
+            <div class="btn-group">
+              <button class="btn btn-success btn-sm rounded-0" (click)="openEditModal(branchorder)" title="show order details">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+
+              <button class="btn btn-warning btn-sm rounded-0" (click)="changeStatus(branchorder.order_id,orderstatuses[branchorder.status])" [title]="orderstatusesTitels[branchorder.status]">
+                <i class="fa-solid fa-check"></i>
+              </button>
+
+              <button class="btn btn-danger btn-sm rounded-0" title="cancel order" (click)="cancelOrder(branchorder.order_id)" [disabled]="branchorder.status=='delivered'">
+                <i class="fa-solid fa-x"></i>
+              </button>
+
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="!branchorders || branchorders.length === 0" class="text-center text-muted py-4">
+      <i class="fa-solid fa-exclamation-circle fa-2x"></i>
+      <p class="mt-2">No Branch Orders found.</p>
+       
     </div>
   </div>
-  
- 
+
+  <div class="pagination-wrapper">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link rounded-0" [routerLink]="['/clerk/orders',currentPage-1]">
+          <i class="fas fa-chevron-left"></i>
+        </a>
+      </li>
+
+      <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
+        <a class="page-link rounded-0" [routerLink]="['/clerk/orders',page]">{{page}}</a>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link rounded-0" (click)="changePage(currentPage + 1)">
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
 
 
-  <div class="modal fade" id="orderDetailsModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content rounded-0">
-            <div class="modal-header">
-                <h5 class="modal-title">Order Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-hover">
-                  <thead class="table-dark">
-                    <tr>
-                      <th>Product Name</th>
-                      <th>Picture</th>
-                      <th>Qauntity</th>
-                      <th>Price</th>
-  
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let Branchorder of selectedBranchOrder?.orders">
-                      <td>{{ Branchorder.product.name }}</td>
-                      <td>
-                        <img [src]="Branchorder.product.pics[0]" alt="Product Image" width="70" height="70">
 
-                      </td>
-                     
-                      <td>{{ Branchorder.qty }}</td>
-                    
-                      <td>{{ Branchorder.product.price }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back to Orders</button>
-            </div>
-        </div>
+
+<div class="modal fade" id="orderDetailsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-0">
+      <div class="modal-header">
+        <h5 class="modal-title">Order Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>Product Name</th>
+              <th>Picture</th>
+              <th>Qauntity</th>
+              <th>Price</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let Branchorder of selectedBranchOrder?.orders">
+              <td>{{ Branchorder.product.name }}</td>
+              <td>
+                <img [src]="Branchorder.product.pics[0]" alt="Product Image" width="70" height="70">
+
+              </td>
+
+              <td>{{ Branchorder.qty }}</td>
+
+              <td>{{ Branchorder.product.price }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back to Orders</button>
+      </div>
     </div>
   </div>
-  
+</div>

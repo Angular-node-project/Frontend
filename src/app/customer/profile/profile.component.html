@@ -107,9 +107,9 @@
               </div>
             }
               <div class="order-footer">
-                <span class="total">${{item.totalPrice}}</span>
-               @if (item.status!="shipped" && item.status!="delivered" && item.status!="cancelled") {
-                <button class="reorder-button">
+                <span class="total">{{item.totalPrice|currency}}</span>
+               @if ( item.status!="delivered" && item.status!="cancelled") {
+                <button class="reorder-button" (click)="cancelOrder(item.order_id)">
                   <i class="fas fa-trash"></i> Cancel
                 </button>
                }

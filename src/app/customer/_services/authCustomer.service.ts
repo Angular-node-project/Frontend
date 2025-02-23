@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment'
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 import { CustomerLogin, CustomerProfileInfo } from 'src/app/_models/customer';
 import { Response } from 'src/app/_models/response';
 import { AuthService as AuthServiceGeneral } from 'src/app/_services/auth.service';
@@ -39,6 +39,10 @@ export class AuthCustomerService {
   }
   updateProfileInfoWithPassword(data:any){
     return this.http.put<{ status: number, message: string, data: any }>(`${this.baseUrl}/profile`,data)
+  }
+  cancelOrder(order_id:string):Observable<Response<any>>{
+    var res= this.http.put<Response<any>>(`${this.baseUrl}/cancel/order/${order_id}`,{});
+    return res;
   }
   
   logout(){

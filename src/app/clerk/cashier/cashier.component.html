@@ -31,7 +31,7 @@
         <tr *ngFor="let product of products; let i = index">
           @if (product.mainStock>0 && product.branch_qty>0) {
             <td>
-              <input #refCheck class="form-check-input form-check-xl mx-3 rounded-0" style="width: 25px; height: 25px; border: 1px solid black;" type="checkbox" [checked]="isChecked(product.product_id)"
+              <input #refCheck class="form-check-input  form-check-xl mx-3 rounded-0" style="width: 25px; height: 25px; border: 1px solid #5c9735;" type="checkbox" [checked]="isChecked(product.product_id)"
                 id="flexCheckDefault"
                 (change)="refCheck.checked? AddproductTocart(product,+product.qty):RemoveProductFromCart(product.product_id)">
             </td>
@@ -114,13 +114,13 @@
             />
             <label class="form-check-label " for=""> Print </label>
           </div>
-
+          <br>
         </div>
         <div>
           @for (item of cashierProducts; track item.product_id) {
           <div class="d-flex justify-content-between mb-3">
             <span class="text-muted">{{item.name}} x{{item.qty}} </span>
-            <img [src]="item.pics[0]" width="15%" height="15%" alt="Product image" srcset="">
+            <img [src]="item.pics[0]" width="100px" height="100px" alt="Product image" srcset="">
 
             <span>${{(item.price*item.qty).toFixed(2)}}</span>
           </div>

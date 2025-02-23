@@ -98,7 +98,7 @@ export class CahierComponent implements OnDestroy {
 
 
   loadProducts2(page: number): void {
-     this.sub1=this.productBranchService.getAllPaginatedProducts(page, '', this.search).subscribe({
+     this.sub1=this.productBranchService.getAllPaginatedProducts(page, 'active', this.search).subscribe({
       next: (res) => {
         console.log("********************************************")
         console.log(res);

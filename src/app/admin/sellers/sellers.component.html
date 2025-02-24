@@ -1,5 +1,7 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
+      <button class="btn btn-success rounded-0" title="New Branch Clerk" (click)="openAddModal()">New Seller
+      </button>
       <div class="search-box">
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search Sellers...">
@@ -31,10 +33,12 @@
             <td class="actions">
               <div class="btn-group">
                
+                <button class="btn btn-warning btn-sm rounded-0" title="active" (click)="FillSellerToEdit(seller)" >
+                  <i class="fa-solid fa-edit"></i>
+                </button>
                 <button class="btn btn-success btn-sm rounded-0" title="active" (click)="changeStatus(seller.seller_id,'active')" [disabled]="seller.status=='active'">
                   <i class="fa-solid fa-check"></i>
                 </button>
-              
              
                 <button class="btn btn-danger btn-sm rounded-0" title="deactive"  (click)="onDelete(seller.seller_id)"  [disabled]="seller.status=='inactive'">
                   <i class="fa-solid fa-cancel"></i>
@@ -94,3 +98,44 @@
       </div>
     </div>
   </div>
+  
+  <div class="modal fade" id="SellerModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form [formGroup]="sellerForm">
+            <label>Name:</label>
+            <input type="text" formControlName="name" placeholder="Enter seller name" class="form-control mb-3">
+            <div *ngIf="sellerForm.get('name')?.invalid && sellerForm.get('name')?.touched" class="text-danger">
+              Name is required (Min: 3 characters).
+            </div>
+        
+            <label>Email:</label>
+            <input type="text" formControlName="email" placeholder="Enter seller email" class="form-control mb-3">
+            <div *ngIf="sellerForm.get('email')?.invalid && sellerForm.get('email')?.touched" class="text-danger">
+              Invalid email format.
+            </div>
+        
+            <label>Phone Number:</label>
+            <input type="text" formControlName="phone_number" placeholder="Enter seller phone" class="form-control mb-3">
+            <div *ngIf="sellerForm.get('phone_number')?.invalid && sellerForm.get('phone_number')?.touched" class="text-danger">
+              Enter a valid phone number (10-15 digits).
+            </div>
+        
+            <label>National ID:</label>
+            <input type="text" formControlName="national_id" placeholder="Enter seller National ID" class="form-control mb-3">
+            <div *ngIf="sellerForm.get('national_id')?.invalid && sellerForm.get('national_id')?.touched" class="text-danger">
+              National ID must be exactly 14 digits.
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" (click)="saveSeller()" [disabled]="sellerForm.invalid">
+            {{ isEditMode ? 'Update' : 'Save' }}
+          </button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

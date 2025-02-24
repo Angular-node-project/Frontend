@@ -26,5 +26,15 @@ export class SellerService {
     var result = this.http.patch<any>(`${this.baseUrl}/changeStatus/${id}/${status}`,{});
     return result;
   }
+  AddSeller(seller:any):Observable<Response<any>>
+  {
+    var result = this.http.post<any>(`${this.baseUrl}/AddSeller`,seller);
+    return result;
+  }
+ UpdateSeller(sellerid:string, seller:any):Observable<Response<any>>
+  {
+    var result = this.http.patch<any>(`${this.baseUrl}/updateseller/${sellerid}`, seller);
+    return result;
+  }
 
 }

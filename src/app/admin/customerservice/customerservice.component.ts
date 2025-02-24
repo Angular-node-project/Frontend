@@ -36,7 +36,7 @@ export class CustomerserviceComponent implements OnInit {
     constructor(private customerservice:Customerservice,private route:ActivatedRoute,private viewPortScroller: ViewportScroller,private toastr: ToastrService) {
 
     }
-    loadCategories(page:number){
+    loadmessgaes(page:number){
       this.customerservice.getAllMessages(page,this.status, this.search).subscribe({
         next:(response)=>{
           this.messages=response.data.messages;
@@ -55,7 +55,7 @@ export class CustomerserviceComponent implements OnInit {
     this.sub = this.route.paramMap.subscribe(params => {
       this.currentPage = +params.get('page')!;
       console.log(this.currentPage);
-   this.loadCategories(this.currentPage);
+   this.loadmessgaes(this.currentPage);
   });
    import('bootstrap').then(bootstrap => {
     const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
@@ -70,12 +70,12 @@ export class CustomerserviceComponent implements OnInit {
   changeSearch(search:string){
     this.search=search;
     this.currentPage = 1; 
-    this.loadCategories(this.currentPage)
+    this.loadmessgaes(this.currentPage)
   }
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.loadCategories(this.currentPage)
+      this.loadmessgaes(this.currentPage)
     }
   }
      
@@ -104,6 +104,7 @@ export class CustomerserviceComponent implements OnInit {
     showSendEmail(email: string) {
       this.selectedEmail = email;
       this.NewEmail = ''; 
+      this.openEditModal()
     }
     saveEmail(email: string) {
       if (!this.NewEmail.trim()) {
@@ -115,9 +116,10 @@ export class CustomerserviceComponent implements OnInit {
         next: () => {
           this.toastr.success("Email sent successfully!");
           this.NewEmail = '';
-          this.loadCategories(this.currentPage);
+          this.loadmessgaes(this.currentPage);
           
           const modal = bootstrap.Modal.getInstance(document.getElementById('sendEmailModal'));
+
           if (modal) modal.hide();
         },
         error: () => {
@@ -132,7 +134,17 @@ export class CustomerserviceComponent implements OnInit {
       this.NewEmail = '';  
 
      }
-    
+    openEditModal() {
+      const modalElement = document.getElementById('sendEmailModal');
+      if (!modalElement) {
+        console.error('Modal element not found!');
+        return;
+      }
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
+    }
 
 
 }

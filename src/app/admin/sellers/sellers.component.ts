@@ -43,6 +43,8 @@ export class SellersComponent implements OnInit {
       email: [ '', [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$')]],
       phone_number: [ '',  [Validators.required, Validators.pattern('^\\d{10,15}$')]],
       national_id: ['',[Validators.required, Validators.pattern('^[0-9]{14}$')]],
+      registeration_number: ['', [Validators.required, Validators.pattern('^[0-9]+$')]]
+
     
      
     });
@@ -189,7 +191,7 @@ export class SellersComponent implements OnInit {
                   this.closeModal();
                 },
                 error: (err) => {
-                  this.toastr.error(err.message||'Error updating seller.');
+                  this.toastr.error('Error updating seller.');
                 },
               });
             } else {
@@ -199,8 +201,8 @@ export class SellersComponent implements OnInit {
                   this.toastr.success("Seller Add successfully");
                   this.closeModal();
                 },
-                error: (err) => {
-                  this.toastr.error(err.message||'Error adding seller.');
+                error: () => {
+                  this.toastr.error('Error adding seller.');
                 },
               });
             }

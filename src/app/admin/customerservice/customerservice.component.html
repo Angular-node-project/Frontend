@@ -30,7 +30,7 @@
               <div class="btn-group">
                 <button class="btn btn-success btn-sm rounded-0" title="Send Email"
                 (click)="showSendEmail(message.email)" [disabled]="message.status === 'resolved'"
-                data-bs-toggle="modal" data-bs-target="#sendEmailModal">
+            >
           <i class="fa-solid fa-comment"></i>
         </button>
         
@@ -81,11 +81,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="text" [(ngModel)]="NewEmail" placeholder="Enter Your Message" class="form-control">
+        <input type="text" [(ngModel)]="NewEmail" placeholder="Enter Your Message" class="form-control rounded-0">
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button class="btn btn-success" (click)="saveEmail(selectedEmail)">Send</button>
+        <button class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-success rounded-0" (click)="saveEmail(selectedEmail)">Send</button>
       </div>
     </div>
   </div>

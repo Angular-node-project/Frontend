@@ -15,11 +15,12 @@ export class AnalysisService {
   countSellerProducts(sellerId: string): Observable<Response<any>> {
     return this.http.get<Response<any>>(`${this.baseUrl}/countSellerProducts/${sellerId}`);
   }
-/*getProductsBySeller(sellerId: string, page: number, sort: string, category: string, status: string, search: string): Observable<Response<any[]>> {
-    return this.http.get<Response<any[]>>(`${this.baseUrl}/${sellerId}?page=${page}&sort=${sort}&category=${category}&status=${status}&search=${search}`);
-  } */
+
   countOrdersForSeller(sellerId: string, status: string): Observable<any> {
     return this.http.get<Response<any>>(`${this.baseUrl}/countOrdersForSeller/${sellerId}/${status}`);
+  }
+  countSellerProductsByStatus(sellerId: string, status: string): Observable<any> {
+    return this.http.get<Response<any>>(`${this.baseUrl}/countSellerProductsByStatus/${sellerId}/${status}`);
   }
 
 }

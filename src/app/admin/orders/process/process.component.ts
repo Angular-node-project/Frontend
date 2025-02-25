@@ -41,12 +41,21 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
     this.loadActiveBranches();
     this.productsOrder = this.selectedOrder?.product;
 
+    console.log("init");
+    this.currentSelectedBranches = {}
+    this.currentselectedQts = {};
+    this.productAssignedBranches = {};
+    this.availableBranchQts = {};
   }
 
   ngOnChanges(): void {
     this.loadActiveBranches();
     this.productsOrder = this.selectedOrder?.product;
-
+    console.log("change");
+    this.currentSelectedBranches = {}
+    this.currentselectedQts = {};
+    this.productAssignedBranches = {};
+    this.availableBranchQts = {};
   }
 
   loadActiveBranches() {
@@ -65,6 +74,7 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
       console.warn("No branch selected for product:", product_id);
       return;
     }
+    console.log(this.currentSelectedBranches);
     this.availableBranchQts = { ...this.availableBranchQts };
     this.availableBranchQts[product_id] = this.currentSelectedBranches[product_id].qty;
     console.log("Updated availableBranchQts:", this.availableBranchQts);
@@ -100,7 +110,9 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
         branch: this.currentSelectedBranches[product_id].branch,
         qty: this.currentselectedQts[product_id]
       });
-
+      this.currentSelectedBranches[product_id] = undefined;
+      this.onselectBranch(product_id);
+      console.log(this.productAssignedBranches);
     }
   }
   removeBranch(product_id: string, branch_id: string) {
@@ -117,7 +129,7 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
       if (!data) {
         this.toastr.error("all products must assign to branches");
         return;
-      //  break;
+        //  break;
       }
       var totalQtyAssigned = data.reduce((prev, current) => { return parseInt(prev.toString()) + parseInt(current.qty.toString()) }, 0);
       if (product.qty != totalQtyAssigned) {
@@ -131,7 +143,7 @@ export class ProcessComponent implements OnInit, OnChanges, OnDestroy {
         const product = this.productsOrder.find((p: any) => p.product_id === product_id);
 
         return this.productAssignedBranches[product_id].map(branchData => ({
-          order_id:this.selectedOrder.order_id,
+          order_id: this.selectedOrder.order_id,
           product: {
             product_id: product?.product_id || product_id,
             name: product?.name || "Unknown Product"

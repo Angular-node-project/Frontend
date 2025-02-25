@@ -7,10 +7,11 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { ToastrService } from 'ngx-toastr';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-sellers',
-  imports: [FormsModule, CommonModule, RouterLink,ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, RouterLink,ReactiveFormsModule,HasPermissionDirective],
   templateUrl: './sellers.component.html',
   styleUrl: './sellers.component.css'
 })

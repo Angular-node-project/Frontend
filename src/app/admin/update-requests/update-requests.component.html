@@ -1,6 +1,6 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
-      <div class="search-box">
+      <div class="search-box" *hasPermission="'sellerRequests.show'">
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search Sellers...">
   
@@ -37,13 +37,13 @@
             <td class="actions">
               <div class="btn-group">
               
-              <button class="btn btn-success btn-sm rounded-0" (click)="changeStatus(requests.request_id,'approved')"
+              <button class="btn btn-success btn-sm rounded-0" *hasPermission="'sellerRequests.changeStatus'" (click)="changeStatus(requests.request_id,'approved')"
               [disabled]="requests.status === 'approved'">
                   <i class="fa-solid fa-check"></i>
                 </button>
               
               
-                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(requests.request_id)"[disabled]="requests.status === 'disapproved'||requests.status ==='approved'">
+                <button class="btn btn-danger btn-sm rounded-0" *hasPermission="'sellerRequests.changeStatus'" (click)="onDelete(requests.request_id)"[disabled]="requests.status === 'disapproved'||requests.status ==='approved'">
                   <i class="fa-solid fa-cancel"></i>
                 </button>
               

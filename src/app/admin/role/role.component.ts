@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { AddUpdateComponent } from './add-update/add-update.component';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 
 @Component({
   selector: 'app-role',
-  imports: [RouterLink, CommonModule, AddUpdateComponent, FormsModule],
+  imports: [RouterLink, CommonModule, AddUpdateComponent, FormsModule,HasPermissionDirective],
   templateUrl: './role.component.html',
   styleUrl: './role.component.css'
 })

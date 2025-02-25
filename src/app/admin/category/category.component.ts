@@ -7,10 +7,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-category',
-  imports: [RouterLink,FormsModule,CommonModule],
+  imports: [RouterLink,FormsModule,CommonModule,HasPermissionDirective],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css'
 })

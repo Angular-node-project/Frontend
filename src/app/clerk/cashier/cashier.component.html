@@ -118,10 +118,10 @@
             </div>
             <div>
               @for (item of cashierProducts; track item.product_id) {
-              <div class="d-flex justify-content-between mb-3">
+              <div class="d-flex justify-content-between mb-3 rounded-0">
                 <span class="text-muted col-4">{{item.name}} x{{(item.qty)}} </span>
                 <span class="col-4">
-                  <img [src]="item.pics[0]" width="60%"  height="60%" alt="Product image" srcset="">
+                  <img [src]="item.pics[0]" width="40%"  height="60%" alt="Product image" srcset="">
                 </span>
 
                 <span class="text-center col-4">${{(item.price*item.qty).toFixed(2)}}</span>
@@ -129,7 +129,7 @@
               }
 
 
-              <div class="d-flex justify-content-between mb-3">
+              <div class="d-flex justify-content-between mb-3 rounded-0">
                 <span class="text-muted">Total</span>
                 <span>${{(TotalAmount).toFixed(2)}}</span>
               </div>
@@ -140,7 +140,7 @@
                 <div class="row mx-2">
                   <div class="col-12 mb-4">
                     <div class="form-floating">
-                      <input required type="text" class="form-control" id="Address" #address placeholder="Address"
+                      <input required type="text" class="form-control rounded-0" id="Address" #address placeholder="Address"
                         formControlName="Address">
                       <label for="Address">Address</label>
                       <div *ngIf="form.get('Address')?.touched && form.get('Address')?.invalid" class="error-message">
@@ -150,7 +150,7 @@
                   </div>
                   <div class="col-6 mb-4">
                     <div class="form-floating">
-                      <select id="in-City" required class="form-select" #city formControlName="city">
+                      <select id="in-City" required class="form-select rounded-0" #city formControlName="city">
                         <option value="">Select City</option>
                         <option value="cairo">Cairo</option>
                         <option value="alexandria">Alexandria</option>
@@ -189,7 +189,7 @@
                   </div>
                   <div class="col-6 mb-4">
                     <div class="form-floating">
-                      <input required type="text" class="form-control" id="ZipCode" placeholder="ZipCode" #zipCode
+                      <input required type="text" class="form-control rounded-0" id="ZipCode" placeholder="ZipCode" #zipCode
                         formControlName="zipCode">
                       <label for="ZipCode">ZipCode</label>
                     </div>
@@ -201,7 +201,7 @@
                   </div>
                   <div class="col-12 mb-4">
                     <div class="form-floating">
-                      <input required type="text" class="form-control" id="Phone Number" placeholder="Phone Number"
+                      <input required type="text" class="form-control rounded-0" id="Phone Number" placeholder="Phone Number"
                         #phoneNumber formControlName="phone_number">
                       <label for="Phone Number">Phone Number</label>
                       <div *ngIf="form.get('phone_number')?.touched && form.get('phone_number')?.invalid"
@@ -215,7 +215,7 @@
 
                   <div class="col-12 mb-4">
                     <div class="form-floating ">
-                      <textarea #addinfo name="" id="" rows="4" class="col-12 form-control" formControlName="AdditionalInfo"
+                      <textarea #addinfo name="" id="" rows="4" class="col-12 form-control rounded-0" formControlName="AdditionalInfo"
                         placeholder="Additional Details" ></textarea>
                       <label for="Additional Details">Additional Details</label>
                     </div>
@@ -227,7 +227,7 @@
               </form>
 
               <div class="d-grid gap-2">
-                <button type="button" name="" id="" class="btn btn-success form-control" [disabled]="cashierProducts.length==0?true:false" (click)="createOrder(form.value,addinfo.value,print.checked)">
+                <button type="button" name="" id="" class="btn btn-success form-control rounded-0" [disabled]="cashierProducts.length==0?true:false" (click)="createOrder(form.value,addinfo.value,print.checked)">
                   Order
                 </button>
               </div>

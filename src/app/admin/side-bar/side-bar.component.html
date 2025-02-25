@@ -1,49 +1,49 @@
 <div class="sidebar">
    <h4><i class="fa-solid fa-seedling"></i> Admin Dashboard</h4>
-   <a routerLink="/admin/dashboard" routerLinkActive="active" (click)="onLinkClick()">
+   <a  *hasPermission="'analysis.show'" routerLink="/admin/dashboard" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-chart-line"></i> Dashboard
    </a>
 
-   <a *hasPermission="'product.show'" routerLink="/admin/products" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
+   <a *hasPermission="'products.show'" routerLink="/admin/products" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
       (click)="onLinkClick()">
       <i class="fa-solid fa-box"></i> Products
    </a>
    
-   <a *hasPermission="'clerks.show'" routerLink="/admin/clerks" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
+   <a  *hasPermission="'systemClerks.show'" routerLink="/admin/clerks" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
       (click)="onLinkClick()">
       <i class="fa-solid fa-user-tie"></i> Sub Admins
    </a>
-   <a routerLink="/admin/clerkBranch/1" routerLinkActive="active" (click)="onLinkClick()">
+   <a  *hasPermission="'branchClerks.show'" routerLink="/admin/clerkBranch/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-code-branch"></i> Clerk Branch
    </a>
 
-   <a  routerLink="/admin/roles" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
+   <a  *hasPermission="'=roles.show'" routerLink="/admin/roles" [routerLinkActiveOptions]="{ exact: false }" routerLinkActive="active"
       (click)="onLinkClick()">
       <i class="fa-solid fa-lock"></i> Roles
    </a>
    
-   <a routerLink="/admin/UpdateQty/1" routerLinkActive="active" (click)="onLinkClick()">
+   <a *hasPermission="'clerkRequests.show'" routerLink="/admin/UpdateQty/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-user-tie"></i> Clerks Requests
    </a>
-   <a routerLink="/admin/category/1" routerLinkActive="active" (click)="onLinkClick()">
+   <a *hasPermission="'categories.show'" routerLink="/admin/category/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-list"></i> Categories
    </a>
    
-   <a routerLink="/admin/customerservice/1" routerLinkActive="active" (click)="onLinkClick()">
+   <a  *hasPermission="'customerService.show'" routerLink="/admin/customerservice/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-comment"></i> Customer Service
    </a>
-   <a routerLink="/admin/branch/1" routerLinkActive="active" (click)="onLinkClick()">
+   <a *hasPermission="'branches.show'" routerLink="/admin/branch/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-code-branch"></i> Branches
    </a>
-   <a routerLink="/admin/seller/1" routerLinkActive="active" (click)="onLinkClick()">
+   <a *hasPermission="'sellers.show'" routerLink="/admin/seller/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-user-tie"></i> Sellers
    </a>
 
-   <a routerLink="/admin/UpdateRequests/1" routerLinkActive="active" (click)="onLinkClick()">
+   <a *hasPermission="'sellerRequests.show'" routerLink="/admin/UpdateRequests/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-edit"></i> Sellers Requests
    </a>
   
-   <a routerLink="/admin/order/1" routerLinkActive="active" (click)="onLinkClick()">
+   <a *hasPermission="'orders.show'" routerLink="/admin/order/1" routerLinkActive="active" (click)="onLinkClick()">
       <i class="fa-solid fa-truck"></i> Orders
    </a>
 

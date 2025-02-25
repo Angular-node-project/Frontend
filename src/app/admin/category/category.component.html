@@ -1,10 +1,10 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
-      <button class="btn btn-success rounded-0" title="Add Category" (click)="showAddCategory()">
-        Add Category
+      <button class="btn btn-success rounded-0" *hasPermission="'categories.add'" title="Add Category" (click)="showAddCategory()">
+        +Add Category
       </button>
       
-      <div class="search-box">
+      <div class="search-box" *hasPermission="'categories.show'">
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search Categories">
 
@@ -28,15 +28,15 @@
             <td class="actions">
               <div class="btn-group">
               
-                <button class="btn btn-success btn-sm rounded-0" title="Accept Category" (click)="changeStatus(category.category_id,'active')" [disabled]="category.status === 'active'">
+                <button class="btn btn-success btn-sm rounded-0" *hasPermission="'categories.changeStatus'" title="Accept Category" (click)="changeStatus(category.category_id,'active')" [disabled]="category.status === 'active'">
                   <i class="fa-solid fa-check"></i>
                 </button>
               
-                <button class="btn btn-warning btn-sm rounded-0"  title="Update Category" (click)="FillCategoryToEdit(category)">
+                <button class="btn btn-warning btn-sm rounded-0" *hasPermission="'categories.update'"  title="Update Category" (click)="FillCategoryToEdit(category)">
                   <i class="fa-solid fa-edit"></i>
                 </button>
               
-                <button class="btn btn-danger btn-sm rounded-0" title="Inactive Category" (click)="onDelete(category.category_id)" [disabled]="category.status === 'inactive'">
+                <button class="btn btn-danger btn-sm rounded-0" *hasPermission="'categories.changeStatus'" title="Inactive Category" (click)="onDelete(category.category_id)" [disabled]="category.status === 'inactive'">
                   <i class="fa-solid fa-cancel"></i>
                 </button>
               

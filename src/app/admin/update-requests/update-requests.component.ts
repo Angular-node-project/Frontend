@@ -7,10 +7,11 @@ import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { UpdateRequestsService } from '../_services/UpdateRequests.service';
 import { UpdateRequests } from 'src/app/_models/UpdateRequests';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-update-requests',
-  imports: [FormsModule,CommonModule,RouterLink],
+  imports: [FormsModule,CommonModule,RouterLink,HasPermissionDirective],
   templateUrl: './update-requests.component.html',
   styleUrl: './update-requests.component.css'
 })

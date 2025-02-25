@@ -5,6 +5,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {NgApexchartsModule} from 'ng-apexcharts'
 import { HeaderComponent } from './_core/header/header.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
+import { HasPermissionDirective } from './_directives/has-permission.directive';
 
 @Component({
   selector: 'app-admin',
@@ -14,7 +15,8 @@ import { SideBarComponent } from './side-bar/side-bar.component';
     RouterModule, 
     HeaderComponent, 
     SideBarComponent,
-    NgApexchartsModule
+    NgApexchartsModule,
+    HasPermissionDirective
   ],
   schemas : [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './admin.component.html',

@@ -8,10 +8,11 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { ProcessComponent } from './process/process.component';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-orders',
-  imports: [FormsModule, CommonModule, RouterLink, ProcessComponent],
+  imports: [FormsModule, CommonModule, RouterLink, ProcessComponent,HasPermissionDirective],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css'
 })

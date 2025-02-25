@@ -7,10 +7,11 @@ import { Subscription } from 'rxjs';
 import { Customerservice } from '../_services/customerservice';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/_models/customerservice';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-customerservice',
-  imports: [RouterLink,FormsModule,CommonModule],
+  imports: [RouterLink,FormsModule,CommonModule,HasPermissionDirective],
   templateUrl: './customerservice.component.html',
   styleUrl: './customerservice.component.css'
 })

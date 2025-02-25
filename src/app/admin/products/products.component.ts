@@ -10,6 +10,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../_services/category.service';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 
 export declare const bootstrap: any;
 
@@ -17,7 +18,7 @@ export declare const bootstrap: any;
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
-  imports: [AddUpdateComponent, CommonModule, FormsModule, RouterLink]
+  imports: [AddUpdateComponent, CommonModule, FormsModule, RouterLink,HasPermissionDirective]
 })
 export class ProductsComponent implements OnInit {
   @ViewChild(AddUpdateComponent) addUpdateComponent!: AddUpdateComponent;

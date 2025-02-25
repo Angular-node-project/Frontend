@@ -1,12 +1,12 @@
 
 <div class="products-container" [class.sidebar-open]="isSidebarOpen" >
     <div class="header-actions">
-      <div class="search-box">
+      <div class="search-box" *hasPermission="'orders.show'">
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="governorate" (input)="changeSearch(governorate)" placeholder="Search Orders...">
   
       </div>
-      <select class="form-select w-25 rounded-0" [(ngModel)]="type" (change)="changeType(type)">
+      <select *hasPermission="'orders.show'" class="form-select w-25 rounded-0" [(ngModel)]="type" (change)="changeType(type)">
 
         <option value="">Select Status</option>
         <option value="Online">Online</option>
@@ -43,14 +43,14 @@
 
             <td class="actions">
               <div class="btn-group">
-                <button class="btn btn-success btn-sm rounded-0" (click)="openEditModal(order)">
+                <button class="btn btn-success btn-sm rounded-0" *hasPermission="'orders.show'" (click)="openEditModal(order)">
                   <i class="fa-solid fa-eye"></i>
                 </button>
-                <button class="btn btn-danger btn-sm rounded-0" (click)="onDelete(order.order_id)"[disabled]="order.status === 'delivered'||order.status === 'cancelled'">
+                <button class="btn btn-danger btn-sm rounded-0" *hasPermission="'orders.changeStatus'" (click)="onDelete(order.order_id)"[disabled]="order.status === 'delivered'||order.status === 'cancelled'">
                   <i class="fa-solid fa-cancel"></i>
                 </button>
                 <div class="dropdown d-inline">
-                    <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
+                    <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" *hasPermission="'orders.changeStatus'" type="button" [id]="'dropdownMenuButton' + i"
                       data-bs-toggle="dropdown" aria-expanded="false" [disabled]="order.status === 'delivered'||order.status === 'cancelled'">
                       <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>

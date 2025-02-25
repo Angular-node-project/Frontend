@@ -10,11 +10,12 @@ import { SideBarComponent } from '../side-bar/side-bar.component';
 import { AddUpdateComponent } from "./add-update/add-update.component";
 import { Branch } from 'src/app/_models/branch';
 import { BranchService } from '../_services/branch.service';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 
 @Component({
   selector: 'app-clerk-branch',
-  imports: [FormsModule, CommonModule, RouterLink, AddUpdateComponent],
+  imports: [FormsModule, CommonModule, RouterLink, AddUpdateComponent,HasPermissionDirective],
   templateUrl: './clerk-branch.component.html',
   styleUrl: './clerk-branch.component.css'
 })

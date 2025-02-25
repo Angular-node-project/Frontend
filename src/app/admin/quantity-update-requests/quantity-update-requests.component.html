@@ -1,12 +1,12 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
-      <div class="search-box">
+      <div class="search-box" *hasPermission="'clerkRequests.show'">
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="textSearch" (input)="changeSearch(textSearch)" placeholder="Search Products and Branches...">
   
   
       </div>
-      <div class="filter-box">
+      <div class="filter-box" *hasPermission="'clerkRequests.show'">
         <select class="form-select rounded-0" [(ngModel)]="branchSearch" (change)="changeSearch(branchSearch)">
           <option value="">Select Branch</option>
           <option *ngFor="let branch of branches" >
@@ -41,14 +41,12 @@
 
             <td class="actions">
                 <div class="btn-group">
-             
-              
-                <button class="btn btn-danger btn-sm rounded-0" title="Disapprove Request" (click)="onDelete(requests.request_id)"[disabled]="requests.status !== 'pending'">
+                <button class="btn btn-danger btn-sm rounded-0" title="Disapprove Request" *hasPermission="'clerkRequests.changeStatus'" (click)="onDelete(requests.request_id)"[disabled]="requests.status !== 'pending'">
                   <i class="fa-solid fa-cancel"></i>
                 </button>
               
                 <div class="dropdown d-inline" >
-                    <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" type="button" [id]="'dropdownMenuButton' + i"
+                    <button class="btn btn-secondary btn-sm dropdown-toggle rounded-0" *hasPermission="'clerkRequests.changeStatus'" type="button" [id]="'dropdownMenuButton' + i"
                       data-bs-toggle="dropdown" aria-expanded="false" [disabled]="requests.status !== 'pending'" title="Change Status">
                       <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>

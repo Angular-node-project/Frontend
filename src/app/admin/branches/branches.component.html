@@ -1,10 +1,10 @@
 <div class="products-container" [class.sidebar-open]="isSidebarOpen">
     <div class="header-actions">
-      <button class="btn btn-success rounded-0" title="Add Category" (click)="showAddBranch()">
-        Add Branch
+      <button class="btn btn-success rounded-0"  *hasPermission="'branches.add'" title="Add branch" (click)="showAddBranch()">
+        + Add Branch
       </button>
       
-      <div class="search-box">
+      <div class="search-box" *hasPermission="'branches.show'" >
         <i class="fas fa-search"></i>
         <input type="text" [(ngModel)]="search" (input)="changeSearch(search)" placeholder="Search Branches">
 
@@ -30,15 +30,15 @@
             <td class="actions">
               <div class="btn-group">
               
-                <button class="btn btn-success btn-sm rounded-0" title="Active Branch" (click)="changeStatus(branch.branch_id,'active')" [disabled]="branch.status === 'active'">
+                <button class="btn btn-success btn-sm rounded-0" *hasPermission="'branches.changeStatus'" title="Active Branch" (click)="changeStatus(branch.branch_id,'active')" [disabled]="branch.status === 'active'">
                   <i class="fa-solid fa-check"></i>
                 </button>
               
-                <button class="btn btn-warning btn-sm rounded-0" title="Update Branch" (click)="FillBranchToEdit(branch)">
+                <button class="btn btn-warning btn-sm rounded-0" *hasPermission="'branches.update'" title="Update Branch" (click)="FillBranchToEdit(branch)">
                     <i class="fa-solid fa-edit"></i>
                   </button>
               
-                <button class="btn btn-danger btn-sm rounded-0" title="Inactive Branch" (click)="onDelete(branch.branch_id)" [disabled]="branch.status === 'inactive'">
+                <button class="btn btn-danger btn-sm rounded-0" *hasPermission="'branches.changeStatus'"  title="Inactive Branch" (click)="onDelete(branch.branch_id)" [disabled]="branch.status === 'inactive'">
                   <i class="fa-solid fa-cancel"></i>
                 </button>
                

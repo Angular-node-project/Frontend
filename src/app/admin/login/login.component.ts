@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthAdminService } from '../_services/authAdmin.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/_services/auth.service';
+import { AuthorizationService } from '../_services/authorization.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -19,6 +20,7 @@ export class AdminLoginComponent {
     , private authAdminService: AuthAdminService
     , private authGeneralService: AuthService
     , private toastr: ToastrService
+    ,private authorizationService:AuthorizationService
   ) { }
 
   form: FormGroup = new FormGroup({
@@ -26,13 +28,16 @@ export class AdminLoginComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   })
 
+  
+
   onLogin() {
     this.authAdminService.login(this.form.value.email, this.form.value.password).subscribe({
       next: (response) => {
         if (response.status == 201) {
           this.authGeneralService.saveToken(response.data);
           this.toastr.success("login sucess");
-          this.router.navigate(['/admin']);
+          const firstPage = this.authorizationService.getFirstAccessiblePage();
+          this.router.navigate([firstPage]);
         } else {
           this.toastr.error(response.message);
         }

@@ -1,7 +1,7 @@
 <div class="products-container" [class.sidebar-open]="true">
     <div class="header-actions">
-        <button class="btn btn-success rounded-0" (click)="addNewRole()">New Role</button>
-        <div class="search-box">
+        <button class="btn btn-success rounded-0"  *hasPermission="'roles.add'" (click)="addNewRole()">+New Role</button>
+        <div class="search-box" *hasPermission="'roles.show'">
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Search Roles..." [(ngModel)]="searchedInput" (input)="onSearchChange();" />
         </div>
@@ -24,13 +24,13 @@
                     <td [class]="{'text-danger':item.status=='inactive','text-success':item.status=='active'}">{{ item.status }}</td>
                     <td class="actions">
                         <div class="btn-group">
-                            <button class="btn btn-warning btn-sm rounded-0" title="update role" (click)="openEditModal(item)">
+                            <button class="btn btn-warning btn-sm rounded-0" *hasPermission="'roles.update'" title="update role" (click)="openEditModal(item)">
                                 <i class="fa-solid fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm rounded-0" title="delete role" (click)="openDeleteModal(item)">
+                            <button class="btn btn-danger btn-sm rounded-0" *hasPermission="'roles.delete'" title="delete role" (click)="openDeleteModal(item)">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-                            <button class="btn btn-sm rounded-0" (click)="changeStatus(item.role_id,item.status=='active'?'inactive':'active')" [ngClass]="{
+                            <button class="btn btn-sm rounded-0" *hasPermission="'roles.changeStatus'" (click)="changeStatus(item.role_id,item.status=='active'?'inactive':'active')" [ngClass]="{
                   'btn-success': item.status === 'inactive',
                   'btn-secondary': item.status === 'active'
                 }"   [title]="item.status === 'active' ? 'deactivate Role' : 'activate Role'">

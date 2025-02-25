@@ -7,10 +7,11 @@ import { Branch } from 'src/app/_models/branch';
 import { Subscription } from 'rxjs';
 import { BranchService } from '../_services/branch.service';
 import { ToastrService } from 'ngx-toastr';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-branches',
-  imports: [RouterLink,FormsModule,CommonModule],
+  imports: [RouterLink,FormsModule,CommonModule,HasPermissionDirective],
   templateUrl: './branches.component.html',
   styleUrl: './branches.component.css'
 })

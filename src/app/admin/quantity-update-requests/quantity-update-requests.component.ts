@@ -9,10 +9,11 @@ import { UpdateQtyRequestsService } from '../_services/UpdateQtyRequest.service'
 import { ToastrService } from 'ngx-toastr';
 import { Branch } from 'src/app/_models/branch';
 import { BranchService } from '../_services/branch.service';
+import { HasPermissionDirective } from '../_directives/has-permission.directive';
 export declare const bootstrap: any;
 @Component({
   selector: 'app-quantity-update-requests',
-  imports: [FormsModule,CommonModule,RouterLink],
+  imports: [FormsModule,CommonModule,RouterLink,HasPermissionDirective],
   templateUrl: './quantity-update-requests.component.html',
   styleUrl: './quantity-update-requests.component.css'
 })

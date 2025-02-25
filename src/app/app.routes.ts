@@ -49,6 +49,8 @@ import { ProfileComponent as ClerkPofileComponent } from './clerk/profile/profil
 import { SuccessComponent } from './customer/payment/success/success.component';
 import { FailedComponent } from './customer/payment/failed/failed.component';
 import { ReceiptComponent } from './clerk/cashier/receipt/receipt.component';
+import { UnauthorizedComponent } from './admin/unauthorized/unauthorized.component';
+import { authorizationGuard } from './admin/authorization.guard';
 
 
 export const routes: Routes = [
@@ -91,9 +93,10 @@ export const routes: Routes = [
     ]},
     {path:'admin',children: [
             { path: 'login', component: AdminLoginComponent },
+            { path: 'unauthorized', component: UnauthorizedComponent },
             {path: '',redirectTo: 'dashboard',pathMatch: 'full'},
             {path: '',component: AdminComponent,
-                canActivate:[authAdminGuard]
+                canActivate:[authAdminGuard,authorizationGuard]
                 ,children: [
                     { path: 'dashboard', component: DashboardComponent },
                     {path:'products',redirectTo:"products/1",pathMatch:'full'},

@@ -18,8 +18,9 @@
             <th>Name</th>
             <th>Email</th>
             <th>Phone Number</th>
+            <th >National ID</th>
+            <th >Registeration Number</th>
             <th>Status</th>
-            <th class="d-none d-md-table-cell">National ID</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -28,8 +29,9 @@
             <td>{{seller.name}}</td>
             <td>{{seller.email}}</td>
             <td>{{seller.phone_number}}</td>
-            <td>{{seller.status}}</td>
             <td>{{seller.national_id}}</td>
+            <td>{{seller.registeration_number}}</td>
+            <td>{{seller.status}}</td>
             <td class="actions">
               <div class="btn-group">
                
@@ -126,6 +128,11 @@
             <input type="text" formControlName="national_id" placeholder="Enter seller National ID" class="form-control mb-3">
             <div *ngIf="sellerForm.get('national_id')?.invalid && sellerForm.get('national_id')?.touched" class="text-danger">
               National ID must be exactly 14 digits.
+            </div>
+            <label>Registeration Number:</label>
+            <input type="text" formControlName="registeration_number" placeholder="Enter seller Registeration  ID" class="form-control mb-3">
+            <div *ngIf="sellerForm.get('registeration_number')?.invalid && sellerForm.get('registeration_number')?.touched" class="text-danger">
+              Registeration Number Should be Number
             </div>
           </form>
         </div>

@@ -11,7 +11,7 @@
                 </div>
                 <div class="d-flex gap-3 justify-content-center">
                     <select class="form-select w-auto rounded-0" [(ngModel)]="currentSelectedBranches[item.product_id]"
-                        name="selectedBranch" (change)="onselectBranch(item.product_id)">
+                        name="selectedBranch" (ngModelChange)="onselectBranch(item.product_id)">
                         <option [ngValue]="undefined" disabled>Please choose branch</option>
                         <option *ngFor="let branch of getProductBranches(item.product_id)" [ngValue]="branch">
                             {{branch.branch.name}}</option>

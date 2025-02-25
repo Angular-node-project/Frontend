@@ -51,6 +51,8 @@ export class SellerOrdersComponent implements OnInit {
         this.generatePageNumbers();
         this.scrollToTop();
         this.isLoading = false;
+        console.log(this.orders);
+
       },
       error: () => {
         console.log('error loading orders');

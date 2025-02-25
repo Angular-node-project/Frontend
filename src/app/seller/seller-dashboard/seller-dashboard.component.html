@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-4">
       <div class="card">
         <h5><i class="fa-solid fa-seedling"></i> {{NumofProducts}}</h5>
@@ -18,4 +18,58 @@
       </div>
     </div>
   </div>
-  
+
+   -->
+
+   <!-- ===================== -->
+   <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <h5><i class="fa-solid fa-seedling"></i> {{NumofProducts}}</h5>
+        <p>Products Available</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <h5><i class="fa-solid fa-truck"></i> {{NumofOrders}}</h5>
+        <p>Pending Orders</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <h5><i class="fa-solid fa-users"></i> {{NumofDeliveredOrders}}</h5>
+        <p>Happy Customers</p>
+      </div>
+    </div>
+</div>
+
+<!-- Order Status Chart -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5 class="text-center">Order Status Distribution</h5>
+            <apx-chart 
+                *ngIf="chartOptions"
+                [series]="chartOptions.series" 
+                [chart]="chartOptions.chart"
+                [labels]="chartOptions.labels"
+                [responsive]="chartOptions.responsive">
+            </apx-chart>
+        </div>
+    </div>
+    
+    <!-- Product Status Chart -->
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5 class="text-center">Product Status Distribution</h5>
+            <apx-chart 
+                *ngIf="productChartOptions"
+                [series]="productChartOptions.series" 
+                [chart]="productChartOptions.chart"
+                [labels]="productChartOptions.labels"
+                [responsive]="productChartOptions.responsive">
+            </apx-chart>
+        </div>
+    </div>
+</div>
+

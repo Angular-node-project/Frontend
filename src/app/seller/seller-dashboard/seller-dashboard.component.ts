@@ -122,6 +122,7 @@ export class SellerDashboardComponent implements OnInit, OnDestroy {
   NumofPendingProducts = 0;
   NumofActiveProducts = 0;
   NumofInactiveProducts = 0;
+  topSellingProducts: any[] = [];
 
   sub1!: Subscription;
   sub2!: Subscription;
@@ -138,6 +139,7 @@ export class SellerDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.Cards();
+    this.loadTopSellingProducts();
   }
 
   Cards() {
@@ -253,6 +255,16 @@ export class SellerDashboardComponent implements OnInit, OnDestroy {
         }
       }]
     };
+  }
+  loadTopSellingProducts() {
+    this.sAnalysisService.getTopSellingProducts(this.authSellerService.getLoggedInId()).subscribe({
+      next: (response) => {
+        this.topSellingProducts = response.data;
+      },
+      error: (err) => {
+        console.error("Error fetching top-selling products", err);
+      }
+    });
   }
 
   ngOnDestroy(): void {

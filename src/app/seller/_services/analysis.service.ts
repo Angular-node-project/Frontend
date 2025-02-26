@@ -22,5 +22,9 @@ export class AnalysisService {
   countSellerProductsByStatus(sellerId: string, status: string): Observable<any> {
     return this.http.get<Response<any>>(`${this.baseUrl}/countSellerProductsByStatus/${sellerId}/${status}`);
   }
+  getTopSellingProducts(sellerId: string, limit: number = 5): Observable<Response<any>> {
+    return this.http.get<Response<any>>(`${this.baseUrl}/topSellingProducts/${sellerId}?limit=${limit}`);
+  }
+  
 
 }

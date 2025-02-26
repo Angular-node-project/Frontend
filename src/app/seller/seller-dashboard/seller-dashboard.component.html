@@ -72,4 +72,30 @@
         </div>
     </div>
 </div>
+<!-- top selling -->
+<div class="row mt-4">
+  <div class="col-md-12">
+      <div class="card p-3">
+          <h5 class="text-center">Top Selling Products</h5>
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Sold Quantity</th>
+                      <th>Price</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let product of topSellingProducts">
+                      <td><img *ngIf="product.pics.length > 0" [src]="product.pics[0]" width="50"></td>
+                      <td>{{ product.name }}</td>
+                      <td>{{ product.totalSold }}</td>
+                      <td>${{ product.price }}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
 

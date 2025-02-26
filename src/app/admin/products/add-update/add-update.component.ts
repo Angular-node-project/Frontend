@@ -210,12 +210,7 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
 
 
   onSubmit(): void {
-    const totalBranchesQty = this.branchesArray.value.reduce((sum: number, item: any) => sum = sum + item.qty, 0);
-    const totalQty = this.form.value.qty;
-    if (totalBranchesQty != totalQty) {
-      this.toastr.error("the qty added to branches must equal the total qty");
-      return;
-    }
+ 
     if(this.imagePreviews.length<2){
       this.toastr.error("product added should have atleast two pics");
       return;
@@ -245,7 +240,12 @@ export class AddUpdateComponent implements OnInit, OnChanges ,OnDestroy {
         },
       });
     } else {
-
+      const totalBranchesQty = this.branchesArray.value.reduce((sum: number, item: any) => sum = sum + item.qty, 0);
+      const totalQty = this.form.value.qty;
+      if (totalBranchesQty != totalQty) {
+        this.toastr.error("the qty added to branches must equal the total qty");
+        return;
+      }
       this.productservice.addProduct(productData).subscribe({
         next: (response) => {
           console.log('Product Added:', response);

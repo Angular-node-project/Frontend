@@ -42,11 +42,11 @@
                 <i class="fa-solid fa-eye"></i>
               </button>
 
-              <button class="btn btn-warning btn-sm rounded-0" [disabled]="branchorder.status=='delivered'?true:false" (click)="changeStatus(branchorder.order_id,orderstatuses[branchorder.status])" [title]="orderstatusesTitels[branchorder.status]">
+              <button class="btn btn-warning btn-sm rounded-0" [disabled]="branchorder.status=='delivered'||branchorder.status=='cancelled'" (click)="changeStatus(branchorder.order_id,orderstatuses[branchorder.status])" [title]="orderstatusesTitels[branchorder.status]">
                 <i class="fa-solid fa-check"></i>
               </button>
 
-              <button class="btn btn-danger btn-sm rounded-0" title="cancel order" (click)="cancelOrder(branchorder.order_id)" [disabled]="branchorder.status=='delivered'">
+              <button class="btn btn-danger btn-sm rounded-0" title="cancel order" (click)="cancelOrder(branchorder.order_id)" [disabled]="branchorder.status=='delivered' || branchorder.status=='cancelled'">
                 <i class="fa-solid fa-x"></i>
               </button>
 

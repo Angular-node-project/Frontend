@@ -47,7 +47,7 @@
 }
 
 .checkout-btn {
-  background: #c6d8c0;
+  background:#5C9735;
   transition: transform 0.2s;
   border: none;
   color: black;
@@ -56,8 +56,8 @@
 
 .checkout-btn:hover {
   transform: translateY(-2px);
-  background:#5C9735;
-  color: black;
+  color:#f5f6f3;
+  background: black;
   border-radius: 0;
 }
 

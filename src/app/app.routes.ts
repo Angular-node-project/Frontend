@@ -55,7 +55,7 @@ import { authorizationGuard } from './admin/authorization.guard';
 
 export const routes: Routes = [
 
-    {path: 'seller',children: [
+    {path: 'seller',title:"seller",children: [
         { path: 'login', component: SellerLoginComponent},
         {path: '',redirectTo: 'login',pathMatch: 'full'},
         {path:'register',component:SellerRegisterComponent},
@@ -73,7 +73,7 @@ export const routes: Routes = [
     ]
 
 },
-    {path:'',component:CustomerComponent,children:[
+    {path:'',title:"green house",component:CustomerComponent,children:[
         {path:'',component:CustomerHome},
         {path:"productdetails/:id",component:CustomerProductDetails},
         {path:"home",component:CustomerHome},
@@ -91,7 +91,7 @@ export const routes: Routes = [
        // {path:"**",component:PageNotFoundComponent}
 
     ]},
-    {path:'admin',children: [
+    {path:'admin',title:"admin",children: [
             { path: 'login', component: AdminLoginComponent },
             { path: 'unauthorized', component: UnauthorizedComponent },
             {path: '',redirectTo: 'dashboard',pathMatch: 'full'},
@@ -127,7 +127,7 @@ export const routes: Routes = [
             }
         ]
     },
-    {path:'clerk',children:[
+    {path:'clerk',title:"clerk",children:[
         { path:'login', component:clerkBranchLoginComponent },
         {path: '',redirectTo: 'products/1',pathMatch: 'full'},
         {path:'',component:clerkBranchComponent,

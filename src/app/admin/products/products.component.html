@@ -30,7 +30,7 @@
           </td>
 
           <td>{{product.qty}}</td>
-          <td>{{product.price}}</td>
+          <td>{{product.price|currency}}</td>
           <td class="d-none d-md-table-cell">{{product.seller.name}}</td>
           @if(product.status=='active'){
             <td class="text-success">{{product.status}}</td>
